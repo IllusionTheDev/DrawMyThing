@@ -1,0 +1,34 @@
+maps:
+  1: #Use numerical order
+    world: world #The world this map is on
+    colors: #The plugin will automatically create all the selection areas based on the wool color, ignoring any other blocks, add more selection areas if needed
+      1:
+        topleft:
+          x: 262
+          y: 104
+          z: 1351
+        bottomright:
+          x: 294
+          y: 103
+          z: 1351
+    spawn: #The spawn location for the map, the player will spawn here and be teleported here when needed.
+      x: 280.5
+      y: 56
+      z: 1397.5
+      yaw: 180
+      pitch: 0
+    drawer: #The drawer location, this will be where the drawer gets teleported to
+      x: 279.5
+      y: 76
+      z: 1375.5
+      yaw: 180
+      pitch: 0
+    canvas: #This will be the area where the drawing happens
+      topleft: #The top left point of the area
+        x: 242
+        y: 104
+        z: 1347
+      bottomright:
+        x: 294
+        y: 103
+        z: 1347

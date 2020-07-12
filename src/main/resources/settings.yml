@@ -1,0 +1,16 @@
+minimum-players: 2 #The minimum amount of players per game
+maximum-players: 16 #The maximum amount of players per game
+
+drawing-time: 180 #How much time a player will be drawing for until the round ends
+
+drawing-line-ticks: 5 #The amount of ticks a player view should be tracked for, high numbers will result in accidental pixels being drawn.
+
+start-time: #How much time should the game take to start, the game will not start if there are no values
+  8: 60 #60 seconds to start with 8 players
+  12: 30 #30 seconds to start with 12 players
+  16: 15 #15 seconds to start with 16 players
+
+points-formula: "(({DRAWING_TIME_LEFT} / {DRAWING_TIME}) * 200) - ({GUESSES} * 20)" #On the sample formula, guessing instantly would give 200 points, minus 20 for every guessed player
+
+bungee-lobby: Lobby
+

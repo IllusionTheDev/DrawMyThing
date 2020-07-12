@@ -1,0 +1,32 @@
+sounds:
+  color-selection:
+    sound: ORB_PICKUP
+    volume: 0.5
+    pitch: 1
+  game:
+    word-guess:
+      sound: LEVEL_UP
+      volume: 1
+      pitch: 1
+
+  countdown:
+    5-seconds-left:
+      sound: NOTE_STICKS
+      volume: 0.5
+      pitch: 0.2
+    4-seconds-left:
+      sound: NOTE_STICKS
+      volume: 0.5
+      pitch: 0.2
+    3-seconds-left:
+      sound: NOTE_STICKS
+      volume: 0.5
+      pitch: 0.2
+    2-seconds-left:
+      sound: NOTE_STICKS
+      volume: 0.5
+      pitch: 0.2
+    1-seconds-left:
+      sound: NOTE_STICKS
+      volume: 0.5
+      pitch: 0.2

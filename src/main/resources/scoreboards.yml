@@ -1,0 +1,59 @@
+awaiting-players:
+  title: "%animation_scoreboard-name%"
+  update-every: -1 #Leave to -1 to never update after join, also updates animations
+  text:
+  - '&8&m-------------------------'
+  - ''
+  - ' &6Welcome, &b%player_name%'
+  - ' &6Awaiting for more players...'
+  - ''
+  - '    &7play.yourname.com'
+  - '&8&m-------------------------'
+
+pregame-countdown:
+  title: "&a&lDrawMyThing"
+  update-every: -1
+  text:
+  - '&8&m-------------------------'
+  - ''
+  - ' &6Welcome, &b%player_name%'
+  - ' &6Starting in %seconds%'
+  - ''
+  - '    &7play.yourname.com'
+  - '&8&m-------------------------'
+
+animations:
+  scoreboard-name: #The config placeholder would be %animation_scoreboard-name%
+  - '&a&lDrawMyThing'
+  - '&2&lD&a&lrawMyThing'
+  - '&a&lD&2&lr&a&lawMyThing'
+  - '&a&lDr&2&la&a&lwMyThing'
+  - '&a&lDra&2&lw&a&lMyThing'
+  - '&a&lDraw&2&lM&a&lyThing'
+  - '&a&lDrawM&2&ly&a&lThing'
+  - '&a&lDrawMy&2&lT&a&lhing'
+  - '&a&lDrawMyT&2&lh&a&ling'
+  - '&a&lDrawMyTh&2&li&a&lng'
+  - '&a&lDrawMyThi&2&ln&a&lg'
+  - '&a&lDrawMyThin&2&lg&a&l'
+  - '&a&lDrawMyThing'
+  - '&2&lDrawMyThing'
+  - '&a&lDrawMyThing'
+  - '&a&lDrawMyThing'
+  - '&a&lDrawMyThing'
+  - '&a&lDrawMyThing'
+
+
+
+
+
+countdown-color-range: #Colors displayed on the seconds left
+  a: #Use color codes as the identifier
+   from: 30
+   to: 4
+  e:
+   from: 3
+   to: 2
+  c:
+   from: 1
+   to: 1

@@ -1,0 +1,63 @@
+titles:
+  drawer-word-chosen:
+    title: "&c&l(!)"
+    subtitle: "&7You have to draw: &8%word%"
+    fadein: 5
+    stay: 30
+    fadeout: 5
+  game-start:
+    title: "&6&lDrawMyThing"
+    subtitle: "&7The game is starting shortly.."
+    fadein: 5
+    stay: 30
+    fadeout: 5
+
+  countdown:
+    not-enough-players:
+      title: "&c&l(!)"
+      subtitle: "&7There are not enough players to start the game."
+      fadein: 5
+      stay: 30
+      fadeout: 5
+    30-seconds-left: #format: %seconds%-seconds-left
+      title: "&c&l(!)"
+      subtitle: "&7The game is starting in &a30&7s"
+      fadein: 5
+      stay: 30
+      fadeout: 5
+    15-seconds-left: #format: %seconds%-seconds-left
+      title: "&c&l(!)"
+      subtitle: "&7The game is starting in &a15&7s"
+      fadein: 5
+      stay: 30
+      fadeout: 5
+    5-seconds-left: #format: %seconds%-seconds-left
+      title: "&c&l(!)"
+      subtitle: "&7The game is starting in &a5&7s"
+      fadein: 5
+      stay: 25
+      fadeout: 0
+    4-seconds-left: #format: %seconds%-seconds-left
+      title: "&c&l(!)"
+      subtitle: "&7The game is starting in &a4&7s"
+      fadein: 0
+      stay: 25
+      fadeout: 0
+    3-seconds-left: #format: %seconds%-seconds-left
+      title: "&c&l(!)"
+      subtitle: "&7The game is starting in &e3&7s"
+      fadein: 0
+      stay: 25
+      fadeout: 0
+    2-seconds-left: #format: %seconds%-seconds-left
+      title: "&c&l(!)"
+      subtitle: "&7The game is starting in &e2&7s"
+      fadein: 0
+      stay: 25
+      fadeout: 0
+    1-seconds-left: #format: %seconds%-seconds-left
+      title: "&c&l(!)"
+      subtitle: "&7The game is starting in &c1&7s"
+      fadein: 0
+      stay: 25
+      fadeout: 0

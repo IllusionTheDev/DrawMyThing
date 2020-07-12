@@ -1,0 +1,45 @@
+items:
+  guesser:
+    hider:
+      enabled: true
+      available-pregame: true
+      maintain-as-drawer: true
+      slot: 9
+      default: inactive
+      inactive:
+        material: "INK_SAC"
+        data: 8
+        name: "&aHide other players &8(Right Click)"
+        amount: 1
+        lore:
+        - ''
+      active:
+
+  drawer:
+    brush:
+      enabled: true
+      slot: 1
+      actions: "RIGHT_CLICK_AIR" #Split using a space
+      material: "WOODEN_SHOVEL"
+      name: "&a&lBrush &8(Right Click)"
+      amount: 1
+      lore:
+      - ''
+    fill:
+      enabled: true
+      slot: 2
+      actions: "RIGHT_CLICK_AIR" #Split using a space
+      material: "BUCKET"
+      name: "&a&lFill Tool &8(Right Click)"
+      amount: 1
+      lore:
+      - ''
+    blank-page:
+      enabled: true
+      slot: 8
+      actions: "RIGHT_CLICK_AIR" #Split using a space
+      material: "PAPER"
+      name: "&a&lBlank Page &8(Right Click)"
+      amount: 1
+      lore:
+      - ''

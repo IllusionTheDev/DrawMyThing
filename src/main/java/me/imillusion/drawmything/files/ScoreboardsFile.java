@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.scoreboard.ScoreboardAnimation;
 import me.imillusion.drawmything.scoreboard.ScoreboardTemplate;
+import me.imillusion.drawmything.utils.Pair;
 
 import java.io.File;
 import java.util.HashMap;
@@ -13,11 +14,14 @@ import java.util.Map;
 public class ScoreboardsFile extends YMLBase {
 
     private Map<String, ScoreboardAnimation> animations = new HashMap<>();
+    private Map<Character, Pair<Integer, Integer>> countdownColors = new HashMap<>();
 
     private DrawPlugin main;
 
     @Getter
     private ScoreboardTemplate awaitingBoard;
+    @Getter
+    private ScoreboardTemplate countdownBoard;
 
     public ScoreboardsFile(DrawPlugin plugin) {
         super(plugin, new File(plugin.getDataFolder(), "scoreboards.yml"), true);
@@ -28,7 +32,11 @@ public class ScoreboardsFile extends YMLBase {
                 .forEach(s -> animations.put("%animation_" + s + "%",
                         new ScoreboardAnimation(getConfiguration().getStringList("animations." + s))));
 
+        getConfiguration().getConfigurationSection("countdown-color-range").getKeys(false)
+                .forEach(s -> countdownColors.put(s.charAt(0), new Pair<Integer, Integer>(getConfiguration().getInt("countdown-color-range." + s + ".from"), getConfiguration().getInt("countdown-color-range." + s + ".to"))));
+
         awaitingBoard = getTemplate("awaiting-players");
+        countdownBoard = getTemplate("pregame-countdown");
     }
 
     private ScoreboardTemplate getTemplate(String name)
@@ -38,6 +46,26 @@ public class ScoreboardsFile extends YMLBase {
         List<String> text = getConfiguration().getStringList(name + ".text");
 
         return new ScoreboardTemplate(main, title, updateTicks, animations, text);
+    }
+
+    public Pair<String, String> obtainSecondsPlaceholder(int seconds)
+    {
+        String color = "";
+
+        for (Map.Entry<Character, Pair<Integer, Integer>> entry : countdownColors.entrySet()) {
+            char character = entry.getKey();
+
+            int from = entry.getValue().getKey();
+            int to = entry.getValue().getValue();
+
+            if (seconds <= from && seconds >= to) {
+                color = "&" + character;
+                break;
+            }
+        }
+
+        System.out.println((color + seconds));
+        return new Pair<>("%seconds%", (color + seconds));
     }
 
 

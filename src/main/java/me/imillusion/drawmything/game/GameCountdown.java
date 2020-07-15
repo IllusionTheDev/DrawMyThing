@@ -25,8 +25,13 @@ public class GameCountdown {
             if (main.getSettings().getStartTimes().containsKey(i)) {
                 countdowns.put(game, main.getSettings().getStartTimes().get(i));
                 game.setActiveCountdown(true);
-            }
 
+                for (Player player : game.getArena().getPlayers()) {
+                    DrawPlayer dp = main.getPlayerManager().get(player);
+                    dp.setCurrentTemplate(main.getScoreboards().getCountdownBoard());
+                    dp.getCurrentTemplate().render(player, dp.getScoreboard(), main.getScoreboards().obtainSecondsPlaceholder(main.getSettings().getStartTimes().get(i)));
+                }
+            }
         }
     }
 
@@ -60,7 +65,8 @@ public class GameCountdown {
             for (Player p : game.getArena().getPlayers()) {
                 p.setLevel(time);
                 DrawPlayer drawPlayer = main.getPlayerManager().get(p);
-                drawPlayer.getScoreboard().line(12, " &6The game starts in &a" + time + "&6s", 12);
+                //manually updating
+                drawPlayer.getCurrentTemplate().render(p, drawPlayer.getScoreboard(), main.getScoreboards().obtainSecondsPlaceholder(time));
                 main.getSounds().playSound(p, "countdown." + time + "-seconds-left");
                 main.getMessages().sendMessage(p, time + "-seconds-left");
             }
@@ -74,7 +80,11 @@ public class GameCountdown {
     public void stopCountdown(Game game)
     {
         countdowns.remove(game);
-        game.getArena().getPlayers().forEach(player -> player.setLevel(0));
+        game.getArena().getPlayers().forEach(player -> {
+            player.setLevel(0);
+            DrawPlayer dp = main.getPlayerManager().get(player);
+            dp.setCurrentTemplate(null);
+        });
         game.setActiveCountdown(false);
     }
 }

@@ -82,7 +82,9 @@ public class Round {
 
         UUID uuid = toDraw.size() == 1 ? toDraw.remove(0) : toDraw.remove(random.nextInt(toDraw.size()));
 
+        drawer = main.getPlayerManager().get(uuid);
 
+        main.getToolManager().getRegisteredTools().forEach(tool -> drawer.getPlayer().getInventory().setItem(tool.getSlot() - 1, tool.getItem()));
         drawer.getPlayer().teleport(arena.getMap().getDrawLocation());
 
         drawer.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 10000, 250, false, false), true);

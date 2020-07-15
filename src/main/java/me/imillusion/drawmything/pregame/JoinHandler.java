@@ -28,6 +28,7 @@ public class JoinHandler implements Listener {
         }
 
         e.getPlayer().getInventory().setItem(8, main.getHidingHandler().getInactiveItem());
+        e.getPlayer().getActivePotionEffects().forEach(effect -> e.getPlayer().removePotionEffect(effect.getType()));
 
         Game game = main.getGameManager().getFirstAvailableGame();
         drawPlayer.setCurrentGame(game);

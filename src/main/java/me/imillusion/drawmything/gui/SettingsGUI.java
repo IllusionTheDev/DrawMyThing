@@ -9,11 +9,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class SettingsGUI implements InventoryHolder {
 
-    @Getter
-    private Inventory inventory;
-
     private static final ItemStack UP_ARROW = new ItemBuilder(Material.SKULL_ITEM)
             .name("&a&lAdd +1")
             .skull("MHF_UP")
             .build();
+    @Getter
+    private Inventory inventory;
 }

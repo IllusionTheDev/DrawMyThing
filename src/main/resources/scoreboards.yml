@@ -49,7 +49,7 @@ animations:
 
 countdown-color-range: #Colors displayed on the seconds left
   a: #Use color codes as the identifier
-   from: 30
+   from: 45
    to: 4
   e:
    from: 3

@@ -11,24 +11,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ItemBuilder {
-
-    private Material material;
-    private int amount = 1;
-    private List<String> lore = new ArrayList<>();
-    private String name = "";
-    private ItemFlag[] itemFlags = null;
-    private short data = -1;
-
-    private String skullName = null;
 
     private static Table<String, Method, Class<?>> configurableValues = HashBasedTable.create();
 
@@ -43,6 +31,18 @@ public class ItemBuilder {
         }
     }
 
+    private Material material;
+    private int amount = 1;
+    private List<String> lore = new ArrayList<>();
+    private String name = "";
+    private ItemFlag[] itemFlags = null;
+    private short data = -1;
+    private String skullName = null;
+
+    public ItemBuilder(Material material) {
+        this.material = material;
+    }
+
     public static ItemStack fromSection(ConfigurationSection section)
     {
         ItemBuilder builder = new ItemBuilder(Material.valueOf(section.getString("material")));
@@ -52,7 +52,7 @@ public class ItemBuilder {
             Method method = cell.getColumnKey();
             Class<?> clazz = cell.getValue();
 
-            if(section.contains(id)) {
+            if (section.contains(id)) {
                 try {
                     method.invoke(builder, clazz.cast(section.get(id)));
                 } catch (IllegalAccessException | InvocationTargetException e) {
@@ -64,13 +64,9 @@ public class ItemBuilder {
         return builder.build();
     }
 
-    public ItemBuilder(Material material) {
-        this.material = material;
-    }
-
     public ItemBuilder amount(int amount)
     {
-        if(amount > 64)
+        if (amount > 64)
             amount = 64;
         this.amount = amount;
         return this;
@@ -84,7 +80,7 @@ public class ItemBuilder {
 
     public ItemBuilder lore(String... lore)
     {
-        for(String s : lore)
+        for (String s : lore)
             this.lore.add(ChatColor.translateAlternateColorCodes('&', s));
         return this;
     }
@@ -112,18 +108,18 @@ public class ItemBuilder {
     {
         ItemStack item = new ItemStack(material, amount);
 
-        if(data != -1)
+        if (data != -1)
             item.setDurability(data);
 
         ItemMeta meta = item.getItemMeta();
 
-        if(name != null && !name.isEmpty())
+        if (name != null && !name.isEmpty())
             meta.setDisplayName(name);
-        if(lore != null && !lore.isEmpty())
+        if (lore != null && !lore.isEmpty())
             meta.setLore(lore);
-        if(itemFlags != null)
+        if (itemFlags != null)
             meta.addItemFlags(itemFlags);
-        if(skullName != null)
+        if (skullName != null)
             ((SkullMeta) meta).setOwner(skullName);
 
         item.setItemMeta(meta);

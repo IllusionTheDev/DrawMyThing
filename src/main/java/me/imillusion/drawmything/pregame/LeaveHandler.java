@@ -12,13 +12,18 @@ public class LeaveHandler implements Listener {
 
     private DrawPlugin main;
 
+    public LeaveHandler(DrawPlugin main) {
+        this.main = main;
+    }
+
     @EventHandler
     private void onLeave(PlayerQuitEvent e)
     {
+        main.getPlayerManager().unregister(e.getPlayer());
         Game game = main.getGameManager().getPlayerGame(e.getPlayer().getUniqueId());
         e.setQuitMessage("");
 
-        if(game == null)
+        if (game == null)
             return;
 
         game.getArena().getPlayers().forEach(player -> player.sendMessage(
@@ -31,11 +36,7 @@ public class LeaveHandler implements Listener {
         game.getArena().removePlayer(e.getPlayer().getUniqueId());
 
         for (ItemStack item : e.getPlayer().getInventory().getContents())
-            if(item != null && !item.isSimilar(main.getHidingHandler().getInactiveItem()) && !item.isSimilar(main.getHidingHandler().getActiveItem()))
+            if (item != null && !item.isSimilar(main.getHidingHandler().getInactiveItem()) && !item.isSimilar(main.getHidingHandler().getActiveItem()))
                 e.getPlayer().getInventory().remove(item);
-    }
-
-    public LeaveHandler(DrawPlugin main) {
-        this.main = main;
     }
 }

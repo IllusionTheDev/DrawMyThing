@@ -5,29 +5,29 @@ import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.game.arena.ArenaMap;
 import org.bukkit.Bukkit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.UUID;
 
 public class GameManager {
 
     private List<ArenaMap> gameMaps;
     private DrawPlugin main;
-
+    @Getter
+    private List<Game> activeGames = new ArrayList<>();
+    private Random random = new Random();
     public GameManager(DrawPlugin main, List<ArenaMap> gameMaps) {
         this.main = main;
         this.gameMaps = gameMaps;
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> activeGames.forEach(game -> {
-            if(game.isStarted())
-            {
+            if (game.isStarted()) {
                 game.getArena().getRound().tick();
             }
 
         }), 20L, 20L);
     }
-
-    @Getter
-    private List<Game> activeGames = new ArrayList<>();
-    private Random random = new Random();
 
     public Game getPlayerGame(UUID uuid)
     {

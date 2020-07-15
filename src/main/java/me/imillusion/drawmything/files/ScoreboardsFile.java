@@ -1,9 +1,9 @@
 package me.imillusion.drawmything.files;
 
+import lombok.Getter;
 import me.imillusion.drawmything.DrawPlugin;
-import me.imillusion.drawmything.utils.scoreboard.ScoreboardAnimation;
-import me.imillusion.drawmything.utils.scoreboard.ScoreboardTemplate;
-import org.bukkit.plugin.java.JavaPlugin;
+import me.imillusion.drawmything.scoreboard.ScoreboardAnimation;
+import me.imillusion.drawmything.scoreboard.ScoreboardTemplate;
 
 import java.io.File;
 import java.util.HashMap;
@@ -16,6 +16,9 @@ public class ScoreboardsFile extends YMLBase {
 
     private DrawPlugin main;
 
+    @Getter
+    private ScoreboardTemplate awaitingBoard;
+
     public ScoreboardsFile(DrawPlugin plugin) {
         super(plugin, new File(plugin.getDataFolder(), "scoreboards.yml"), true);
 
@@ -24,6 +27,8 @@ public class ScoreboardsFile extends YMLBase {
         getConfiguration().getConfigurationSection("animations").getKeys(false)
                 .forEach(s -> animations.put("%animation_" + s + "%",
                         new ScoreboardAnimation(getConfiguration().getStringList("animations." + s))));
+
+        awaitingBoard = getTemplate("awaiting-players");
     }
 
     private ScoreboardTemplate getTemplate(String name)

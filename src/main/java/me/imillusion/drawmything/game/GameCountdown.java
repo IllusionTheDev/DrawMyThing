@@ -1,6 +1,7 @@
 package me.imillusion.drawmything.game;
 
 import me.imillusion.drawmything.DrawPlugin;
+import me.imillusion.drawmything.data.DrawPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -20,10 +21,8 @@ public class GameCountdown {
 
     public void start(Game game)
     {
-        for(int i = game.getArena().getPlayers().size(); i >= main.getSettings().getMinplayers(); i--)
-        {
-            if(main.getSettings().getStartTimes().containsKey(i))
-            {
+        for (int i = game.getArena().getPlayers().size(); i >= main.getSettings().getMinplayers(); i--) {
+            if (main.getSettings().getStartTimes().containsKey(i)) {
                 countdowns.put(game, main.getSettings().getStartTimes().get(i));
                 game.setActiveCountdown(true);
             }
@@ -33,13 +32,12 @@ public class GameCountdown {
 
     private void tick()
     {
-        if(countdowns.isEmpty()) //small ram savings
+        if (countdowns.isEmpty()) //small ram savings
             return;
 
-        for(Game game : new HashMap<>(countdowns).keySet()) //copying map to avoid CME's
+        for (Game game : new HashMap<>(countdowns).keySet()) //copying map to avoid CME's
         {
-            if(main.getSettings().getMinplayers() > game.getArena().getPlayers().size())
-            {
+            if (main.getSettings().getMinplayers() > game.getArena().getPlayers().size()) {
                 stopCountdown(game);
                 main.getTitles().playTitle("countdown.not-enough-players",
                         game.getArena().getPlayers().toArray(new Player[]{}));
@@ -48,23 +46,21 @@ public class GameCountdown {
 
             int time = countdowns.get(game);
 
-            if(--time == 0)
-            {
+            if (--time == 0) {
                 game.start();
                 stopCountdown(game);
                 continue;
             }
 
-            for(int i = game.getArena().getPlayers().size(); i > main.getSettings().getMinplayers(); i--)
-            {
-                if(main.getSettings().getStartTimes().containsKey(i) && main.getSettings().getStartTimes().get(i) > time)
+            for (int i = game.getArena().getPlayers().size(); i > main.getSettings().getMinplayers(); i--) {
+                if (main.getSettings().getStartTimes().containsKey(i) && main.getSettings().getStartTimes().get(i) > time)
                     time = main.getSettings().getStartTimes().get(i);
             }
 
-            for(Player p : game.getArena().getPlayers())
-            {
+            for (Player p : game.getArena().getPlayers()) {
                 p.setLevel(time);
-                game.getArena().getBoards().get(p.getUniqueId()).line(6, " &6The game starts in &a" + time + "&6s", 6);
+                DrawPlayer drawPlayer = main.getPlayerManager().get(p);
+                drawPlayer.getScoreboard().line(12, " &6The game starts in &a" + time + "&6s", 12);
                 main.getSounds().playSound(p, "countdown." + time + "-seconds-left");
                 main.getMessages().sendMessage(p, time + "-seconds-left");
             }

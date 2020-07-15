@@ -12,6 +12,13 @@ public class PaintingToolManager {
     @Getter
     private List<PaintingTool> registeredTools = new ArrayList<>();
 
+    public PaintingToolManager(DrawPlugin main)
+    {
+        registeredTools.add(new BrushTool(main));
+        registeredTools.add(new FillTool());
+        registeredTools.add(new BlankPageTool());
+    }
+
     /**
      * Gets a PaintingTool by item, can be null.
      *
@@ -24,12 +31,5 @@ public class PaintingToolManager {
                 .filter(tool -> tool.getItem().equals(item))
                 .findFirst()
                 .orElse(null);
-    }
-
-    public PaintingToolManager(DrawPlugin main)
-    {
-        registeredTools.add(new BrushTool(main));
-        registeredTools.add(new FillTool());
-        registeredTools.add(new BlankPageTool());
     }
 }

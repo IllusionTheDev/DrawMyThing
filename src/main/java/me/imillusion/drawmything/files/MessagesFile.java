@@ -21,7 +21,7 @@ public class MessagesFile extends YMLBase {
 
     public void sendMessage(Player player, String name)
     {
-        if(!getConfiguration().contains("messages." + name))
+        if (!getConfiguration().contains("messages." + name))
             return;
 
         player.sendMessage(

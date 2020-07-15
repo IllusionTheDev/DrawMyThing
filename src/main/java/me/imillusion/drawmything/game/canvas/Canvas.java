@@ -6,7 +6,6 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.ChunkCoordIntPair;
 import com.comphenix.protocol.wrappers.MultiBlockChangeInfo;
 import com.comphenix.protocol.wrappers.WrappedBlockData;
-import javafx.util.Pair;
 import lombok.Getter;
 import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.game.arena.ArenaMap;
@@ -17,7 +16,10 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Canvas {
 
@@ -37,7 +39,7 @@ public class Canvas {
         this.arena = arena;
 
         for (int x = topLeft.getBlockX(); x <= bottomRight.getBlockX(); x++)
-            for (int y = bottomRight.getBlockY() + 1; y <= topLeft.getBlockY(); y++)
+            for (int y = bottomRight.getBlockY(); y <= topLeft.getBlockY(); y++)
                 points.add(new Point(x - topLeft.getBlockX(), y - bottomRight.getBlockY(), DyeColor.WHITE));
     }
 
@@ -169,7 +171,7 @@ public class Canvas {
      */
     private Map<Point, List<Location>> sortColors()
     {
-        if(!sortedPoints.isEmpty())
+        if (!sortedPoints.isEmpty())
             return sortedPoints;
 
         return sortedPoints = sortPoints(points.toArray(new Point[]{}));
@@ -186,11 +188,11 @@ public class Canvas {
         int adaptedX = location.getBlockX() - topLeft.getBlockX();
         int adaptedY = location.getBlockY() - bottomRight.getBlockY();
 
-        if(!belongs(location))
+        if (!belongs(location))
             return null;
 
-        for(Point point : points)
-            if(point.getX() == adaptedX && point.getY() == adaptedY)
+        for (Point point : points)
+            if (point.getX() == adaptedX && point.getY() == adaptedY)
                 return point;
 
         return null;
@@ -221,11 +223,11 @@ public class Canvas {
         int newX = origin.getX() + x;
         int newY = origin.getY() + y;
 
-        if(newX < 0 || newY < 0 || newX > getMaxPointX() || newY > getMaxPointY())
+        if (newX < 0 || newY < 0 || newX > getMaxPointX() || newY > getMaxPointY())
             return null;
 
-        for(Point point : points)
-            if(point.getX() == newX && point.getY() == newY)
+        for (Point point : points)
+            if (point.getX() == newX && point.getY() == newY)
                 return point;
 
         return null;

@@ -8,8 +8,8 @@ public class PointConverter {
     /**
      * Converts a 2D point into a 3D location based on the top left and bottom right 3D locations
      *
-     * @param point - The point to convert
-     * @param topLeft - The top left 3D location
+     * @param point       - The point to convert
+     * @param topLeft     - The top left 3D location
      * @param bottomRight - the bottom right 3D location
      * @return - The converted 3D location
      */
@@ -42,8 +42,8 @@ public class PointConverter {
     /**
      * Checks if a 2D point belongs within 2x 3D locations
      *
-     * @param point - The 2D point to check
-     * @param topLeft - The top left 3D location
+     * @param point       - The 2D point to check
+     * @param topLeft     - The top left 3D location
      * @param bottomRight - the bottom right 3D location
      * @return TRUE if it belongs, FALSE otherwise
      */

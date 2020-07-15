@@ -13,8 +13,8 @@ public class BlankPageTool implements PaintingTool {
 
     public BlankPageTool() {
         this.item = new ItemBuilder(Material.PAPER)
-                    .name("&a&lBlank Page &8(Right click)")
-                    .build();
+                .name("&a&lBlank Page &8(Right click)")
+                .build();
     }
 
     @Override

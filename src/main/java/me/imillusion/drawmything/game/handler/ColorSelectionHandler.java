@@ -5,7 +5,6 @@ import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.utils.ColorConverter;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +18,10 @@ import java.util.UUID;
 public class ColorSelectionHandler implements Listener {
 
     private DrawPlugin main;
+
+    public ColorSelectionHandler(DrawPlugin main) {
+        this.main = main;
+    }
 
     @EventHandler
     private void onClick(PlayerInteractEvent e)
@@ -44,9 +47,5 @@ public class ColorSelectionHandler implements Listener {
                         area.getColor().name());
             }
         });
-    }
-
-    public ColorSelectionHandler(DrawPlugin main) {
-        this.main = main;
     }
 }

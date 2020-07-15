@@ -1,10 +1,10 @@
 package me.imillusion.drawmything.game.data.drawing.tools;
 
 import me.imillusion.drawmything.DrawPlugin;
+import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.game.canvas.Canvas;
 import me.imillusion.drawmything.game.canvas.Point;
-import me.imillusion.drawmything.game.data.drawing.Drawer;
 import me.imillusion.drawmything.utils.ItemBuilder;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
@@ -32,16 +32,15 @@ public class BrushTool implements PaintingTool {
     @Override
     public void applyMove(Canvas canvas, Point point, DyeColor color) {
         Arena arena = canvas.getArena();
-        Drawer drawer = arena.getRound().getDrawer();
+        DrawPlayer drawer = arena.getRound().getDrawer();
 
-        if(drawer.getTicksleft() != 0)
-        {
-            if(drawer.getLastPoint().equals(point))
+        if (drawer.getTicksleft() != 0) {
+            if (drawer.getLastPoint().equals(point))
                 return;
 
             arena.getCanvas().drawPixels(drawer.getSelectedColor(),
                     getPointsBetween(arena.getCanvas(),
-                    canvas.adaptLocation(drawer.getLastPoint()), canvas.adaptLocation(point)));
+                            canvas.adaptLocation(drawer.getLastPoint()), canvas.adaptLocation(point)));
             drawer.setLastPoint(point);
         }
     }
@@ -49,15 +48,13 @@ public class BrushTool implements PaintingTool {
     @Override
     public void apply(Canvas canvas, Point point, DyeColor color) {
         Arena arena = canvas.getArena();
-        Drawer drawer = arena.getRound().getDrawer();
+        DrawPlayer drawer = arena.getRound().getDrawer();
 
-        if(drawer.getTicksleft() != 0)
-        {
-            if(!drawer.getLastPoint().equals(point))
+        if (drawer.getTicksleft() != 0) {
+            if (!drawer.getLastPoint().equals(point))
                 arena.getCanvas().drawPixels(drawer.getSelectedColor(),
-                getPointsBetween(arena.getCanvas(), canvas.adaptLocation(drawer.getLastPoint()), canvas.adaptLocation(point)));
-        }
-        else
+                        getPointsBetween(arena.getCanvas(), canvas.adaptLocation(drawer.getLastPoint()), canvas.adaptLocation(point)));
+        } else
             arena.getCanvas().drawPizel(point, drawer.getSelectedColor());
 
 
@@ -85,10 +82,9 @@ public class BrushTool implements PaintingTool {
 
         BlockIterator iterator = new BlockIterator(one.getWorld(), vectorOne, vectorTwo, 0, (int) one.distance(two));
 
-        while(iterator.hasNext())
-        {
+        while (iterator.hasNext()) {
             Block block = iterator.next();
-            if(canvas.adaptPoint(block.getLocation()) != null)
+            if (canvas.adaptPoint(block.getLocation()) != null)
                 list.add(canvas.adaptPoint(block.getLocation()));
         }
 

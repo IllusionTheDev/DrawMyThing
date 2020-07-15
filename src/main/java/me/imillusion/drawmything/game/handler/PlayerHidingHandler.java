@@ -4,7 +4,6 @@ import lombok.Getter;
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.utils.ItemBuilder;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -33,31 +32,20 @@ public class PlayerHidingHandler implements Listener {
                 .build();
     }
 
-    public boolean isHiding(Player player)
-    {
-        return player.getInventory().getItem(8).isSimilar(activeItem);
-
-        /*for(Player p : main.getGameManager().getPlayerGame(player.getUniqueId()).getArena().getPlayers())
-            if(!main.getHider().canSee(player, p))
-                return true;
-
-        return false;
-        */
-    }
-
     @EventHandler
     private void onClick(PlayerInteractEvent e)
     {
-        if(e.getItem() != null && e.getItem().equals(inactiveItem))
-        {
+        if (e.getItem() != null && e.getItem().equals(inactiveItem)) {
             main.getGameManager().getPlayerGame(e.getPlayer().getUniqueId()).getArena().getPlayers().forEach(player -> main.getHider().hideEntity(e.getPlayer(), player));
             e.getPlayer().setItemInHand(activeItem);
+            main.getPlayerManager().get(e.getPlayer()).setHiding(true);
         }
 
-        if(e.getItem() != null && e.getItem().equals(activeItem))
-        {
+        if (e.getItem() != null && e.getItem().equals(activeItem)) {
             main.getGameManager().getPlayerGame(e.getPlayer().getUniqueId()).getArena().getPlayers().forEach(player -> main.getHider().showEntity(e.getPlayer(), player));
             e.getPlayer().setItemInHand(inactiveItem);
+            main.getPlayerManager().get(e.getPlayer()).setHiding(false);
+
         }
     }
 

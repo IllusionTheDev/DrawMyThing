@@ -35,17 +35,14 @@ public class ColorConverter {
     {
         StringBuilder result = new StringBuilder();
 
-        for(int i = string.length() - 2; i >= 0; i--)
-        {
+        for (int i = string.length() - 2; i >= 0; i--) {
             char section = string.charAt(i);
-            if(section == ChatColor.COLOR_CHAR)
-            {
+            if (section == ChatColor.COLOR_CHAR) {
                 char id = string.charAt(i + 1);
-                if(String.valueOf(id).matches("[0-9a-flkm]"))
-                {
+                if (String.valueOf(id).matches("[0-9a-flkm]")) {
                     result.append(id);
 
-                    if(!ChatColor.getByChar(id).isFormat())
+                    if (!ChatColor.getByChar(id).isFormat())
                         break;
 
                 }

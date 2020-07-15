@@ -1,7 +1,6 @@
 package me.imillusion.drawmything.files;
 
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -29,7 +28,7 @@ public class SettingsFile extends YMLBase {
         drawingTime = getConfiguration().getInt("drawing-time");
         drawingLineTicks = getConfiguration().getInt("drawing-line-ticks", 5);
 
-        for(String key : getConfiguration().getConfigurationSection("start-time").getKeys(false))
+        for (String key : getConfiguration().getConfigurationSection("start-time").getKeys(false))
             startTimes.put(Integer.valueOf(key), getConfiguration().getInt("start-time." + key));
 
         bungeeLobby = getConfiguration().getString("bungee-lobby");

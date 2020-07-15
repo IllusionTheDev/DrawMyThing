@@ -1,6 +1,7 @@
 package me.imillusion.drawmything.pregame;
 
 import me.imillusion.drawmything.DrawPlugin;
+import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.game.Game;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -19,8 +20,9 @@ public class JoinHandler implements Listener {
     @EventHandler
     private void onJoin(PlayerJoinEvent e)
     {
-        if(!e.getPlayer().isOp())
-        {
+        DrawPlayer drawPlayer = new DrawPlayer(main, e.getPlayer().getUniqueId());
+
+        if (!e.getPlayer().isOp()) {
             e.getPlayer().setGameMode(GameMode.ADVENTURE);
             e.getPlayer().getInventory().clear();
         }
@@ -28,21 +30,22 @@ public class JoinHandler implements Listener {
         e.getPlayer().getInventory().setItem(8, main.getHidingHandler().getInactiveItem());
 
         Game game = main.getGameManager().getFirstAvailableGame();
+        drawPlayer.setCurrentGame(game);
 
         game.getArena().addPlayer(e.getPlayer().getUniqueId());
         e.getPlayer().teleport(game.getArena().getMap().getSpawnLocation());
         e.getPlayer().setWalkSpeed(0.2f);
 
-        if(game.getArena().getPlayers().size() >= main.getSettings().getMinplayers() && !game.isActiveCountdown())
+        if (game.getArena().getPlayers().size() >= main.getSettings().getMinplayers() && !game.isActiveCountdown())
             main.getGameCountdown().start(game);
 
         e.setJoinMessage("");
 
         game.getArena().getPlayers().forEach(player -> player.sendMessage(
                 ChatColor.translateAlternateColorCodes('&',
-                main.getMessages().getMessage("player-join")
-                        .replace("%prefix%", main.getMessages().getPrefix())
-                        .replace("%player%", e.getPlayer().getName())
-                        .replace("%count%", String.valueOf(game.getArena().getUUIDs().size())))));
+                        main.getMessages().getMessage("player-join")
+                                .replace("%prefix%", main.getMessages().getPrefix())
+                                .replace("%player%", e.getPlayer().getName())
+                                .replace("%count%", String.valueOf(game.getArena().getUUIDs().size())))));
     }
 }

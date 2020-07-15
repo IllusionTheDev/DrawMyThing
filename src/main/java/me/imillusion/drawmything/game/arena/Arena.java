@@ -2,10 +2,11 @@ package me.imillusion.drawmything.game.arena;
 
 import lombok.Getter;
 import me.imillusion.drawmything.DrawPlugin;
+import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.game.Game;
 import me.imillusion.drawmything.game.canvas.Canvas;
 import me.imillusion.drawmything.game.data.Round;
-import me.imillusion.drawmything.utils.scoreboard.TeamsScoreboard;
+import me.imillusion.drawmything.scoreboard.TeamsScoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -16,8 +17,6 @@ public class Arena {
 
     @Getter
     private Map<UUID, Integer> points = new HashMap<>();
-    @Getter
-    private Map<UUID, TeamsScoreboard> boards = new HashMap<>();
 
     @Getter
     private Round round;
@@ -33,6 +32,16 @@ public class Arena {
 
     @Getter
     private Game game;
+
+    public Arena(DrawPlugin main, ArenaMap map, Game game)
+    {
+        this.main = main;
+        this.map = map;
+        this.game = game;
+
+        canvas = new Canvas(map, this);
+        round = new Round(main, this, new ArrayList<>(points.keySet()));
+    }
 
     /**
      * Gets the players currently in the arena
@@ -57,6 +66,7 @@ public class Arena {
     public void addPlayer(UUID uuid)
     {
         Player p = Bukkit.getPlayer(uuid);
+        DrawPlayer drawPlayer = main.getPlayerManager().get(uuid);
 
         canvas.renderCanvas(p);
 
@@ -65,23 +75,17 @@ public class Arena {
 
         getPlayers().forEach(player -> {
             main.getHider().showEntity(p, player);
-            if(!main.getHidingHandler().isHiding(p))
+            if (!main.getPlayerManager().get(player).isHiding())
                 main.getHider().showEntity(player, p);
         });
 
-        TeamsScoreboard countdownboard = new TeamsScoreboard();
+        TeamsScoreboard board = new TeamsScoreboard();
+        p.setScoreboard(board.getBoard());
 
-        countdownboard.title("&a&lDrawMyThing");
-        countdownboard.line(9, "&8&m------------------------", 9);
-        countdownboard.line(8, "", 8);
-        countdownboard.line(7, " &6Welcome, &b" + p.getName(), 7);
-        countdownboard.line(6, " &6Awaiting for more players..", 6);
-        countdownboard.line(5, "", 5);
-        countdownboard.line(4, "        &7play.pteromc.com", 4);
-        countdownboard.line(3, "&8&m------------------------", 3);
+        drawPlayer.setScoreboard(board);
+        drawPlayer.setCurrentTemplate(main.getScoreboards().getAwaitingBoard());
 
-        p.setScoreboard(countdownboard.getBoard());
-        boards.put(uuid, countdownboard);
+        main.getScoreboards().getAwaitingBoard().render(p, board);
     }
 
     public void removePlayer(UUID uuid)
@@ -101,7 +105,7 @@ public class Arena {
         this.points.putIfAbsent(uuid, 0);
         this.points.replace(uuid, points);
 
-        if(game.isStarted())
+        if (game.isStarted())
             sendScoreboard();
     }
 
@@ -115,11 +119,11 @@ public class Arena {
                 "&8&m------------------------",
                 "");
 
-        for(Player p : getPlayers())
-        {
+        for (Player p : getPlayers()) {
+            DrawPlayer drawPlayer = main.getPlayerManager().get(p);
             List<String> copy = new ArrayList<>(base);
 
-            for(int i = ((sortedPoints.size() < 5 ? sortedPoints.size() : 5) - 1); i >= 0; i--) //inverse change since this sorte
+            for (int i = ((sortedPoints.size() < 5 ? sortedPoints.size() : 5) - 1); i >= 0; i--) //inverse change since this sorte
             {
                 UUID uuid = sortedPoints.get(i).getKey();
                 Player pl = Bukkit.getPlayer(uuid);
@@ -133,17 +137,7 @@ public class Arena {
             copy.add("        &7play.pteromc.com");
             copy.add("&8&m------------------------");
 
-            boards.get(p.getUniqueId()).write(copy);
+            drawPlayer.getScoreboard().write(copy);
         }
-    }
-
-    public Arena(DrawPlugin main, ArenaMap map, Game game)
-    {
-        this.main = main;
-        this.map = map;
-        this.game = game;
-
-        canvas = new Canvas(map, this);
-        round = new Round(main, this, new ArrayList<>(points.keySet()));
     }
 }

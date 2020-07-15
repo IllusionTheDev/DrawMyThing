@@ -20,17 +20,12 @@ public class ColorSelectionArea {
 
     private DyeColor color;
 
-    public boolean isWithin(Location location)
-    {
-        return locations.contains(location);
-    }
-
     public ColorSelectionArea(Location topLeft, Location bottomRight, DyeColor color)
     {
         this.color = color;
 
-        for(int x = topLeft.getBlockX(); x <= bottomRight.getBlockX(); x++)
-            for(int y = topLeft.getBlockY(); y >= bottomRight.getBlockY(); y--) {
+        for (int x = topLeft.getBlockX(); x <= bottomRight.getBlockX(); x++)
+            for (int y = topLeft.getBlockY(); y >= bottomRight.getBlockY(); y--) {
                 Location newLocation = new Location(topLeft.getWorld(), x, y, topLeft.getZ());
                 Block block = newLocation.getBlock();
 
@@ -48,13 +43,12 @@ public class ColorSelectionArea {
         Map<DyeColor, List<Location>> locations = new HashMap<>();
 
         //Adding all the locations to the map
-        for(int x = topLeft.getBlockX(); x <= bottomRight.getBlockX(); x++)
-            for(int y = topLeft.getBlockY(); y >= bottomRight.getBlockY(); y--)
-            {
+        for (int x = topLeft.getBlockX(); x <= bottomRight.getBlockX(); x++)
+            for (int y = topLeft.getBlockY(); y >= bottomRight.getBlockY(); y--) {
                 Location newLocation = new Location(topLeft.getWorld(), x, y, topLeft.getZ());
                 Block block = newLocation.getBlock();
 
-                if(block.getType() != Material.WOOL)
+                if (block.getType() != Material.WOOL)
                     continue;
 
                 DyeColor color = DyeColor.getByWoolData(block.getData());
@@ -68,5 +62,10 @@ public class ColorSelectionArea {
         });
 
         return areas;
+    }
+
+    public boolean isWithin(Location location)
+    {
+        return locations.contains(location);
     }
 }

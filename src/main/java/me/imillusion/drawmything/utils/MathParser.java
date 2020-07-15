@@ -11,6 +11,7 @@ public class MathParser {
     static {
         engine = new ScriptEngineManager().getEngineByName("JavaScript");
     }
+
     public static int parseMath(String input)
     {
         try {

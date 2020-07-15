@@ -54,7 +54,7 @@ public class Game {
         messages.add(" ");
 
         int pos = 1;
-        for(int i = ((sortedPoints.size() < 5 ? sortedPoints.size() : 5) - 1); i >= 0; i--) //inverse change since this sorte
+        for (int i = ((sortedPoints.size() < 5 ? sortedPoints.size() : 5) - 1); i >= 0; i--) //inverse change since this sorte
         {
             UUID uuid = sortedPoints.get(i).getKey();
             messages.add(" " + color(pos, sortedPoints.size()) + pos++ + ") - " + getName(uuid) + " &7with &6" + sortedPoints.get(i).getValue() + " &7points.");
@@ -65,13 +65,11 @@ public class Game {
         messages.add(" ");
         messages.add("&8&m-----------------------");
 
-        for(Player p : arena.getPlayers())
-        {
-            for(String m : messages)
+        for (Player p : arena.getPlayers()) {
+            for (String m : messages)
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&', m
-                .replace("%position%", String.valueOf(getPosition(p.getUniqueId(), sortedPoints)))));
+                        .replace("%position%", String.valueOf(getPosition(p.getUniqueId(), sortedPoints)))));
         }
-
 
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(main, this::cleanup, 200L);
@@ -79,9 +77,8 @@ public class Game {
 
     private int getPosition(UUID uuid, List<Map.Entry<UUID, Integer>> list)
     {
-        for(int i = list.size() - 1; i >= 0; i--)
-        {
-            if(list.get(i).getKey().equals(uuid))
+        for (int i = list.size() - 1; i >= 0; i--) {
+            if (list.get(i).getKey().equals(uuid))
                 return list.size() - i;
         }
 
@@ -90,9 +87,9 @@ public class Game {
 
     private String color(int position, int size)
     {
-        if(position == 1)
+        if (position == 1)
             return "&a&l";
-        if(position == 2)
+        if (position == 2)
             return "&e&l";
 
         return size > position ? "&e&l" : "&c&l";

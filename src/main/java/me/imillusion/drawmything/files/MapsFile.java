@@ -1,7 +1,6 @@
 package me.imillusion.drawmything.files;
 
 import me.imillusion.drawmything.DrawPlugin;
-import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.game.arena.ArenaMap;
 import me.imillusion.drawmything.game.data.drawing.colors.ColorSelectionArea;
 import org.bukkit.Bukkit;
@@ -23,8 +22,7 @@ public class MapsFile extends YMLBase {
     {
         List<ArenaMap> maps = new ArrayList<>();
 
-        for(String id : getConfiguration().getConfigurationSection("maps").getKeys(false))
-        {
+        for (String id : getConfiguration().getConfigurationSection("maps").getKeys(false)) {
             ConfigurationSection section = getConfiguration().getConfigurationSection("maps." + id);
 
             World world = Bukkit.getWorld(section.getString("world"));
@@ -32,8 +30,7 @@ public class MapsFile extends YMLBase {
             ConfigurationSection color = section.getConfigurationSection("colors");
             List<ColorSelectionArea> colorAreas = new ArrayList<>();
 
-            for(String col : color.getKeys(false))
-            {
+            for (String col : color.getKeys(false)) {
                 colorAreas.addAll(
                         ColorSelectionArea.createAreas(
                                 getLocation(world, color.getConfigurationSection(col + ".topleft")),

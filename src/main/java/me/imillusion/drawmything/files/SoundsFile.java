@@ -14,7 +14,7 @@ public class SoundsFile extends YMLBase {
 
     public void playSound(Player player, String sound)
     {
-        if(!getConfiguration().contains("sounds." + sound))
+        if (!getConfiguration().contains("sounds." + sound))
             return;
 
         Sound s = Sound.valueOf(getConfiguration().getString("sounds." + sound + ".sound"));

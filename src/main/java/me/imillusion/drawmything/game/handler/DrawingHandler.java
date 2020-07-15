@@ -1,9 +1,9 @@
 package me.imillusion.drawmything.game.handler;
 
 import me.imillusion.drawmything.DrawPlugin;
+import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.game.Game;
 import me.imillusion.drawmything.game.arena.Arena;
-import me.imillusion.drawmything.game.data.drawing.Drawer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -26,8 +26,8 @@ public class DrawingHandler implements Listener {
 
         Bukkit.getScheduler().runTaskTimerAsynchronously(main, () -> main.getGameManager().getActiveGames().forEach(game -> {
             Arena arena = game.getArena();
-            if(arena.getRound().getDrawer() != null)
-                if(arena.getRound().getDrawer().getTicksleft() != 0)
+            if (arena.getRound().getDrawer() != null)
+                if (arena.getRound().getDrawer().getTicksleft() != 0)
                     arena.getRound().getDrawer().setTicksleft(arena.getRound().getDrawer().getTicksleft() - 1);
         }), 1L, 1L);
     }
@@ -35,7 +35,7 @@ public class DrawingHandler implements Listener {
     @EventHandler
     private void onInteract(PlayerInteractEvent e)
     {
-        if(e.getAction() != Action.RIGHT_CLICK_AIR)
+        if (e.getAction() != Action.RIGHT_CLICK_AIR)
             return;
 
         Player player = e.getPlayer();
@@ -43,12 +43,12 @@ public class DrawingHandler implements Listener {
         Block clickedBlock = player.getTargetBlock((Set<Material>) null, 100);
         Arena arena = main.getGameManager().getPlayerGame(uuid).getArena();
 
-        if(!canBuild(uuid))
+        if (!canBuild(uuid))
             return;
 
-        Drawer drawer = arena.getRound().getDrawer();
+        DrawPlayer drawer = arena.getRound().getDrawer();
 
-        if(drawer.getSelectedPaintTool() != null)
+        if (drawer.getSelectedPaintTool() != null)
             drawer.getSelectedPaintTool().apply(arena.getCanvas(), arena.getCanvas().adaptPoint(clickedBlock.getLocation()), drawer.getSelectedColor());
 
     }
@@ -61,17 +61,17 @@ public class DrawingHandler implements Listener {
         Block clickedBlock = player.getTargetBlock((Set<Material>) null, 100);
         Game game = main.getGameManager().getPlayerGame(uuid);
 
-        if(game == null)
+        if (game == null)
             return;
 
-        if(!canBuild(uuid))
+        if (!canBuild(uuid))
             return;
 
         Arena arena = game.getArena();
 
-        Drawer drawer = arena.getRound().getDrawer();
+        DrawPlayer drawer = arena.getRound().getDrawer();
 
-        if(drawer.getSelectedPaintTool() != null)
+        if (drawer.getSelectedPaintTool() != null)
             drawer.getSelectedPaintTool().applyMove(arena.getCanvas(), arena.getCanvas().adaptPoint(clickedBlock.getLocation()), drawer.getSelectedColor());
     }
 
@@ -81,18 +81,14 @@ public class DrawingHandler implements Listener {
         Block clickedBlock = player.getTargetBlock((Set<Material>) null, 100);
         Arena arena = main.getGameManager().getPlayerGame(uuid).getArena();
 
-        if(arena.getRound().getDrawer() == null)
+        if (arena.getRound().getDrawer() == null)
             return false;
 
-        if(!arena.getRound().getDrawer().getUuid().equals(uuid))
+        if (!arena.getRound().getDrawer().getUuid().equals(uuid))
             return false;
 
-        if(!arena.getCanvas().belongs(clickedBlock.getLocation()))
-            return false;
-
-        return true;
+        return arena.getCanvas().belongs(clickedBlock.getLocation());
     }
-
 
 
 }

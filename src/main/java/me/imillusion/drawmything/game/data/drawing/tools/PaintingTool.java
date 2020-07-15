@@ -11,8 +11,8 @@ public interface PaintingTool {
      * Applies the tool to the point
      *
      * @param canvas - The canvas where to apply
-     * @param point - The point where to apply
-     * @param color - The new color of the point
+     * @param point  - The point where to apply
+     * @param color  - The new color of the point
      */
     void apply(Canvas canvas, Point point, DyeColor color);
 

@@ -16,7 +16,7 @@ public class ScoreboardsFile extends YMLBase {
     private final Map<String, ScoreboardAnimation> animations = new HashMap<>();
     private final Map<Character, Pair<Integer, Integer>> countdownColors = new HashMap<>();
 
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     @Getter
     private ScoreboardTemplate awaitingBoard;

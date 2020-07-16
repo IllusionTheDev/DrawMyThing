@@ -19,7 +19,7 @@ import java.util.UUID;
 
 public class DrawingHandler implements Listener {
 
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     public DrawingHandler(DrawPlugin main) {
         this.main = main;

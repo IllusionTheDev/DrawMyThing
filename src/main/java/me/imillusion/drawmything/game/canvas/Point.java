@@ -15,9 +15,6 @@ public class Point {
 
     private DyeColor color;
 
-    public Point() {
-    }
-
     public Point(int x, int y)
     {
         this.x = x;

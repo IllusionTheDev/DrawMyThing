@@ -10,7 +10,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class GuesserChatHandler implements Listener {
 
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     public GuesserChatHandler(DrawPlugin main) {
         this.main = main;

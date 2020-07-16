@@ -9,12 +9,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 
-public abstract class YMLBase {
+public class YMLBase {
 
-    private boolean existsOnSource;
-    private JavaPlugin plugin;
+    private final boolean existsOnSource;
+    private final JavaPlugin plugin;
 
-    private File file;
+    private final File file;
 
     @Getter
     private FileConfiguration configuration;

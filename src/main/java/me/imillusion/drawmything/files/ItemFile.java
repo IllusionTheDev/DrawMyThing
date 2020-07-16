@@ -33,8 +33,8 @@ public class ItemFile extends YMLBase {
                 .collect(Collectors.toSet());
     }
 
-    public void setItem(String name, int slot)
-    {
+    //public void setItem(String name, int slot)
+    //{
 
-    }
+    //}
 }

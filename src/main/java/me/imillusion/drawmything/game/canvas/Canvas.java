@@ -23,12 +23,12 @@ import java.util.Map;
 
 public class Canvas {
 
-    private Location topLeft;
-    private Location bottomRight;
+    private final Location topLeft;
+    private final Location bottomRight;
     @Getter
     private Arena arena;
 
-    private List<Point> points = new ArrayList<>();
+    private final List<Point> points = new ArrayList<>();
     private Map<Point, List<Location>> sortedPoints = new HashMap<>();
 
     public Canvas(ArenaMap map, Arena arena)

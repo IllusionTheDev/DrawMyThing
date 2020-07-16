@@ -17,7 +17,7 @@ public class Game {
 
     @Getter
     private Arena arena;
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     @Getter
     @Setter(AccessLevel.PACKAGE)

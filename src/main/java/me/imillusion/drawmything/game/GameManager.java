@@ -12,11 +12,11 @@ import java.util.UUID;
 
 public class GameManager {
 
-    private List<ArenaMap> gameMaps;
-    private DrawPlugin main;
+    private final List<ArenaMap> gameMaps;
+    private final DrawPlugin main;
     @Getter
-    private List<Game> activeGames = new ArrayList<>();
-    private Random random = new Random();
+    private final List<Game> activeGames = new ArrayList<>();
+    private final Random random = new Random();
     public GameManager(DrawPlugin main, List<ArenaMap> gameMaps) {
         this.main = main;
         this.gameMaps = gameMaps;

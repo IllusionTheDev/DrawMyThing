@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class BlankPageTool implements PaintingTool {
 
-    private ItemStack item;
+    private final ItemStack item;
 
     public BlankPageTool() {
         this.item = new ItemBuilder(Material.PAPER)

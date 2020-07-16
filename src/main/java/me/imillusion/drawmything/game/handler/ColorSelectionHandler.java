@@ -17,7 +17,7 @@ import java.util.UUID;
 
 public class ColorSelectionHandler implements Listener {
 
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     public ColorSelectionHandler(DrawPlugin main) {
         this.main = main;

@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 public class DrawerMoveHandler implements Listener {
 
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     public DrawerMoveHandler(DrawPlugin main) {
         this.main = main;
@@ -28,16 +28,14 @@ public class DrawerMoveHandler implements Listener {
 
         DrawPlayer drawer = main.getPlayerManager().get(player);
 
-        if (drawer == null)
+        if (drawer == null || !drawer.isDrawer() || main.getSettings().getDrawingTime() - game.getArena().getRound().getDrawingTime() <= 1)
             return;
 
-        if (main.getSettings().getDrawingTime() - game.getArena().getRound().getDrawingTime() > 1)
-            if (drawer.isDrawer())
-                if (e.getFrom().getX() != e.getTo().getX() || e.getFrom().getY() != e.getTo().getY() || e.getFrom().getZ() != e.getTo().getZ()) {
-                    Location copy = e.getFrom().clone();
-                    copy.setPitch(e.getTo().getPitch());
-                    copy.setYaw(e.getTo().getYaw());
-                    e.getPlayer().teleport(copy);
-                }
+        if (e.getFrom().getX() != e.getTo().getX() || e.getFrom().getY() != e.getTo().getY() || e.getFrom().getZ() != e.getTo().getZ()) {
+            Location copy = e.getFrom().clone();
+            copy.setPitch(e.getTo().getPitch());
+            copy.setYaw(e.getTo().getYaw());
+            e.getPlayer().teleport(copy);
+        }
     }
 }

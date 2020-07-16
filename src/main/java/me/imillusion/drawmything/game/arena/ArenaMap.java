@@ -11,7 +11,7 @@ import java.util.List;
 public class ArenaMap {
 
     @Getter
-    private Location topLeft, bottomRight, spawnLocation, drawLocation;
+    private final Location topLeft, bottomRight, spawnLocation, drawLocation;
     @Getter
-    private List<ColorSelectionArea> colorSelectionAreas;
+    private final List<ColorSelectionArea> colorSelectionAreas;
 }

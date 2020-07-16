@@ -16,7 +16,7 @@ public class PlayerHidingHandler implements Listener {
     @Getter
     private ItemStack activeItem;
 
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     public PlayerHidingHandler(DrawPlugin main) {
         this.main = main;

@@ -8,6 +8,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.Locale;
+
 public class GuesserChatHandler implements Listener {
 
     private final DrawPlugin main;
@@ -42,7 +44,7 @@ public class GuesserChatHandler implements Listener {
             return;
         }
 
-        if (e.getMessage().toLowerCase().contains(round.getWord())) {
+        if (e.getMessage().toLowerCase(Locale.getDefault()).contains(round.getWord())) {
             e.setCancelled(true);
 
             round.getGuessedPlayers().add(e.getPlayer().getUniqueId());

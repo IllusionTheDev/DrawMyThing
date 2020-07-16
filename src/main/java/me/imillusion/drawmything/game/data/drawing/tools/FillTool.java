@@ -12,7 +12,7 @@ import java.util.Set;
 
 public class FillTool implements PaintingTool {
 
-    private ItemStack item;
+    private final ItemStack item;
 
     FillTool() {
         item = new ItemBuilder(Material.BUCKET)

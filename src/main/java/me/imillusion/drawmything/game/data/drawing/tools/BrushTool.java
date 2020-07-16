@@ -19,8 +19,8 @@ import java.util.List;
 
 public class BrushTool implements PaintingTool {
 
-    private DrawPlugin main;
-    private ItemStack item;
+    private final DrawPlugin main;
+    private final ItemStack item;
 
     BrushTool(DrawPlugin main) {
         this.main = main;
@@ -50,16 +50,17 @@ public class BrushTool implements PaintingTool {
         Arena arena = canvas.getArena();
         DrawPlayer drawer = arena.getRound().getDrawer();
 
+        drawer.setTicksleft(main.getSettings().getDrawingLineTicks());
+        drawer.setLastPoint(point);
+
         if (drawer.getTicksleft() != 0) {
             if (!drawer.getLastPoint().equals(point))
                 arena.getCanvas().drawPixels(drawer.getSelectedColor(),
                         getPointsBetween(arena.getCanvas(), canvas.adaptLocation(drawer.getLastPoint()), canvas.adaptLocation(point)));
-        } else
-            arena.getCanvas().drawPizel(point, drawer.getSelectedColor());
+            return;
+        }
+        arena.getCanvas().drawPizel(point, drawer.getSelectedColor());
 
-
-        drawer.setTicksleft(main.getSettings().getDrawingLineTicks());
-        drawer.setLastPoint(point);
 
     }
 

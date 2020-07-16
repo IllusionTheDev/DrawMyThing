@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 public class JoinHandler implements Listener {
 
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     public JoinHandler(DrawPlugin main) {
         this.main = main;

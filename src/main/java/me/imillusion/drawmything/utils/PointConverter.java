@@ -20,18 +20,10 @@ public class PointConverter {
         int adaptedY = bottomRight.getBlockY() + point.getY();
         int adaptedX;
 
-        if (southNorth) //if it is either north or south
-        {
-            if (topLeft.getBlockX() < bottomRight.getBlockX()) //if it's north
-                adaptedX = topLeft.getBlockX() + point.getX();
-            else //if it's south
-                adaptedX = topLeft.getBlockX() - point.getX();
-        } else {
-            if (topLeft.getBlockZ() < bottomRight.getBlockZ())
-                adaptedX = topLeft.getBlockZ() + point.getX();
-            else
-                adaptedX = topLeft.getBlockZ() - point.getX();
-        }
+        int base = southNorth ? topLeft.getBlockX() : topLeft.getBlockZ();
+        int compare = southNorth ? bottomRight.getBlockX() : bottomRight.getBlockZ();
+
+        adaptedX = base + (base < compare ? point.getX() : -point.getX());
 
         return topLeft.clone()
                 .add(southNorth ? adaptedX : 0,

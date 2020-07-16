@@ -31,9 +31,9 @@ public class ItemBuilder {
         }
     }
 
-    private Material material;
+    private final Material material;
     private int amount = 1;
-    private List<String> lore = new ArrayList<>();
+    private final List<String> lore = new ArrayList<>();
     private String name = "";
     private ItemFlag[] itemFlags = null;
     private short data = -1;
@@ -64,11 +64,11 @@ public class ItemBuilder {
         return builder.build();
     }
 
-    public ItemBuilder amount(int amount)
+    public ItemBuilder amount(int newAmount)
     {
-        if (amount > 64)
-            amount = 64;
-        this.amount = amount;
+        if (newAmount > 64)
+            newAmount = 64;
+        this.amount = newAmount;
         return this;
     }
 

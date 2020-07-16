@@ -16,6 +16,13 @@ public interface PaintingTool {
      */
     void apply(Canvas canvas, Point point, DyeColor color);
 
+    /**
+     * Some tools can work while moving (Only applies if the user if "holding" right click
+     *
+     * @param canvas - The canvas where to apply
+     * @param point  - The point where to apply
+     * @param color  - The new color of the point
+     */
     default void applyMove(Canvas canvas, Point point, DyeColor color)
     {
 

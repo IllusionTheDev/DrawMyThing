@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class LeaveHandler implements Listener {
 
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     public LeaveHandler(DrawPlugin main) {
         this.main = main;

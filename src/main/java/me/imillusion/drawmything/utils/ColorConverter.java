@@ -10,7 +10,7 @@ import java.util.Map;
 public class ColorConverter {
 
     @Getter
-    private static Map<DyeColor, ChatColor> colors = new HashMap<>();
+    private static final Map<DyeColor, ChatColor> colors = new HashMap<>();
 
     static {
         colors.put(DyeColor.BLACK, ChatColor.BLACK);

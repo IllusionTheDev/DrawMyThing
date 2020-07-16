@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 public class DrawPlayerManager {
 
-    private Map<UUID, DrawPlayer> players = new HashMap<>();
+    private final Map<UUID, DrawPlayer> players = new HashMap<>();
 
     public Collection<DrawPlayer> getAllPlayers()
     {

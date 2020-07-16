@@ -10,8 +10,8 @@ import java.util.Map;
 
 public class GameCountdown {
 
-    private Map<Game, Integer> countdowns = new HashMap<>();
-    private DrawPlugin main;
+    private final Map<Game, Integer> countdowns = new HashMap<>();
+    private final DrawPlugin main;
 
     public GameCountdown(DrawPlugin main) {
         this.main = main;

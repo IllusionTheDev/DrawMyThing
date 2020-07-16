@@ -21,7 +21,7 @@ import java.util.UUID;
 public class DrawPlayer {
 
     @Setter(AccessLevel.NONE)
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     @Setter(AccessLevel.NONE)
     private UUID uuid;

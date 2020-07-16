@@ -16,7 +16,7 @@ public class SettingsFile extends YMLBase {
     private int drawingTime;
     private int drawingLineTicks;
 
-    private Map<Integer, Integer> startTimes = new HashMap<>();
+    private final Map<Integer, Integer> startTimes = new HashMap<>();
 
     private String bungeeLobby;
 

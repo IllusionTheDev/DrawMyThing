@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class Arena {
 
     @Getter
-    private Map<UUID, Integer> points = new HashMap<>();
+    private final Map<UUID, Integer> points = new HashMap<>();
 
     @Getter
     private Round round;

@@ -13,8 +13,8 @@ import java.util.Map;
 
 public class ScoreboardsFile extends YMLBase {
 
-    private Map<String, ScoreboardAnimation> animations = new HashMap<>();
-    private Map<Character, Pair<Integer, Integer>> countdownColors = new HashMap<>();
+    private final Map<String, ScoreboardAnimation> animations = new HashMap<>();
+    private final Map<Character, Pair<Integer, Integer>> countdownColors = new HashMap<>();
 
     private DrawPlugin main;
 

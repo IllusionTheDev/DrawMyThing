@@ -22,7 +22,7 @@ public class Round {
     @Getter(AccessLevel.NONE)
     private Random random = new Random();
     @Getter(AccessLevel.NONE)
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     private DrawPlayer drawer;
     private Set<UUID> drawnPlayers = new HashSet<>();
@@ -172,7 +172,7 @@ public class Round {
             return;
         }
 
-        if (drawer != null && drawer.getUuid().equals(uuid) && toDraw.size() != 0) {
+        if (drawer != null && drawer.getUuid().equals(uuid) && !toDraw.isEmpty()) {
             drawer = null;
             pickDrawer();
         }
@@ -234,7 +234,7 @@ public class Round {
 
     private void handleSwitch()
     {
-        if (toDraw.size() == 0) {
+        if (toDraw.isEmpty()) {
             reset();
             if (roundNum > 3)
                 arena.getGame().end();

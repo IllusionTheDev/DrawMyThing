@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class ItemFile extends YMLBase {
 
-    private Map<String, ItemStack> items = new HashMap<>();
+    private final Map<String, ItemStack> items = new HashMap<>();
 
     public ItemFile(JavaPlugin plugin) {
         super(plugin, new File(plugin.getDataFolder(), "items.yml"), true);

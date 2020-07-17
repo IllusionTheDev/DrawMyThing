@@ -1,5 +1,6 @@
 package me.imillusion.drawmything.utils;
 
+import me.imillusion.drawmything.game.canvas.Canvas;
 import me.imillusion.drawmything.game.canvas.Point;
 import org.bukkit.Location;
 
@@ -18,17 +19,36 @@ public class PointConverter {
         boolean southNorth = topLeft.getBlockZ() == bottomRight.getBlockZ();
 
         int adaptedY = bottomRight.getBlockY() + point.getY();
-        int adaptedX;
 
         int base = southNorth ? topLeft.getBlockX() : topLeft.getBlockZ();
         int compare = southNorth ? bottomRight.getBlockX() : bottomRight.getBlockZ();
 
-        adaptedX = base + (base < compare ? point.getX() : -point.getX());
+        int adaptedX = base + (base < compare ? point.getX() : -point.getX());
 
         return topLeft.clone()
                 .add(southNorth ? adaptedX : 0,
                         topLeft.getBlockY() - bottomRight.getBlockY() + adaptedY,
                         !southNorth ? adaptedX : 0);
+    }
+
+    public static Point adaptPoint(Location location, Canvas canvas)
+    {
+        Location topLeft = canvas.getArena().getMap().getTopLeft();
+        Location bottomRight = canvas.getArena().getMap().getBottomRight();
+
+        if (!locationBelongs(location, topLeft, bottomRight))
+            return null;
+
+        boolean southNorth = topLeft.getBlockZ() == bottomRight.getBlockZ();
+
+        int x = southNorth ? location.getBlockX() - topLeft.getBlockX() : location.getBlockZ() - topLeft.getBlockZ();
+        int y = location.getBlockY() - bottomRight.getBlockY();
+
+        for (Point point : canvas.getPoints())
+            if (point.getX() == x && point.getY() == y)
+                return point;
+
+        return null;
     }
 
     /**
@@ -39,7 +59,7 @@ public class PointConverter {
      * @param bottomRight - the bottom right 3D location
      * @return TRUE if it belongs, FALSE otherwise
      */
-    public boolean pointBelongs(Point point, Location topLeft, Location bottomRight)
+    public static boolean pointBelongs(Point point, Location topLeft, Location bottomRight)
     {
         boolean southNorth = topLeft.getBlockZ() == bottomRight.getBlockZ();
 
@@ -48,20 +68,26 @@ public class PointConverter {
         if (adaptedY > topLeft.getBlockY() || adaptedY < bottomRight.getBlockY())
             return false;
 
-        if (southNorth) //if it is either north or south
-        {
-            if (topLeft.getBlockX() < bottomRight.getBlockX()) //if it's north
-                return point.getX() + topLeft.getBlockX() < bottomRight.getBlockX();
-            return point.getX() + bottomRight.getBlockX() < topLeft.getBlockX();
-        }
+        int top = southNorth ? topLeft.getBlockX() : topLeft.getBlockZ();
+        int bottom = southNorth ? bottomRight.getBlockX() : bottomRight.getBlockZ();
 
-        if (topLeft.getBlockZ() < bottomRight.getBlockZ())
-            return point.getX() + topLeft.getBlockZ() < bottomRight.getBlockZ();
-        return point.getX() + bottomRight.getBlockZ() < topLeft.getBlockZ();
-
+        return point.getX() + Math.min(top, bottom) <= Math.max(top, bottom);
     }
 
-    public Location getTopLeftExtreme(Location pointOne, Location pointTwo)
+    public static boolean locationBelongs(Location location, Location topLeft, Location bottomRight)
+    {
+        if (location.getBlockY() > topLeft.getBlockY() || location.getBlockY() < bottomRight.getBlockY())
+            return false;
+
+        if (location.getBlockX() < topLeft.getBlockX() || location.getBlockX() > bottomRight.getBlockX())
+            return false;
+
+        return !(location.getBlockY() > topLeft.getBlockY() || location.getBlockY() < bottomRight.getBlockY() || //compare y
+                location.getBlockX() < topLeft.getBlockX() || location.getBlockX() > bottomRight.getBlockX() || //compare x
+                location.getBlockZ() < topLeft.getBlockZ() || location.getBlockZ() > bottomRight.getBlockZ()); //compare z
+    }
+
+    public static Location getTopLeftExtreme(Location pointOne, Location pointTwo)
     {
         boolean southNorth = pointOne.getBlockZ() == pointTwo.getBlockZ();
 
@@ -70,5 +96,10 @@ public class PointConverter {
                 Math.max(pointOne.getBlockY(), pointTwo.getBlockY()),
                 !southNorth ? Math.min(pointOne.getBlockZ(), pointTwo.getBlockZ()) : 0
         );
+    }
+
+    public static Location getBottomRightExtreme(Location pointOne, Location pointTwo)
+    {
+        return getTopLeftExtreme(pointOne, pointTwo).equals(pointOne) ? pointTwo : pointOne;
     }
 }

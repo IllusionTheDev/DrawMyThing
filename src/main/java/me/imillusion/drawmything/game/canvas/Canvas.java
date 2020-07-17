@@ -9,7 +9,7 @@ import com.comphenix.protocol.wrappers.WrappedBlockData;
 import lombok.Getter;
 import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.game.arena.ArenaMap;
-import org.bukkit.Chunk;
+import me.imillusion.drawmything.utils.PointConverter;
 import org.bukkit.DyeColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -28,6 +28,7 @@ public class Canvas {
     @Getter
     private Arena arena;
 
+    @Getter
     private final List<Point> points = new ArrayList<>();
     private Map<Point, List<Location>> sortedPoints = new HashMap<>();
 
@@ -59,27 +60,7 @@ public class Canvas {
      */
     public void drawPizel(Point point, DyeColor color)
     {
-        Location loc = adaptLocation(point);
-
-        if (!belongs(loc))
-            return;
-
-        Chunk chunk = loc.getChunk();
-
-        PacketContainer packet = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.MULTI_BLOCK_CHANGE);
-
-        ChunkCoordIntPair chunkcoords = new ChunkCoordIntPair(chunk.getX(), chunk.getZ());
-        MultiBlockChangeInfo[] change = new MultiBlockChangeInfo[1];
-
-        change[0] = new MultiBlockChangeInfo(loc, WrappedBlockData.createData(Material.WOOL, color.getWoolData()));
-
-        packet.getChunkCoordIntPairs().write(0, chunkcoords);
-        packet.getMultiBlockChangeInfoArrays().write(0, change);
-
-        sendPacket(packet);
-
-        point.setColor(color);
-
+        drawPixels(color, point);
     }
 
     /**
@@ -118,24 +99,7 @@ public class Canvas {
      */
     public void fill(DyeColor color)
     {
-        Map<Point, List<Location>> sorted = sortColors();
-
-        sorted.forEach((chunk, list) -> {
-            PacketContainer packet = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.MULTI_BLOCK_CHANGE);
-
-            ChunkCoordIntPair chunkcoords = new ChunkCoordIntPair(chunk.getX(), chunk.getY());
-            MultiBlockChangeInfo[] change = new MultiBlockChangeInfo[list.size()];
-
-            for (int i = 0; i < list.size(); i++)
-                change[i] = new MultiBlockChangeInfo(list.get(i), WrappedBlockData.createData(Material.WOOL, color.getWoolData()));
-
-            packet.getChunkCoordIntPairs().write(0, chunkcoords);
-            packet.getMultiBlockChangeInfoArrays().write(0, change);
-
-            sendPacket(packet);
-        });
-
-        points.forEach(point -> point.setColor(color));
+        drawPixels(color, points.toArray(new Point[]{}));
     }
 
     /**
@@ -185,17 +149,7 @@ public class Canvas {
      */
     public Point adaptPoint(Location location)
     {
-        int adaptedX = location.getBlockX() - topLeft.getBlockX();
-        int adaptedY = location.getBlockY() - bottomRight.getBlockY();
-
-        if (!belongs(location))
-            return null;
-
-        for (Point point : points)
-            if (point.getX() == adaptedX && point.getY() == adaptedY)
-                return point;
-
-        return null;
+        return PointConverter.adaptPoint(location, this);
     }
 
     /**
@@ -206,10 +160,7 @@ public class Canvas {
      */
     public Location adaptLocation(Point point)
     {
-        int adaptedX = point.getX() + topLeft.getBlockX();
-        int adaptedY = point.getY() + bottomRight.getBlockY();
-
-        return new Location(topLeft.getWorld(), adaptedX, adaptedY, topLeft.getZ());
+        return PointConverter.adaptLocation(point, topLeft, bottomRight);
     }
 
     /**
@@ -241,11 +192,7 @@ public class Canvas {
      */
     public boolean belongs(Location location)
     {
-        return !(location.getBlockZ() != topLeft.getBlockZ() || //if the z doesn't match
-                location.getBlockY() > topLeft.getBlockY() || //if it is above the top
-                location.getBlockY() < bottomRight.getBlockY() || //if it is below the bottom
-                location.getBlockX() > bottomRight.getBlockX() || //if it is outside through the right
-                location.getBlockX() < topLeft.getBlockX()); //if it is outside through the left
+        return PointConverter.locationBelongs(location, topLeft, bottomRight);
     }
 
     /**
@@ -295,7 +242,12 @@ public class Canvas {
 
     private int getMaxPointX()
     {
-        return bottomRight.getBlockX() - topLeft.getBlockX();
+        boolean southNorth = topLeft.getBlockZ() == bottomRight.getBlockZ();
+
+        int bottom = southNorth ? bottomRight.getBlockX() : bottomRight.getBlockZ();
+        int top = southNorth ? topLeft.getBlockX() : topLeft.getBlockZ();
+
+        return bottom - top;
     }
 
     private int getMaxPointY()

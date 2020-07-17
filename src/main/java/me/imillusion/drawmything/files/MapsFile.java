@@ -3,6 +3,7 @@ package me.imillusion.drawmything.files;
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.game.arena.ArenaMap;
 import me.imillusion.drawmything.game.data.drawing.colors.ColorSelectionArea;
+import me.imillusion.drawmything.utils.PointConverter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -40,10 +41,14 @@ public class MapsFile extends YMLBase {
             Location spawn = getLocation(world, section.getConfigurationSection("spawn"));
             Location drawer = getLocation(world, section.getConfigurationSection("drawer"));
 
-            Location topLeft = getLocation(world, section.getConfigurationSection("canvas.topleft"));
-            Location bottomRight = getLocation(world, section.getConfigurationSection("canvas.bottomright"));
+            Location pointOne = getLocation(world, section.getConfigurationSection("canvas.topleft"));
+            Location pointTwo = getLocation(world, section.getConfigurationSection("canvas.bottomright"));
 
-            maps.add(new ArenaMap(topLeft, bottomRight, spawn, drawer, colorAreas));
+            maps.add(new ArenaMap(PointConverter.getTopLeftExtreme(pointOne, pointTwo),
+                    PointConverter.getBottomRightExtreme(pointOne, pointTwo),
+                    spawn,
+                    drawer,
+                    colorAreas));
         }
 
         return maps;

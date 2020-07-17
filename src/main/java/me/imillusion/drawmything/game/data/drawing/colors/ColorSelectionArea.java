@@ -16,24 +16,25 @@ import java.util.Map;
 @AllArgsConstructor
 public class ColorSelectionArea {
 
+    private DyeColor color;
     private List<Location> locations = new ArrayList<>();
 
-    private DyeColor color;
 
     public ColorSelectionArea(Location topLeft, Location bottomRight, DyeColor color)
     {
         this.color = color;
 
         for (int x = topLeft.getBlockX(); x <= bottomRight.getBlockX(); x++)
-            for (int y = topLeft.getBlockY(); y >= bottomRight.getBlockY(); y--) {
-                Location newLocation = new Location(topLeft.getWorld(), x, y, topLeft.getZ());
-                Block block = newLocation.getBlock();
+            for (int y = topLeft.getBlockY(); y >= bottomRight.getBlockY(); y--)
+                for (int z = topLeft.getBlockZ(); z <= bottomRight.getBlockZ(); z++) {
+                    Location newLocation = new Location(topLeft.getWorld(), x, y, z);
+                    Block block = newLocation.getBlock();
 
-                if (block.getType() != Material.WOOL)
-                    continue;
+                    if (block.getType() != Material.WOOL)
+                        continue;
 
-                locations.add(newLocation);
-            }
+                    locations.add(newLocation);
+                }
     }
 
     public static List<ColorSelectionArea> createAreas(Location topLeft, Location bottomRight)
@@ -44,22 +45,20 @@ public class ColorSelectionArea {
 
         //Adding all the locations to the map
         for (int x = topLeft.getBlockX(); x <= bottomRight.getBlockX(); x++)
-            for (int y = topLeft.getBlockY(); y >= bottomRight.getBlockY(); y--) {
-                Location newLocation = new Location(topLeft.getWorld(), x, y, topLeft.getZ());
-                Block block = newLocation.getBlock();
+            for (int y = topLeft.getBlockY(); y >= bottomRight.getBlockY(); y--)
+                for (int z = topLeft.getBlockZ(); z <= bottomRight.getBlockZ(); z++) {
+                    Location newLocation = new Location(topLeft.getWorld(), x, y, z);
+                    Block block = newLocation.getBlock();
 
-                if (block.getType() != Material.WOOL)
-                    continue;
+                    if (block.getType() != Material.WOOL)
+                        continue;
 
-                DyeColor color = DyeColor.getByWoolData(block.getData());
-                locations.putIfAbsent(color, new ArrayList<>());
-                locations.get(color).add(newLocation);
-            }
+                    DyeColor color = DyeColor.getByWoolData(block.getData());
+                    locations.putIfAbsent(color, new ArrayList<>());
+                    locations.get(color).add(newLocation);
+                }
 
-        //cleaning the locations
-        locations.forEach((color, list) -> {
-            areas.add(new ColorSelectionArea(list, color));
-        });
+        locations.forEach((color, list) -> areas.add(new ColorSelectionArea(color, list)));
 
         return areas;
     }

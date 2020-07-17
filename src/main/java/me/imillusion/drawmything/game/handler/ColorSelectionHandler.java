@@ -43,7 +43,7 @@ public class ColorSelectionHandler implements Listener {
                 main.getSounds().playSound(player, "color-selection");
                 player.sendMessage("You have selected " +
                         ChatColor.BOLD + "" +
-                        ColorConverter.getColors().get(area.getColor()) +
+                        ColorConverter.get().getColors().get(area.getColor()) +
                         area.getColor().name());
             }
         });

@@ -25,7 +25,7 @@ public interface PaintingTool {
      */
     default void applyMove(Canvas canvas, Point point, DyeColor color)
     {
-
+        //This will be used under specific cases
     }
 
     int getSlot();

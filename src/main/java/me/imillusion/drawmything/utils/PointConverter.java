@@ -6,6 +6,11 @@ import org.bukkit.Location;
 
 public class PointConverter {
 
+    private PointConverter()
+    {
+        //Avoid initializing in utility class
+    }
+
     /**
      * Converts a 2D point into a 3D location based on the top left and bottom right 3D locations
      *
@@ -28,7 +33,7 @@ public class PointConverter {
         return topLeft.clone()
                 .add(southNorth ? adaptedX : 0,
                         topLeft.getBlockY() - bottomRight.getBlockY() + adaptedY,
-                        !southNorth ? adaptedX : 0);
+                        southNorth ? 0 : adaptedX);
     }
 
     public static Point adaptPoint(Location location, Canvas canvas)
@@ -94,7 +99,7 @@ public class PointConverter {
         return new Location(pointOne.getWorld(),
                 southNorth ? Math.min(pointOne.getBlockX(), pointTwo.getX()) : 0,
                 Math.max(pointOne.getBlockY(), pointTwo.getBlockY()),
-                !southNorth ? Math.min(pointOne.getBlockZ(), pointTwo.getBlockZ()) : 0
+                southNorth ? 0 : Math.min(pointOne.getBlockZ(), pointTwo.getBlockZ())
         );
     }
 

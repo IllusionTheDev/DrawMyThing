@@ -9,10 +9,11 @@ import java.util.Map;
 
 public class ColorConverter {
 
+    private static ColorConverter instance;
     @Getter
-    private static final Map<DyeColor, ChatColor> colors = new HashMap<>();
+    private final Map<DyeColor, ChatColor> colors = new HashMap<>();
 
-    static {
+    private ColorConverter() {
         colors.put(DyeColor.BLACK, ChatColor.BLACK);
         colors.put(DyeColor.BLUE, ChatColor.DARK_BLUE);
         colors.put(DyeColor.BROWN, ChatColor.GOLD);
@@ -31,7 +32,12 @@ public class ColorConverter {
         colors.put(DyeColor.YELLOW, ChatColor.YELLOW);
     }
 
-    public static String getLastColors(String string)
+    public static ColorConverter get()
+    {
+        return instance == null ? instance = new ColorConverter() : instance;
+    }
+
+    public String getLastColors(String string)
     {
         StringBuilder result = new StringBuilder();
 

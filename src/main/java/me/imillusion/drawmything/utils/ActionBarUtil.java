@@ -11,6 +11,11 @@ import java.lang.reflect.InvocationTargetException;
 
 public class ActionBarUtil {
 
+    private ActionBarUtil()
+    {
+        //Avoid initializing in utility class
+    }
+
     public static void sendActionbarMessage(String message, Player... players)
     {
         PacketContainer barPacket = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.CHAT);

@@ -8,6 +8,11 @@ public class MathParser {
 
     private static ScriptEngine engine;
 
+    private MathParser()
+    {
+        //Avoid initializing in utility class
+    }
+
     static {
         engine = new ScriptEngineManager().getEngineByName("JavaScript");
     }

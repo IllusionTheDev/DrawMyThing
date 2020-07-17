@@ -64,11 +64,9 @@ public class ItemBuilder {
         return builder.build();
     }
 
-    public ItemBuilder amount(int newAmount)
+    public ItemBuilder amount(int amount)
     {
-        if (newAmount > 64)
-            newAmount = 64;
-        this.amount = newAmount;
+        this.amount = amount;
         return this;
     }
 
@@ -106,6 +104,9 @@ public class ItemBuilder {
 
     public ItemStack build()
     {
+        if (amount > 64)
+            amount = 64;
+
         ItemStack item = new ItemStack(material, amount);
 
         if (data != -1)
@@ -115,7 +116,7 @@ public class ItemBuilder {
 
         if (name != null && !name.isEmpty())
             meta.setDisplayName(name);
-        if (lore != null && !lore.isEmpty())
+        if (!lore.isEmpty())
             meta.setLore(lore);
         if (itemFlags != null)
             meta.addItemFlags(itemFlags);

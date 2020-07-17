@@ -86,11 +86,13 @@ public class ScoreboardTemplate {
         if (placeholders == null)
             return input;
 
+        String val = input;
+
         for (Pair<String, String> placeholder : placeholders) {
-            input = input.replace(placeholder.getKey(), placeholder.getValue());
+            val = val.replace(placeholder.getKey(), placeholder.getValue());
         }
 
-        return input;
+        return val;
     }
 
     public void dispose()

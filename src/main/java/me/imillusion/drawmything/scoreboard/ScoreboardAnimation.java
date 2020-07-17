@@ -14,7 +14,7 @@ public class ScoreboardAnimation {
 
     public ScoreboardAnimation(List<String> rawText) {
         this.rawText = rawText;
-        tick();
+        currentText = rawText.get(currentPosition++);
     }
 
     public void dispose()

@@ -4,7 +4,7 @@ import me.imillusion.drawmything.game.canvas.Canvas;
 import me.imillusion.drawmything.game.canvas.Point;
 import org.bukkit.Location;
 
-public class PointConverter {
+public final class PointConverter {
 
     private PointConverter()
     {

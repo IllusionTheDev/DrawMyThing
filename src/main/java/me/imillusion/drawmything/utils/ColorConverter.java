@@ -7,7 +7,7 @@ import org.bukkit.DyeColor;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ColorConverter {
+public final class ColorConverter {
 
     private static ColorConverter instance;
     @Getter

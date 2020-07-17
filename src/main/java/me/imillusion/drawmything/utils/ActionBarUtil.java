@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
 
-public class ActionBarUtil {
+public final class ActionBarUtil {
 
     private ActionBarUtil()
     {

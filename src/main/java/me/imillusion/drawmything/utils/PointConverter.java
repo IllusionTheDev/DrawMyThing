@@ -30,10 +30,14 @@ public final class PointConverter {
 
         int adaptedX = base + (base < compare ? point.getX() : -point.getX());
 
-        return topLeft.clone()
-                .add(southNorth ? adaptedX : 0,
-                        topLeft.getBlockY() - bottomRight.getBlockY() + adaptedY,
-                        southNorth ? 0 : adaptedX);
+        Location loc = topLeft.clone();
+
+        if (southNorth)
+            loc.setX(adaptedX);
+        else
+            loc.setZ(adaptedX);
+        loc.setY(adaptedY);
+        return loc;
     }
 
     public static Point adaptPoint(Location location, Canvas canvas)
@@ -43,6 +47,7 @@ public final class PointConverter {
 
         if (!locationBelongs(location, topLeft, bottomRight))
             return null;
+
 
         boolean southNorth = topLeft.getBlockZ() == bottomRight.getBlockZ();
 
@@ -81,12 +86,6 @@ public final class PointConverter {
 
     public static boolean locationBelongs(Location location, Location topLeft, Location bottomRight)
     {
-        if (location.getBlockY() > topLeft.getBlockY() || location.getBlockY() < bottomRight.getBlockY())
-            return false;
-
-        if (location.getBlockX() < topLeft.getBlockX() || location.getBlockX() > bottomRight.getBlockX())
-            return false;
-
         return !(location.getBlockY() > topLeft.getBlockY() || location.getBlockY() < bottomRight.getBlockY() || //compare y
                 location.getBlockX() < topLeft.getBlockX() || location.getBlockX() > bottomRight.getBlockX() || //compare x
                 location.getBlockZ() < topLeft.getBlockZ() || location.getBlockZ() > bottomRight.getBlockZ()); //compare z
@@ -97,9 +96,9 @@ public final class PointConverter {
         boolean southNorth = pointOne.getBlockZ() == pointTwo.getBlockZ();
 
         return new Location(pointOne.getWorld(),
-                southNorth ? Math.min(pointOne.getBlockX(), pointTwo.getX()) : 0,
+                southNorth ? Math.min(pointOne.getBlockX(), pointTwo.getX()) : pointOne.getBlockX(),
                 Math.max(pointOne.getBlockY(), pointTwo.getBlockY()),
-                southNorth ? 0 : Math.min(pointOne.getBlockZ(), pointTwo.getBlockZ())
+                southNorth ? pointOne.getBlockZ() : Math.min(pointOne.getBlockZ(), pointTwo.getBlockZ())
         );
     }
 

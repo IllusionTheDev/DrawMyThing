@@ -4,21 +4,21 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import me.imillusion.drawmything.DrawPlugin;
+import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.game.arena.ArenaMap;
+import me.imillusion.drawmything.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Game {
 
+    private final DrawPlugin main;
     @Getter
     private Arena arena;
-    private final DrawPlugin main;
-
     @Getter
     @Setter(AccessLevel.PACKAGE)
     private boolean activeCountdown;
@@ -43,9 +43,15 @@ public class Game {
 
     public void end()
     {
-        List<Map.Entry<UUID, Integer>> sortedPoints = arena.getPoints().entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())
-                .collect(Collectors.toList());
+        List<Pair<UUID, Integer>> sortedPoints = new ArrayList<>();
+
+        for (Player p : arena.getPlayers()) //not the best thing but I need to populate the list
+        {
+            DrawPlayer drawPlayer = main.getPlayerManager().get(p);
+            sortedPoints.add(new Pair<>(drawPlayer.getUuid(), drawPlayer.getPoints()));
+        }
+
+        sortedPoints.sort(Comparator.comparingInt(Pair::getValue));
 
         List<String> messages = new ArrayList<>();
         messages.add("&8&m-----------------------");
@@ -75,7 +81,7 @@ public class Game {
         Bukkit.getScheduler().scheduleSyncDelayedTask(main, this::cleanup, 200L);
     }
 
-    private int getPosition(UUID uuid, List<Map.Entry<UUID, Integer>> list)
+    private int getPosition(UUID uuid, List<Pair<UUID, Integer>> list)
     {
         for (int i = list.size() - 1; i >= 0; i--) {
             if (list.get(i).getKey().equals(uuid))

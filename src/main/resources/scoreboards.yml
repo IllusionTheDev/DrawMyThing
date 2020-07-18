@@ -1,26 +1,60 @@
+#Scoreboards Configuration
+#
+# Every line of text supports PlaceholderAPI
+# There are some built-in placeholders which are
+# basically a short version of the PlaceholderAPI
+# version (%drawmything_seconds% -> %seconds%)
+#
+# Animations are also supported
+# The animation refresh time is the
+# same as the scoreboard update time
+#
+
 awaiting-players:
   title: "%animation_scoreboard-name%"
-  update-every: -1 #Leave to -1 to never update after join, also updates animations
+  update-every: 5 #Leave to -1 to never update after join, also updates animations
   text:
-  - '&8&m-------------------------'
+  - '&8&m-----------------------'
   - ''
   - ' &6Welcome, &b%player_name%'
-  - ' &6Awaiting for more players...'
+  - ' &6Awaiting for players%animation_dots%'
   - ''
   - '    &7play.yourname.com'
-  - '&8&m-------------------------'
+  - '&8&m-----------------------'
 
 pregame-countdown:
-  title: "&a&lDrawMyThing"
-  update-every: -1
+  title: "%animation_scoreboard-name"
+  update-every: 5
   text:
-  - '&8&m-------------------------'
+  - '&8&m-----------------------'
   - ''
   - ' &6Welcome, &b%player_name%'
   - ' &6Starting in %seconds%'
   - ''
   - '    &7play.yourname.com'
-  - '&8&m-------------------------'
+  - '&8&m-----------------------'
+
+in-game:
+  #Availabie placeholders:
+  #
+  # %points% - The current points you have
+  # %position% - Your position
+  # %drawer% - The drawer
+
+  title: "%animation_scoreboard-name"
+  update-every: 5
+  text:
+  - '&8&m-----------------------'
+  - ''
+  - '  &a&lYour Points:'
+  - '   &e%points% &7(#%position%)'
+  - ''
+  - '  &c&lDrawer:'
+  - '    &7%drawer%'
+  - ''
+  - '    &7play.yourname.com'
+  - '&8&m-----------------------'
+
 
 animations:
   scoreboard-name: #The config placeholder would be %animation_scoreboard-name%
@@ -42,10 +76,25 @@ animations:
   - '&a&lDrawMyThing'
   - '&a&lDrawMyThing'
   - '&a&lDrawMyThing'
-
-
-
-
+  dots:
+  - '.'
+  - '.'
+  - '.'
+  - '.'
+  - '.'
+  - '.'
+  - '..'
+  - '..'
+  - '..'
+  - '..'
+  - '..'
+  - '..'
+  - '...'
+  - '...'
+  - '...'
+  - '...'
+  - '...'
+  - '...'
 
 countdown-color-range: #Colors displayed on the seconds left
   a: #Use color codes as the identifier

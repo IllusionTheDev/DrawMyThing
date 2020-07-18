@@ -36,6 +36,7 @@ public class DrawPlayer {
     private boolean isHiding;
 
     //game data
+    private int points;
     private DyeColor selectedColor = DyeColor.WHITE;
     private int brushSize = 1;
     private int ticksleft = 0;

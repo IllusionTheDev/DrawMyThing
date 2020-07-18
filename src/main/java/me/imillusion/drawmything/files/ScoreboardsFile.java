@@ -22,6 +22,8 @@ public class ScoreboardsFile extends YMLBase {
     private ScoreboardTemplate awaitingBoard;
     @Getter
     private ScoreboardTemplate countdownBoard;
+    @Getter
+    private ScoreboardTemplate ingameBoard;
 
     public ScoreboardsFile(DrawPlugin plugin) {
         super(plugin, new File(plugin.getDataFolder(), "scoreboards.yml"), true);
@@ -37,6 +39,7 @@ public class ScoreboardsFile extends YMLBase {
 
         awaitingBoard = getTemplate("awaiting-players");
         countdownBoard = getTemplate("pregame-countdown");
+        ingameBoard = getTemplate("in-game");
     }
 
     private ScoreboardTemplate getTemplate(String name)

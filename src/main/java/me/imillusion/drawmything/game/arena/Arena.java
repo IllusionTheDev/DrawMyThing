@@ -29,7 +29,7 @@ public class Arena {
 
     @Getter
     private Canvas canvas;
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     @Getter
     private Game game;

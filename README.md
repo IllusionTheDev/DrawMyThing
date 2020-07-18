@@ -73,6 +73,13 @@ Point point = PointConverter.adaptPoint(location, canvas);
 Location location = PointConverter.adaptLocation(point, canvas);
 
 boolean locationbelongs = PointConverter.locationBelongs(location, canvas);
+
+ActionBarUtil.sendActionbarMessage(String message, Player... players);
+scoreboard.write(List<String>);
+scoreboard.line(index, message, score); //Suggested use: index and score should be the same
+
+ItemStack item = new ItemBuilder(material).build(); //Available methods from ItemBuilder: amount, data, lore, name, flags, skull
+ItemStack itemFromSection = ItemBuilder.fromSection(section);
 ```
 
 Registering a painting tool:
@@ -82,3 +89,9 @@ Registering a painting tool:
 drawPlugin.getToolManager().registerTool(new MyPaintingTool());
 ```
 
+Planned features:
+- Configurable items
+- More messages
+- More sounds
+- Settings GUI
+- In-game Reloading

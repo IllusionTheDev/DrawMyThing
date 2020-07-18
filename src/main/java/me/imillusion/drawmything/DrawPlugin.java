@@ -3,12 +3,14 @@ package me.imillusion.drawmything;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import lombok.Getter;
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.imillusion.drawmything.data.DrawPlayerManager;
 import me.imillusion.drawmything.files.*;
 import me.imillusion.drawmything.game.GameCountdown;
 import me.imillusion.drawmything.game.GameManager;
 import me.imillusion.drawmything.game.data.drawing.tools.PaintingToolManager;
 import me.imillusion.drawmything.game.handler.*;
+import me.imillusion.drawmything.placeholders.PAPIHook;
 import me.imillusion.drawmything.pregame.ItemEventHandler;
 import me.imillusion.drawmything.pregame.JoinHandler;
 import me.imillusion.drawmything.pregame.LeaveHandler;
@@ -39,6 +41,11 @@ public class DrawPlugin extends JavaPlugin {
     private GameCountdown gameCountdown;
     private GameManager gameManager;
 
+    public static boolean hookPlaceholders()
+    {
+        return Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
+    }
+
     @Override
     public void onEnable() {
         hider = new EntityHider(this, EntityHider.Policy.WHITELIST);
@@ -67,6 +74,9 @@ public class DrawPlugin extends JavaPlugin {
         gameManager = new GameManager(this, maps.load());
         gameCountdown = new GameCountdown(this);
 
+        if (hookPlaceholders())
+            PlaceholderAPI.registerExpansion(new PAPIHook(this));
+        
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
 

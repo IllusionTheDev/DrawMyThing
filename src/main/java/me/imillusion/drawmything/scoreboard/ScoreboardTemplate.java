@@ -47,7 +47,7 @@ public class ScoreboardTemplate {
         main.getPlayerManager().get(player).setLastScoreboardPlaceholders(placeholders);
 
         if (animations.isEmpty())
-            board.title(PlaceholderAPI.setPlaceholders(player, setPlaceholders(title, placeholders)));
+            board.title(setPlaceholders(player, title, placeholders));
         else {
             String titleCopy = title;
 
@@ -55,9 +55,9 @@ public class ScoreboardTemplate {
                 String s = entry.getKey();
                 ScoreboardAnimation val = entry.getValue();
                 if (title.contains(s))
-                    titleCopy = titleCopy.replaceAll(s, PlaceholderAPI.setPlaceholders(player, setPlaceholders(val.getCurrentText(), placeholders)));
+                    titleCopy = titleCopy.replaceAll(s, setPlaceholders(player, val.getCurrentText(), placeholders));
                 else
-                    titleCopy = PlaceholderAPI.setPlaceholders(player, setPlaceholders(titleCopy, placeholders));
+                    titleCopy = setPlaceholders(player, titleCopy, placeholders);
             }
 
             board.title(titleCopy);
@@ -71,17 +71,17 @@ public class ScoreboardTemplate {
                 String s = entry.getKey();
                 ScoreboardAnimation val = entry.getValue();
                 if (line.contains(s))
-                    line = line.replaceAll(s, setPlaceholders(val.getCurrentText(), placeholders));
+                    line = line.replaceAll(s, setPlaceholders(player, val.getCurrentText(), placeholders));
             }
 
-            copy.set(i, PlaceholderAPI.setPlaceholders(player, setPlaceholders(line, placeholders)));
+            copy.set(i, setPlaceholders(player, line, placeholders));
         }
 
         board.write(copy);
     }
 
     @SafeVarargs
-    private final String setPlaceholders(String input, Pair<String, String>... placeholders)
+    private final String setPlaceholders(Player player, String input, Pair<String, String>... placeholders)
     {
         if (placeholders == null)
             return input;
@@ -91,6 +91,9 @@ public class ScoreboardTemplate {
         for (Pair<String, String> placeholder : placeholders) {
             val = val.replace(placeholder.getKey(), placeholder.getValue());
         }
+
+        if (DrawPlugin.hookPlaceholders())
+            val = PlaceholderAPI.setPlaceholders(player, val);
 
         return val;
     }

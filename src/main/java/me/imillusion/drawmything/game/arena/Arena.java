@@ -11,7 +11,10 @@ import me.imillusion.drawmything.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class Arena {
@@ -26,8 +29,6 @@ public class Arena {
 
     @Getter
     private Canvas canvas;
-
-    @Getter
     private DrawPlugin main;
 
     @Getter
@@ -110,30 +111,15 @@ public class Arena {
 
     public void sendScoreboard()
     {
-        List<Pair<UUID, Integer>> sortedPoints = new ArrayList<>();
-
         String drawer = round.getDrawer().getPlayer().getName();
         int roundNumber = round.getRoundNum();
-
-
-        for (Player p : getPlayers()) //not the best thing but I need to populate the list
-        {
-            DrawPlayer drawPlayer = main.getPlayerManager().get(p);
-            sortedPoints.add(new Pair<>(drawPlayer.getUuid(), drawPlayer.getPoints()));
-        }
-
-        sortedPoints.sort(Comparator.comparingInt(Pair::getValue));
 
         for (Player p : getPlayers()) {
             DrawPlayer drawPlayer = main.getPlayerManager().get(p);
             drawPlayer.setCurrentTemplate(main.getScoreboards().getIngameBoard());
 
             int points = drawPlayer.getPoints();
-            int position = 0;
-
-            for (int i = 0; i < sortedPoints.size(); i++)
-                if (sortedPoints.get(i).getKey().equals(p.getUniqueId()))
-                    position = sortedPoints.size() - i;
+            int position = drawPlayer.getPosition();
 
             Pair[] pairs = new Pair[]{
                     new Pair<>("%points%", String.valueOf(points)),

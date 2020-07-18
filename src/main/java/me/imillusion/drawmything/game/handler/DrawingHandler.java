@@ -78,15 +78,9 @@ public class DrawingHandler implements Listener {
     {
         Player player = Bukkit.getPlayer(uuid);
         Block clickedBlock = player.getTargetBlock((Set<Material>) null, 100);
-        Arena arena = main.getGameManager().getPlayerGame(uuid).getArena();
+        DrawPlayer drawPlayer = main.getPlayerManager().get(player);
 
-        if (arena.getRound().getDrawer() == null)
-            return false;
-
-        if (!arena.getRound().getDrawer().getUuid().equals(uuid))
-            return false;
-
-        return arena.getCanvas().belongs(clickedBlock.getLocation());
+        return drawPlayer.isDrawer() && drawPlayer.getCurrentGame().getArena().getCanvas().belongs(clickedBlock.getLocation());
     }
 
 

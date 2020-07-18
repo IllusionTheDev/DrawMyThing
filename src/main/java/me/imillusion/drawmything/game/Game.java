@@ -4,15 +4,13 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import me.imillusion.drawmything.DrawPlugin;
-import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.game.arena.ArenaMap;
-import me.imillusion.drawmything.utils.Pair;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Set;
+import java.util.UUID;
 
 public class Game {
 
@@ -43,7 +41,7 @@ public class Game {
 
     public void end()
     {
-        List<Pair<UUID, Integer>> sortedPoints = new ArrayList<>();
+        /*List<Pair<UUID, Integer>> sortedPoints = new ArrayList<>();
 
         for (Player p : arena.getPlayers()) //not the best thing but I need to populate the list
         {
@@ -77,18 +75,13 @@ public class Game {
                         .replace("%position%", String.valueOf(getPosition(p.getUniqueId(), sortedPoints)))));
         }
 
-
+        */
         Bukkit.getScheduler().scheduleSyncDelayedTask(main, this::cleanup, 200L);
     }
 
-    private int getPosition(UUID uuid, List<Pair<UUID, Integer>> list)
+    private int getPosition(UUID uuid)
     {
-        for (int i = list.size() - 1; i >= 0; i--) {
-            if (list.get(i).getKey().equals(uuid))
-                return list.size() - i;
-        }
-
-        return list.size();
+        return main.getPlayerManager().get(uuid).getPosition();
     }
 
     private String color(int position, int size)

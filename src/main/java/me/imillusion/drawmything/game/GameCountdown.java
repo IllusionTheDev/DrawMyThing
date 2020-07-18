@@ -77,6 +77,13 @@ public class GameCountdown {
         }
     }
 
+    public String getTime(Game game)
+    {
+        int time = countdowns.get(game);
+
+        return main.getScoreboards().obtainSecondsPlaceholder(time).getValue();
+    }
+
     public void stopCountdown(Game game)
     {
         countdowns.remove(game);

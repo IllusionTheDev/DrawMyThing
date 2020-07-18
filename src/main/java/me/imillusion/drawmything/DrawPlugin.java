@@ -8,6 +8,7 @@ import me.imillusion.drawmything.data.DrawPlayerManager;
 import me.imillusion.drawmything.files.*;
 import me.imillusion.drawmything.game.GameCountdown;
 import me.imillusion.drawmything.game.GameManager;
+import me.imillusion.drawmything.game.arena.ArenaMap;
 import me.imillusion.drawmything.game.data.drawing.tools.PaintingToolManager;
 import me.imillusion.drawmything.game.handler.*;
 import me.imillusion.drawmything.placeholders.PAPIHook;
@@ -19,6 +20,8 @@ import me.imillusion.drawmything.utils.EntityHider;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 @Getter
 public class DrawPlugin extends JavaPlugin {
@@ -71,7 +74,16 @@ public class DrawPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new DrawerMoveHandler(this), this);
         Bukkit.getPluginManager().registerEvents(new WorldActionsHandler(), this);
 
-        gameManager = new GameManager(this, maps.load());
+        List<ArenaMap> loadedMaps = maps.load();
+
+        if (loadedMaps.size() == 0) {
+            Bukkit.getLogger().warning("The maps.yml file hasn't been set up yet.");
+            Bukkit.getLogger().warning("Please insert maps into maps.yml (plugins -> DrawMyThing -> maps.yml");
+            Bukkit.getLogger().warning("and restart the server once you are done.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+        gameManager = new GameManager(this, loadedMaps);
         gameCountdown = new GameCountdown(this);
 
         if (hookPlaceholders())

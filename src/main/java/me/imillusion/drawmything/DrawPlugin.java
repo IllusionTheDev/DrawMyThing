@@ -76,7 +76,7 @@ public class DrawPlugin extends JavaPlugin {
 
         if (hookPlaceholders())
             PlaceholderAPI.registerExpansion(new PAPIHook(this));
-        
+
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
 

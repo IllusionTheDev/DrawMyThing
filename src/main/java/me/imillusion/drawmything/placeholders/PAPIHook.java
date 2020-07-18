@@ -32,19 +32,19 @@ public class PAPIHook extends PlaceholderExpansion {
     public String onPlaceholderRequest(Player p, String params) {
         DrawPlayer dp = main.getPlayerManager().get(p);
 
-        if (params.equalsIgnoreCase("seconds") && dp.getCurrentGame().isActiveCountdown())
+        if ("seconds".equalsIgnoreCase(params) && dp.getCurrentGame().isActiveCountdown())
             return main.getGameCountdown().getTime(dp.getCurrentGame());
-        if (params.equalsIgnoreCase("points"))
+        if ("points".equalsIgnoreCase(params))
             return String.valueOf(dp.getPoints());
-        if (params.equalsIgnoreCase("position"))
+        if ("position".equalsIgnoreCase(params))
             return String.valueOf(dp.getPosition());
-        if (params.equalsIgnoreCase("drawer") && dp.getCurrentGame().isStarted())
+        if ("drawer".equalsIgnoreCase(params) && dp.getCurrentGame().isStarted())
             return dp.getCurrentGame().getArena().getRound().getDrawer().getPlayer().getName();
-        if (params.equalsIgnoreCase("round") && dp.getCurrentGame().isStarted())
+        if ("round".equalsIgnoreCase(params) && dp.getCurrentGame().isStarted())
             return String.valueOf(dp.getCurrentGame().getArena().getRound().getRoundNum());
-        if (params.equalsIgnoreCase("word") && dp.getCurrentGame().isStarted())
+        if ("word".equalsIgnoreCase(params) && dp.getCurrentGame().isStarted())
             return dp.getCurrentGame().getArena().getRound().getWord();
-        if (params.equalsIgnoreCase("obfuscatedword") && dp.getCurrentGame().isStarted())
+        if ("obfuscatedword".equalsIgnoreCase(params) && dp.getCurrentGame().isStarted())
             return dp.getCurrentGame().getArena().getRound().getObfuscated();
 
 

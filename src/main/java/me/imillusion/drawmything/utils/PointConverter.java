@@ -40,6 +40,11 @@ public final class PointConverter {
         return loc;
     }
 
+    public static Location adaptLocation(Point point, Canvas canvas)
+    {
+        return adaptLocation(point, canvas.getArena().getMap().getTopLeft(), canvas.getArena().getMap().getBottomRight());
+    }
+
     public static Point adaptPoint(Location location, Canvas canvas)
     {
         Location topLeft = canvas.getArena().getMap().getTopLeft();
@@ -47,7 +52,6 @@ public final class PointConverter {
 
         if (!locationBelongs(location, topLeft, bottomRight))
             return null;
-
 
         boolean southNorth = topLeft.getBlockZ() == bottomRight.getBlockZ();
 
@@ -82,6 +86,11 @@ public final class PointConverter {
         int bottom = southNorth ? bottomRight.getBlockX() : bottomRight.getBlockZ();
 
         return point.getX() + Math.min(top, bottom) <= Math.max(top, bottom);
+    }
+
+    public static boolean locationBelongs(Location location, Canvas canvas)
+    {
+        return locationBelongs(location, canvas.getArena().getMap().getTopLeft(), canvas.getArena().getMap().getBottomRight());
     }
 
     public static boolean locationBelongs(Location location, Location topLeft, Location bottomRight)

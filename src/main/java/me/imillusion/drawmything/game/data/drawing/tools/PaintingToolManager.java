@@ -19,6 +19,11 @@ public class PaintingToolManager {
         registeredTools.add(new BlankPageTool());
     }
 
+    public void registerTool(PaintingTool tool)
+    {
+        registeredTools.add(tool);
+    }
+
     /**
      * Gets a PaintingTool by item, can be null.
      *

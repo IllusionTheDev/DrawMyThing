@@ -33,7 +33,7 @@ public class DrawPlayer {
     private Game currentGame;
 
     //lobby data
-    private boolean isHiding;
+    private boolean hiding;
 
     //game data
     private int points;

@@ -58,7 +58,7 @@ public class Canvas {
      * @param point - The canvas point that gets colored
      * @param color - The color to draw with
      */
-    public void drawPizel(Point point, DyeColor color)
+    public void drawPizel(DyeColor color, Point point)
     {
         drawPixels(color, point);
     }

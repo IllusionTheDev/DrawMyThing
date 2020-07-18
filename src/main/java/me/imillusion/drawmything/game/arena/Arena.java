@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class Arena {
 
-    private Set<UUID> players = new HashSet<>();
+    private final Set<UUID> players = new HashSet<>();
 
     @Getter
     private Round round;

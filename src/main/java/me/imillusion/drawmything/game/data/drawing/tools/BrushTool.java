@@ -59,7 +59,7 @@ public class BrushTool implements PaintingTool {
                         getPointsBetween(arena.getCanvas(), canvas.adaptLocation(drawer.getLastPoint()), canvas.adaptLocation(point)));
             return;
         }
-        arena.getCanvas().drawPizel(point, drawer.getSelectedColor());
+        arena.getCanvas().drawPixels(drawer.getSelectedColor(), point);
 
 
     }

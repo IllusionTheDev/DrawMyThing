@@ -59,7 +59,7 @@ Drawing on the canvas:
 Canvas canvas = drawPlayer.getGame().getArena().getCanvas();
 
 Point point = PointConverter.adaptPoint(location, canvas); //will return null if the location is outside the canvas
-canvas.drawPizels(color, point);
+canvas.drawPixels(color, point);
 ```
 
 Rendering the canvas to a player:

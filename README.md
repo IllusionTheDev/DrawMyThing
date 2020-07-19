@@ -58,28 +58,28 @@ Drawing on the canvas:
 ```java
 Canvas canvas = drawPlayer.getGame().getArena().getCanvas();
 
-Point point = PointConverter.adaptPoint(location, canvas); //will return null if the location is outside the canvas
-canvas.drawPixels(color, point);
+Point point = PointConverter.adaptPoint(Location location, Canvas canvas); //will return null if the location is outside the canvas
+canvas.drawPixels(DyeColor color, Point point);
 ```
 
 Rendering the canvas to a player:
 ```java
-canvas.renderCanvas(player);
+canvas.renderCanvas(Player player);
 ```
 
 Useful methods:
 ```java
-Point point = PointConverter.adaptPoint(location, canvas);
-Location location = PointConverter.adaptLocation(point, canvas);
+Point point = PointConverter.adaptPoint(Location location, Canvas canvas);
+Location location = PointConverter.adaptLocation(Point point, Canvas canvas);
 
-boolean locationbelongs = PointConverter.locationBelongs(location, canvas);
+boolean locationbelongs = PointConverter.locationBelongs(Location location, Canvas canvas);
 
 ActionBarUtil.sendActionbarMessage(String message, Player... players);
-scoreboard.write(List<String>);
-scoreboard.line(index, message, score); //Suggested use: index and score should be the same
+scoreboard.write(List<String> text);
+scoreboard.line(int index, String message, int score); //Suggested use: index and score should be the same, message gets colorized internally
 
-ItemStack item = new ItemBuilder(material).build(); //Available methods from ItemBuilder: amount, data, lore, name, flags, skull
-ItemStack itemFromSection = ItemBuilder.fromSection(section);
+ItemStack item = new ItemBuilder(Material material).build(); //Available methods from ItemBuilder: amount, data, lore, name, flags, skull
+ItemStack itemFromSection = ItemBuilder.fromSection(ConfigurationSection section);
 ```
 
 Registering a painting tool:

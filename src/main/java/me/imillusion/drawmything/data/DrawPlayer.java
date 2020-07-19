@@ -14,10 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -80,19 +77,22 @@ public class DrawPlayer {
     public int getPosition()
     {
         List<Pair<UUID, Integer>> sortedPoints = new ArrayList<>();
+        Pair<UUID, Integer> pair = null;
 
-        for (Player p : currentGame.getArena().getPlayers()) //not the best thing but I need to populate the list
+        for (Player player : currentGame.getArena().getPlayers()) //not the best thing but I need to populate the list
         {
-            DrawPlayer drawPlayer = main.getPlayerManager().get(p);
-            sortedPoints.add(new Pair<>(drawPlayer.getUuid(), drawPlayer.getPoints()));
+            DrawPlayer drawPlayer = main.getPlayerManager().get(player);
+            Pair<UUID, Integer> p = new Pair<>(drawPlayer.getUuid(), drawPlayer.getPoints());
+
+            if (drawPlayer.equals(this))
+                pair = p;
+
+            sortedPoints.add(p);
         }
 
         sortedPoints.sort(Comparator.comparingInt(Pair::getValue));
+        Collections.reverse(sortedPoints);
 
-        for (int i = 0; i < sortedPoints.size(); i++)
-            if (sortedPoints.get(i).getKey().equals(uuid))
-                return sortedPoints.size() - i;
-
-        return 0;
+        return sortedPoints.indexOf(pair);
     }
 }

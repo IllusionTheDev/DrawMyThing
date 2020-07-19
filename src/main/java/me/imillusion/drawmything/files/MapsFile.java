@@ -23,6 +23,9 @@ public class MapsFile extends YMLBase {
     {
         List<ArenaMap> maps = new ArrayList<>();
 
+        if (!getConfiguration().isConfigurationSection("maps"))
+            return maps;
+
         for (String id : getConfiguration().getConfigurationSection("maps").getKeys(false)) {
             ConfigurationSection section = getConfiguration().getConfigurationSection("maps." + id);
 

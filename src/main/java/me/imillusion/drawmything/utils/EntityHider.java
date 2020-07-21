@@ -19,7 +19,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
 import org.bukkit.plugin.Plugin;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Map;
@@ -45,8 +44,6 @@ public class EntityHider implements Listener {
     // Listeners
     private final Listener bukkitListener;
     private final PacketAdapter protocolListener;
-
-    private Field pingField;
 
     /**
      * Construct a new entity hider.

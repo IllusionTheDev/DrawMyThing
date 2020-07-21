@@ -24,6 +24,11 @@ public class ScoreboardAnimation {
         currentText = null;
     }
 
+    protected ScoreboardAnimation clone()
+    {
+        return new ScoreboardAnimation(rawText);
+    }
+
     void tick()
     {
         currentText = rawText.get(currentPosition++);

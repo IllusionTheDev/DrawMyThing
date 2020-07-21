@@ -83,10 +83,13 @@ public class Arena {
         TeamsScoreboard board = new TeamsScoreboard();
         p.setScoreboard(board.getBoard());
 
-        drawPlayer.setScoreboard(board);
-        drawPlayer.setCurrentTemplate(main.getScoreboards().getAwaitingBoard());
+        runAsync(() -> {
+            drawPlayer.setScoreboard(board);
+            drawPlayer.setCurrentTemplate(main.getScoreboards().getAwaitingBoard());
 
-        main.getScoreboards().getAwaitingBoard().render(p, board);
+            main.getScoreboards().getAwaitingBoard().render(p, board);
+        });
+
     }
 
     public void removePlayer(UUID uuid)
@@ -130,5 +133,10 @@ public class Arena {
 
             drawPlayer.getCurrentTemplate().render(p, drawPlayer.getScoreboard(), pairs);
         }
+    }
+
+    private void runAsync(Runnable runnable)
+    {
+        Bukkit.getScheduler().runTaskAsynchronously(main, runnable);
     }
 }

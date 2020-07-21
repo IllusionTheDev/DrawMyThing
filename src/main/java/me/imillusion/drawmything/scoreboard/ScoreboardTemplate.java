@@ -23,7 +23,9 @@ public class ScoreboardTemplate {
     public ScoreboardTemplate(DrawPlugin main, String title, int updateTime, Map<String, ScoreboardAnimation> animations, List<String> text)
     {
         this.main = main;
-        this.animations = new HashMap<>(animations);
+        this.animations = new HashMap<>();
+
+        animations.forEach((key, value) -> this.animations.put(key, value.clone()));
         this.text = text;
         this.title = ChatColor.translateAlternateColorCodes('&', title);
 

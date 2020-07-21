@@ -2,6 +2,9 @@ package me.imillusion.drawmything.utils;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import com.mojang.authlib.GameProfile;
+import com.mojang.authlib.properties.Property;
+import com.mojang.authlib.properties.PropertyMap;
 import org.apache.commons.lang.Validate;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -11,10 +14,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ItemBuilder {
 
@@ -37,7 +42,9 @@ public class ItemBuilder {
     private String name = "";
     private ItemFlag[] itemFlags = null;
     private short data = -1;
+
     private String skullName = null;
+    private String skullHash = null;
 
     public ItemBuilder(Material material) {
         this.material = material;
@@ -97,8 +104,17 @@ public class ItemBuilder {
 
     public ItemBuilder skull(String name)
     {
-        Validate.isTrue(material.name().contains("SKULL"), "Attempt to set skull data on non skull item");
+        Validate.isTrue(material.name().contains("SKULL") || material.name().contains("HEAD"), "Attempt to set skull data on non skull item");
         this.skullName = name;
+        data(3);
+        return this;
+    }
+
+    public ItemBuilder skullHash(String hash)
+    {
+        Validate.isTrue(material.name().contains("SKULL") || material.name().contains("HEAD"), "Attempt to set skull data on non skull item");
+        this.skullHash = hash;
+        data(3);
         return this;
     }
 
@@ -122,8 +138,25 @@ public class ItemBuilder {
             meta.addItemFlags(itemFlags);
         if (skullName != null)
             ((SkullMeta) meta).setOwner(skullName);
+        if (skullHash != null) {
+            GameProfile gameProfile = new GameProfile(UUID.randomUUID(), "");
+            PropertyMap propertyMap = gameProfile.getProperties();
+            propertyMap.put("textures", new Property("textures", skullHash));
+
+            SkullMeta skullMeta = (SkullMeta) meta;
+
+            try {
+                Field profileField = skullMeta.getClass().getDeclaredField("profile");
+                profileField.setAccessible(true);
+                profileField.set(skullMeta, gameProfile);
+                profileField.setAccessible(false);
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
 
         item.setItemMeta(meta);
         return item;
     }
+
 }

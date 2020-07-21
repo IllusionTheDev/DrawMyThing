@@ -14,6 +14,7 @@ public class YMLBase {
     private final boolean existsOnSource;
     private final JavaPlugin plugin;
 
+    @Getter
     private final File file;
 
     @Getter
@@ -27,7 +28,7 @@ public class YMLBase {
         this.configuration = loadConfiguration();
     }
 
-    protected void save()
+    public void save()
     {
         try {
             configuration.save(file);

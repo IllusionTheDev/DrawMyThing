@@ -1,6 +1,7 @@
 package me.imillusion.drawmything.files;
 
 import lombok.Getter;
+import me.imillusion.drawmything.gui.configuration.Path;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -10,10 +11,14 @@ import java.util.Map;
 @Getter
 public class SettingsFile extends YMLBase {
 
+    @Path(path = "minimum-players")
     private int minplayers;
+    @Path(path = "maximum-players")
     private int maxPlayers;
 
+    @Path(path = "drawing-time")
     private int drawingTime;
+    @Path(path = "drawing-line-ticks")
     private int drawingLineTicks;
 
     private final Map<Integer, Integer> startTimes = new HashMap<>();

@@ -5,18 +5,20 @@ import lombok.Getter;
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.files.YMLBase;
 import me.imillusion.drawmything.gui.configuration.ConfigurableInt;
-import me.imillusion.drawmything.gui.configuration.Path;
 import me.imillusion.drawmything.gui.menu.Menu;
 import me.imillusion.drawmything.utils.ItemBuilder;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 //I'm sorry
 public class MainSettingsGUI {
@@ -28,6 +30,8 @@ public class MainSettingsGUI {
     private final Class<?>[] classes = {
             ConfigurableInt.class
     };
+
+    private int slot = 0;
 
     @Getter
     private Menu menu;
@@ -85,41 +89,37 @@ public class MainSettingsGUI {
 
     private <T extends YMLBase> Menu createMenu(T base)
     {
-        Class clazz = base.getClass();
-        List<String> fieldName = new ArrayList<>();
+        FileConfiguration config = base.getConfiguration();
+        Map<String, Object> configurableValues = new HashMap<>();
 
-        for (Field field : clazz.getDeclaredFields())
-            if (field.isAnnotationPresent(Path.class))
-                fieldName.add(field.getName());
+        createItems(config, configurableValues);
+        Menu menu = new Menu(((configurableValues.size() / 9) + 1) * 9, base.getFile().getName(), base.getFile().getName());
 
-        if (fieldName.isEmpty())
-            return new Menu(27, clazz.getName(), clazz.getName()).build();
-
-        Collections.sort(fieldName);
-        int slot = 0;
-
-        Menu menu = new Menu(((fieldName.size() / 9) + 1) * 9, base.getFile().getName(), base.getFile().getName());
-
-        for (String name : fieldName) {
-            try {
-                Field field = clazz.getDeclaredField(name);
-
-                field.setAccessible(true);
-
-                for (Class<?> configurableClass : classes)
-                    if (configurableClass.getConstructors()[0].getParameterTypes()[0].equals(field.getType())) {
-                        String path = field.getAnnotation(Path.class).path();
-                        configurableClass.getConstructors()[0].newInstance(field.get(base), path, base, slot++, menu, this.menu);
+        configurableValues.forEach((path, object) -> {
+            Class<?> clazz = object.getClass();
+            for (Class<?> configurableClass : classes)
+                if (configurableClass.getConstructors()[0].getParameterTypes()[0].equals(clazz)) {
+                    try {
+                        configurableClass.getConstructors()[0].newInstance(object, path, base, slot++, menu, this.menu);
+                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
                     }
+                }
 
-                field.setAccessible(false);
-            } catch (NoSuchFieldException | IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                e.printStackTrace();
+        });
+
+        return menu.build();
+    }
+
+    private void createItems(ConfigurationSection section, Map<String, Object> map)
+    {
+        for (String key : section.getKeys(false)) {
+            if (section.isConfigurationSection(key))
+                createItems(section, map);
+            else {
+                map.put(section.getCurrentPath() + "." + key, section.get(key));
             }
         }
-
-        menu.build();
-        return menu;
     }
 
     private ItemStack getItem(String name)

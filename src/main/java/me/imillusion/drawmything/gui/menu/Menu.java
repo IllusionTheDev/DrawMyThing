@@ -18,18 +18,18 @@ public class Menu implements InventoryHolder {
 
     //-------- DATA METHODS --------
 
-    Map<Integer, Consumer<InventoryClickEvent>> clickevents = new HashMap<>();
+    final Map<Integer, Consumer<InventoryClickEvent>> clickevents = new HashMap<>();
 
     private Map<Integer, ItemStack> contents = new HashMap<>();
 
     @Getter
-    private int size;
-    private String title;
+    private final int size;
+    private final String title;
 
     private Inventory inv;
 
     @Getter
-    private String identifier;
+    private final String identifier;
 
     //------------------------------
 

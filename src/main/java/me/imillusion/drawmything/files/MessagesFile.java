@@ -1,7 +1,6 @@
 package me.imillusion.drawmything.files;
 
 import lombok.Getter;
-import me.imillusion.drawmything.gui.configuration.Path;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,7 +10,6 @@ import java.io.File;
 
 public class MessagesFile extends YMLBase {
 
-    @Path(path = "messages.prefix")
     @Getter
     private String prefix;
 

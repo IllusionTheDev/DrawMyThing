@@ -14,10 +14,10 @@ import java.util.List;
 public class ConfigurableInt {
 
     private int val;
-    private String path;
-    private YMLBase base;
+    private final String path;
+    private final YMLBase base;
 
-    private ItemStack item;
+    private final ItemStack item;
 
     public ConfigurableInt(int val, String path, YMLBase base, int slot, Menu menu, Menu previous) {
         this.val = val;

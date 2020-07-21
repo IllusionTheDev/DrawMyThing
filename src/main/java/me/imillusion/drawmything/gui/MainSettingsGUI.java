@@ -93,7 +93,7 @@ public class MainSettingsGUI {
                 fieldName.add(field.getName());
 
         if (fieldName.isEmpty())
-            return new Menu(27, clazz.getName(), clazz.getName());
+            return new Menu(27, clazz.getName(), clazz.getName()).build();
 
         Collections.sort(fieldName);
         int slot = 0;
@@ -109,7 +109,7 @@ public class MainSettingsGUI {
                 for (Class<?> configurableClass : classes)
                     if (configurableClass.getConstructors()[0].getParameterTypes()[0].equals(field.getType())) {
                         String path = field.getAnnotation(Path.class).path();
-                        configurableClass.getConstructors()[0].newInstance(field.get(base), path, base, slot++, menu);
+                        configurableClass.getConstructors()[0].newInstance(field.get(base), path, base, slot++, menu, this.menu);
                     }
 
                 field.setAccessible(false);

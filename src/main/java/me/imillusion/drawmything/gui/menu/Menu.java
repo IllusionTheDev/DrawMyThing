@@ -22,6 +22,7 @@ public class Menu implements InventoryHolder {
 
     private Map<Integer, ItemStack> contents = new HashMap<>();
 
+    @Getter
     private int size;
     private String title;
 

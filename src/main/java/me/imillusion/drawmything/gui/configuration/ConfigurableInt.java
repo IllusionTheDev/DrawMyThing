@@ -1,6 +1,7 @@
 package me.imillusion.drawmything.gui.configuration;
 
 import me.imillusion.drawmything.files.YMLBase;
+import me.imillusion.drawmything.gui.SettingsItems;
 import me.imillusion.drawmything.gui.menu.Menu;
 import me.imillusion.drawmything.utils.ItemBuilder;
 import org.bukkit.ChatColor;
@@ -18,7 +19,7 @@ public class ConfigurableInt {
 
     private ItemStack item;
 
-    public ConfigurableInt(int val, String path, YMLBase base, int slot, Menu menu) {
+    public ConfigurableInt(int val, String path, YMLBase base, int slot, Menu menu, Menu previous) {
         this.val = val;
         this.path = path;
         this.base = base;
@@ -37,6 +38,17 @@ public class ConfigurableInt {
 
             event.getInventory().setItem(slot, updateItem());
             event.setCancelled(true);
+        });
+
+        menu.setItem(menu.getSize() - 2, SettingsItems.SAVE, (e) -> {
+            e.setCancelled(true);
+            this.save();
+        });
+
+        menu.setItem(menu.getSize() - 1, SettingsItems.BACK_1, (e) -> {
+            e.setCancelled(true);
+            e.getWhoClicked().closeInventory();
+            e.getWhoClicked().openInventory(previous.getInventory());
         });
     }
 

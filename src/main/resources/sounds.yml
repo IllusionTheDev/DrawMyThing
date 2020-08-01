@@ -2,12 +2,12 @@ sounds:
   color-selection:
     sound: ORB_PICKUP
     volume: 0.5
-    pitch: 1
+    pitch: 1.0
   game:
     word-guess:
       sound: LEVEL_UP
-      volume: 1
-      pitch: 1
+      volume: 1.0
+      pitch: 1.0
 
   countdown:
     5-seconds-left:

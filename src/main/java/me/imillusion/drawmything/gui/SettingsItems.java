@@ -33,6 +33,10 @@ public final class SettingsItems {
             .skullHash("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzg2MTg1YjFkNTE5YWRlNTg1ZjE4NGMzNGYzZjNlMjBiYjY0MWRlYjg3OWU4MTM3OGU0ZWFmMjA5Mjg3In19fQ==")
             .build();
 
+    public static ItemBuilder NOTE = new ItemBuilder(Material.SKULL_ITEM)
+            .skullHash("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWRjOWQxYjdmYzkxMjViOTYzMzNmZTJkMWFjZDFjYTgzZDhmN2Y5ZjM5N2JmNzA0OWVmMmI2YjhiNzZmN2ZmMSJ9fX0=");
+
+
     private SettingsItems()
     {
         //Empty constructor to prevent initialization

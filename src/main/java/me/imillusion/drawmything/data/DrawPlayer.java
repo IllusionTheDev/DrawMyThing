@@ -93,6 +93,6 @@ public class DrawPlayer {
         sortedPoints.sort(Comparator.comparingInt(Pair::getValue));
         Collections.reverse(sortedPoints);
 
-        return sortedPoints.indexOf(pair);
+        return sortedPoints.indexOf(pair) + 1;
     }
 }

@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public class SettingsCMD implements CommandExecutor {
 
-    private DrawPlugin main;
+    private final DrawPlugin main;
 
     public SettingsCMD(DrawPlugin main) {
         this.main = main;

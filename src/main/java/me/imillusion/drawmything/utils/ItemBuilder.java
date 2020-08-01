@@ -118,6 +118,19 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder clone() {
+        ItemBuilder newBuilder = new ItemBuilder(material);
+        newBuilder.data = data;
+        newBuilder.lore.clear();
+        newBuilder.lore.addAll(lore);
+        newBuilder.name = name;
+        newBuilder.skullName = skullName;
+        newBuilder.skullHash = skullHash;
+        newBuilder.itemFlags = itemFlags;
+        return newBuilder;
+
+    }
+
     public ItemStack build()
     {
         if (amount > 64)

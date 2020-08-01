@@ -4,9 +4,12 @@ import com.google.common.base.Strings;
 import lombok.Getter;
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.files.YMLBase;
+import me.imillusion.drawmything.gui.configuration.ConfigurableDouble;
 import me.imillusion.drawmything.gui.configuration.ConfigurableInt;
 import me.imillusion.drawmything.gui.menu.Menu;
 import me.imillusion.drawmything.utils.ItemBuilder;
+import me.imillusion.drawmything.utils.PrimitiveUnboxer;
+import me.imillusion.drawmything.utils.StringComparator;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -19,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 //I'm sorry
 public class MainSettingsGUI {
@@ -28,7 +32,8 @@ public class MainSettingsGUI {
     private final List<YMLBase> configFiles = new ArrayList<>();
 
     private final Class<?>[] classes = {
-            ConfigurableInt.class
+            ConfigurableInt.class,
+            ConfigurableDouble.class
     };
 
     private int slot = 0;
@@ -93,10 +98,18 @@ public class MainSettingsGUI {
         Map<String, Object> configurableValues = new HashMap<>();
 
         createItems(config, configurableValues);
-        Menu menu = new Menu(((configurableValues.size() / 9) + 1) * 9, base.getFile().getName(), base.getFile().getName());
+        Menu menu = new Menu(((configurableValues.size() / 9) + 1) * 9, centerTitle(base.getFile().getName()), base.getFile().getName());
 
-        configurableValues.forEach((path, object) -> {
-            Class<?> clazz = object.getClass();
+        List<Map.Entry<String, Object>> list = configurableValues.entrySet().stream()
+                .sorted((e1, e2) -> new StringComparator().compare(e1.getKey(), e2.getKey()))
+                .collect(Collectors.toList());
+
+        list.forEach((entry) -> {
+            String path = entry.getKey().startsWith(".") ? entry.getKey().replaceFirst("\\.", "") : entry.getKey();
+            Object object = entry.getValue();
+
+            Class<?> clazz = PrimitiveUnboxer.unbox(object.getClass());
+            System.out.println(clazz);
             for (Class<?> configurableClass : classes)
                 if (configurableClass.getConstructors()[0].getParameterTypes()[0].equals(clazz)) {
                     try {
@@ -107,6 +120,7 @@ public class MainSettingsGUI {
                 }
 
         });
+        slot = 0;
 
         return menu.build();
     }
@@ -115,7 +129,7 @@ public class MainSettingsGUI {
     {
         for (String key : section.getKeys(false)) {
             if (section.isConfigurationSection(key))
-                createItems(section, map);
+                createItems(section.getConfigurationSection(key), map);
             else {
                 map.put(section.getCurrentPath() + "." + key, section.get(key));
             }

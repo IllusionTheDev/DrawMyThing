@@ -89,6 +89,7 @@ public class Round {
 
         drawer.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 10000, 250, false, false), true);
         drawer.getPlayer().setWalkSpeed(0);
+        arena.sendScoreboard();
         return drawer;
     }
 

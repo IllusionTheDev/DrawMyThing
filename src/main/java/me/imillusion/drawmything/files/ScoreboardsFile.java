@@ -5,6 +5,7 @@ import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.scoreboard.ScoreboardAnimation;
 import me.imillusion.drawmything.scoreboard.ScoreboardTemplate;
 import me.imillusion.drawmything.utils.Pair;
+import org.bukkit.ChatColor;
 
 import java.io.File;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class ScoreboardsFile extends YMLBase {
         }
 
         System.out.println((color + seconds));
-        return new Pair<>("%seconds%", (color + seconds));
+        return new Pair<>("%seconds%", ChatColor.translateAlternateColorCodes('&', color + seconds));
     }
 
 

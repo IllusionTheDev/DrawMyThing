@@ -240,7 +240,7 @@ public class Canvas {
         });
     }
 
-    private int getMaxPointX()
+    public int getMaxPointX()
     {
         boolean southNorth = topLeft.getBlockZ() == bottomRight.getBlockZ();
 
@@ -250,7 +250,7 @@ public class Canvas {
         return bottom - top;
     }
 
-    private int getMaxPointY()
+    public int getMaxPointY()
     {
         return topLeft.getBlockY() - bottomRight.getBlockY();
     }

@@ -60,9 +60,6 @@ public class DrawingHandler implements Listener {
         Block clickedBlock = player.getTargetBlock((Set<Material>) null, 100);
         Game game = main.getGameManager().getPlayerGame(uuid);
 
-        if (game == null)
-            return;
-
         if (!canBuild(uuid))
             return;
 
@@ -80,7 +77,10 @@ public class DrawingHandler implements Listener {
         Block clickedBlock = player.getTargetBlock((Set<Material>) null, 100);
         DrawPlayer drawPlayer = main.getPlayerManager().get(player);
 
-        return drawPlayer.isDrawer() && drawPlayer.getCurrentGame().getArena().getCanvas().belongs(clickedBlock.getLocation());
+        if (!drawPlayer.isDrawer())
+            return false;
+
+        return drawPlayer.getCurrentGame().getArena().getCanvas().belongs(clickedBlock.getLocation());
     }
 
 

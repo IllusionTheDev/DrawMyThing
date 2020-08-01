@@ -11,10 +11,7 @@ import me.imillusion.drawmything.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Arena {
@@ -82,13 +79,10 @@ public class Arena {
 
         TeamsScoreboard board = new TeamsScoreboard();
         p.setScoreboard(board.getBoard());
+        drawPlayer.setScoreboard(board);
+        drawPlayer.setCurrentTemplate(main.getScoreboards().getAwaitingBoard());
 
-        runAsync(() -> {
-            drawPlayer.setScoreboard(board);
-            drawPlayer.setCurrentTemplate(main.getScoreboards().getAwaitingBoard());
-
-            main.getScoreboards().getAwaitingBoard().render(p, board);
-        });
+        main.getScoreboards().getAwaitingBoard().render(p, board);
 
     }
 
@@ -114,7 +108,7 @@ public class Arena {
 
     public void sendScoreboard()
     {
-        String drawer = round.getDrawer().getPlayer().getName();
+        String drawer = round.getDrawer() == null ? "" : round.getDrawer().getPlayer().getName();
         int roundNumber = round.getRoundNum();
 
         for (Player p : getPlayers()) {
@@ -128,10 +122,15 @@ public class Arena {
                     new Pair<>("%points%", String.valueOf(points)),
                     new Pair<>("%position%", String.valueOf(position)),
                     new Pair<>("%drawer%", drawer),
-                    new Pair<>("%round%", roundNumber)
+                    new Pair<>("%round%", String.valueOf(roundNumber))
             };
 
-            drawPlayer.getCurrentTemplate().render(p, drawPlayer.getScoreboard(), pairs);
+            List<Pair> list = new ArrayList<>(Arrays.asList(pairs));
+
+            if (drawPlayer.getLastScoreboardPlaceholders() != null)
+                list.addAll(Arrays.asList(drawPlayer.getLastScoreboardPlaceholders()));
+
+            drawPlayer.getCurrentTemplate().render(p, drawPlayer.getScoreboard(), list.toArray(new Pair[]{}));
         }
     }
 

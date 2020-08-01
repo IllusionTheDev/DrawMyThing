@@ -2,11 +2,11 @@ package me.imillusion.drawmything.game;
 
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.data.DrawPlayer;
+import me.imillusion.drawmything.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class GameCountdown {
 
@@ -29,7 +29,13 @@ public class GameCountdown {
                 for (Player player : game.getArena().getPlayers()) {
                     DrawPlayer dp = main.getPlayerManager().get(player);
                     dp.setCurrentTemplate(main.getScoreboards().getCountdownBoard());
-                    dp.getCurrentTemplate().render(player, dp.getScoreboard(), main.getScoreboards().obtainSecondsPlaceholder(main.getSettings().getStartTimes().get(i)));
+
+                    List<Pair<String, String>> list = new ArrayList<>(Collections.singletonList(main.getScoreboards().obtainSecondsPlaceholder(main.getSettings().getStartTimes().get(i))));
+
+                    if (dp.getLastScoreboardPlaceholders() != null)
+                        list.addAll(Arrays.asList(dp.getLastScoreboardPlaceholders()));
+
+                    dp.getCurrentTemplate().render(player, dp.getScoreboard(), list.toArray(new Pair[]{}));
                 }
             }
         }
@@ -91,6 +97,7 @@ public class GameCountdown {
             player.setLevel(0);
             DrawPlayer dp = main.getPlayerManager().get(player);
             dp.setCurrentTemplate(null);
+            dp.setLastScoreboardPlaceholders(null);
         });
         game.setActiveCountdown(false);
     }

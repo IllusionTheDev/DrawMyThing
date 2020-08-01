@@ -20,7 +20,7 @@ public class Menu implements InventoryHolder {
 
     final Map<Integer, Consumer<InventoryClickEvent>> clickevents = new HashMap<>();
 
-    private Map<Integer, ItemStack> contents = new HashMap<>();
+    private final Map<Integer, ItemStack> contents = new HashMap<>();
 
     @Getter
     private final int size;
@@ -41,7 +41,7 @@ public class Menu implements InventoryHolder {
     }
 
     /**
-     * Gets the middle slow of an inventory, should not be used with an even number
+     * Gets the middle slot of an inventory, should not be used with an even number
      *
      * @param rows The amount of rows
      * @return The middle slot

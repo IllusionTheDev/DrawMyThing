@@ -50,17 +50,21 @@ public class BrushTool implements PaintingTool {
         Arena arena = canvas.getArena();
         DrawPlayer drawer = arena.getRound().getDrawer();
 
-        drawer.setTicksleft(main.getSettings().getDrawingLineTicks());
-        drawer.setLastPoint(point);
+
 
         if (drawer.getTicksleft() != 0) {
             if (!drawer.getLastPoint().equals(point))
                 arena.getCanvas().drawPixels(drawer.getSelectedColor(),
                         getPointsBetween(arena.getCanvas(), canvas.adaptLocation(drawer.getLastPoint()), canvas.adaptLocation(point)));
+
+            drawer.setTicksleft(main.getSettings().getDrawingLineTicks());
+            drawer.setLastPoint(point);
             return;
         }
-        arena.getCanvas().drawPixels(drawer.getSelectedColor(), point);
 
+        arena.getCanvas().drawPixels(drawer.getSelectedColor(), point);
+        drawer.setTicksleft(main.getSettings().getDrawingLineTicks());
+        drawer.setLastPoint(point);
 
     }
 

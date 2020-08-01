@@ -102,6 +102,9 @@ public class Game {
 
     private void cleanup()
     {
+        if (arena == null)
+            return;
+
         Set<Player> players = arena.getPlayers();
         players.forEach(main::sendToLobby);
         started = false;

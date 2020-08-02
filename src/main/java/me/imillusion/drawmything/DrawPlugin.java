@@ -4,7 +4,6 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.imillusion.drawmything.cmds.SettingsCMD;
 import me.imillusion.drawmything.data.DrawPlayerManager;
 import me.imillusion.drawmything.files.*;
 import me.imillusion.drawmything.game.GameCountdown;
@@ -12,9 +11,8 @@ import me.imillusion.drawmything.game.GameManager;
 import me.imillusion.drawmything.game.arena.ArenaMap;
 import me.imillusion.drawmything.game.data.drawing.tools.PaintingToolManager;
 import me.imillusion.drawmything.game.handler.*;
-import me.imillusion.drawmything.gui.MainSettingsGUI;
-import me.imillusion.drawmything.gui.menu.MenuListener;
 import me.imillusion.drawmything.placeholders.PAPIHook;
+import me.imillusion.drawmything.playback.recording.ImageSaver;
 import me.imillusion.drawmything.pregame.ItemEventHandler;
 import me.imillusion.drawmything.pregame.JoinHandler;
 import me.imillusion.drawmything.pregame.LeaveHandler;
@@ -47,7 +45,7 @@ public class DrawPlugin extends JavaPlugin {
     private GameCountdown gameCountdown;
     private GameManager gameManager;
 
-    private MainSettingsGUI settingsGUI;
+    private ImageSaver imageSaver;
 
     public static boolean hookPlaceholders()
     {
@@ -63,10 +61,8 @@ public class DrawPlugin extends JavaPlugin {
 
         toolManager = new PaintingToolManager(this);
         playerManager = new DrawPlayerManager();
-        settingsGUI = new MainSettingsGUI(this);
 
         setupListeners();
-        getCommand("settings").setExecutor(new SettingsCMD(this));
 
         List<ArenaMap> loadedMaps = maps.load();
 
@@ -82,6 +78,8 @@ public class DrawPlugin extends JavaPlugin {
 
         if (hookPlaceholders())
             PlaceholderAPI.registerExpansion(new PAPIHook(this));
+
+        imageSaver = new ImageSaver();
 
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
@@ -107,8 +105,7 @@ public class DrawPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ItemEventHandler(), this);
         Bukkit.getPluginManager().registerEvents(new DrawerMoveHandler(this), this);
         Bukkit.getPluginManager().registerEvents(new WorldActionsHandler(), this);
-
-        Bukkit.getPluginManager().registerEvents(new MenuListener(), this);
+        Bukkit.getPluginManager().registerEvents(new ReportManager(this), this);
     }
 
     public void sendToLobby(Player player)

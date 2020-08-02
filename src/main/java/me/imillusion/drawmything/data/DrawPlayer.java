@@ -65,6 +65,9 @@ public class DrawPlayer {
         if (currentGame == null)
             return false;
 
+        if (currentGame.getArena() == null)
+            return false;
+
         if (currentGame.getArena().getRound() == null)
             return false;
 

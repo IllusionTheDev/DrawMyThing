@@ -74,7 +74,7 @@ public class Round {
             drawnPlayers.add(drawer.getUuid());
             drawer.getPlayer().setWalkSpeed(0.2f);
             for (ItemStack item : drawer.getPlayer().getInventory().getContents())
-                if (item != null && !item.isSimilar(main.getHidingHandler().getInactiveItem()) && !item.isSimilar(main.getHidingHandler().getActiveItem()))
+                if (item != null && main.getToolManager().getToolByItem(item) != null)
                     drawer.getPlayer().getInventory().remove(item);
 
             drawer.getPlayer().getActivePotionEffects().forEach(effect -> drawer.getPlayer().removePotionEffect(effect.getType()));
@@ -114,6 +114,9 @@ public class Round {
     public void reset()
     {
         toDraw.removeIf(drawnPlayers::contains);
+
+        if (drawer.getPlayer() == null)
+            drawer = null;
 
         if (drawer != null) {
             toDraw.add(drawer.getUuid());
@@ -248,7 +251,7 @@ public class Round {
         if (drawer.getPlayer() != null) {
             drawnPlayers.add(drawer.getUuid());
             for (ItemStack item : drawer.getPlayer().getInventory().getContents())
-                if (item != null && !item.isSimilar(main.getHidingHandler().getInactiveItem()) && !item.isSimilar(main.getHidingHandler().getActiveItem()))
+                if (item != null && main.getToolManager().getToolByItem(item) != null)
                     drawer.getPlayer().getInventory().remove(item);
             drawer.getPlayer().teleport(arena.getMap().getSpawnLocation());
             drawer.getPlayer().getActivePotionEffects().forEach(effect -> drawer.getPlayer().removePotionEffect(effect.getType()));

@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import me.imillusion.drawmything.DrawPlugin;
+import me.imillusion.drawmything.events.GameStartEvent;
 import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.game.arena.ArenaMap;
 import org.bukkit.Bukkit;
@@ -37,6 +38,8 @@ public class Game {
         arena.sendScoreboard();
 
         main.getTitles().playTitle("game-start", arena.getPlayers().toArray(new Player[]{}));
+
+        new GameStartEvent(this);
     }
 
     public void end()
@@ -102,7 +105,7 @@ public class Game {
 
     private void cleanup()
     {
-        if (arena == null)
+        if (!started || arena == null)
             return;
 
         Set<Player> players = arena.getPlayers();

@@ -93,5 +93,5 @@ Planned features:
 - Configurable items
 - More messages
 - More sounds
-- Settings GUI
+- ~~Settings GUI~~ moved to https://www.github.com/IllusionTheDev/ConfigurationGUI/
 - In-game Reloading

@@ -41,10 +41,7 @@ public class ColorSelectionHandler implements Listener {
             if (area.isWithin(clickedBlock.getLocation())) {
                 arena.getRound().getDrawer().setSelectedColor(area.getColor());
                 main.getSounds().playSound(player, "color-selection");
-                player.sendMessage("You have selected " +
-                        ChatColor.BOLD + "" +
-                        ColorConverter.get().getColors().get(area.getColor()) +
-                        area.getColor().name());
+                player.sendMessage(main.getMessages().getMessage("color-selection." + area.getColor().name().toLowerCase()));
             }
         });
     }

@@ -4,6 +4,7 @@ import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import lombok.Getter;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.imillusion.drawmything.data.DrawPlayerManager;
 import me.imillusion.drawmything.files.*;
 import me.imillusion.drawmything.game.GameCountdown;
@@ -22,6 +23,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 @Getter
@@ -77,7 +79,7 @@ public class DrawPlugin extends JavaPlugin {
         gameCountdown = new GameCountdown(this);
 
         if (hookPlaceholders())
-            PlaceholderAPI.registerExpansion(new PAPIHook(this));
+            registerExpansion(new PAPIHook(this));
 
         imageSaver = new ImageSaver();
 
@@ -117,4 +119,16 @@ public class DrawPlugin extends JavaPlugin {
         player.sendPluginMessage(this, "BungeeCord", out.toByteArray());
     }
 
+    private void registerExpansion(PlaceholderExpansion expansion)
+    {
+        try {
+            expansion.getClass().getDeclaredMethod("register").invoke(expansion);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            try {
+                PlaceholderAPI.class.getDeclaredMethod("registerExpansion", expansion.getClass()).invoke(null, expansion);
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
 }

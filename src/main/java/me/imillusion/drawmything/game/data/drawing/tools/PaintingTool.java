@@ -1,39 +1,69 @@
 package me.imillusion.drawmything.game.data.drawing.tools;
 
+import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.game.canvas.Canvas;
 import me.imillusion.drawmything.game.canvas.Point;
 import org.bukkit.DyeColor;
+import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
-public interface PaintingTool {
+import java.util.Set;
 
-    /**
-     * Applies the tool to the point
-     *
-     * @param canvas - The canvas where to apply
-     * @param point  - The point where to apply
-     * @param color  - The new color of the point
-     */
-    void apply(Canvas canvas, Point point, DyeColor color);
+public abstract class PaintingTool {
 
-    /**
-     * Some tools can work while moving (Only applies if the user if "holding" right click
-     *
-     * @param canvas - The canvas where to apply
-     * @param point  - The point where to apply
-     * @param color  - The new color of the point
-     */
-    default void applyMove(Canvas canvas, Point point, DyeColor color)
+    protected DrawPlugin main;
+    private int slot;
+    private ItemStack item;
+    private String identifier;
+    private Set<Action> clickActions;
+
+    private boolean useConstructor = false;
+
+    public PaintingTool()
     {
-        //This will be used under specific cases
+        //For API usage, must override all getters
     }
 
-    int getSlot();
+    public PaintingTool(int slot, ItemStack item, String identifier, Set<Action> actions) {
+        this(null, slot, item, identifier, actions);
+    }
 
-    /**
-     * Gets the tool item
-     *
-     * @return - The item
-     */
-    ItemStack getItem();
+    public PaintingTool(DrawPlugin main, int slot, ItemStack item, String identifier, Set<Action> actions) {
+        this.main = main;
+        this.slot = slot;
+        this.item = item;
+        this.identifier = identifier;
+        this.clickActions = actions;
+
+        this.useConstructor = true;
+    }
+
+    public abstract void apply(Canvas canvas, Point point, DyeColor color);
+
+    public void applyMove(Canvas canvas, Point point, DyeColor color) {
+    }
+
+    public int getSlot() {
+        if (!useConstructor)
+            throw new UnsupportedOperationException("Usage of blank constructor with default method.");
+        return slot;
+    }
+
+    public ItemStack getItem() {
+        if (!useConstructor)
+            throw new UnsupportedOperationException("Usage of blank constructor with default method.");
+        return item;
+    }
+
+    public String getIdentifier() {
+        if (!useConstructor)
+            throw new UnsupportedOperationException("Usage of blank constructor with default method.");
+        return identifier;
+    }
+
+    public Set<Action> getClickActions() {
+        if (!useConstructor)
+            throw new UnsupportedOperationException("Usage of blank constructor with default method.");
+        return clickActions;
+    }
 }

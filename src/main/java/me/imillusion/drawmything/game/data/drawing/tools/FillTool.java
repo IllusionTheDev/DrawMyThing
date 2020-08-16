@@ -2,22 +2,18 @@ package me.imillusion.drawmything.game.data.drawing.tools;
 
 import me.imillusion.drawmything.game.canvas.Canvas;
 import me.imillusion.drawmything.game.canvas.Point;
-import me.imillusion.drawmything.utils.ItemBuilder;
 import org.bukkit.DyeColor;
-import org.bukkit.Material;
+import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class FillTool implements PaintingTool {
+public class FillTool extends PaintingTool {
 
-    private final ItemStack item;
 
-    FillTool() {
-        item = new ItemBuilder(Material.BUCKET)
-                .name("&a&lBucket Tool &8(Right Click)")
-                .build();
+    public FillTool(int slot, ItemStack item, String identifier, Set<Action> actions) {
+        super(slot, item, identifier, actions);
     }
 
     /**
@@ -36,11 +32,6 @@ public class FillTool implements PaintingTool {
         getPoints(canvas, point, points);
 
         canvas.drawPixels(color, points.toArray(new Point[]{}));
-    }
-
-    @Override
-    public ItemStack getItem() {
-        return item;
     }
 
     /**
@@ -68,10 +59,5 @@ public class FillTool implements PaintingTool {
 
         for (Point p : points)
             getPoints(canvas, p, foundPoints);
-    }
-
-    @Override
-    public int getSlot() {
-        return 2;
     }
 }

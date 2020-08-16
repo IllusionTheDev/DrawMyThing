@@ -77,7 +77,7 @@ public class Arena {
                 main.getHider().showEntity(player, p);
         });
 
-        TeamsScoreboard board = new TeamsScoreboard();
+        TeamsScoreboard board = new TeamsScoreboard(main);
         p.setScoreboard(board.getBoard());
         drawPlayer.setScoreboard(board);
         drawPlayer.setCurrentTemplate(main.getScoreboards().getAwaitingBoard());

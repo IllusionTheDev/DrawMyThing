@@ -69,7 +69,7 @@ public class ScoreboardsFile extends YMLBase {
         }
 
         System.out.println((color + seconds));
-        return new Pair<>("%seconds%", ChatColor.translateAlternateColorCodes('&', color + seconds));
+        return new Pair<>("%seconds%", "" + ChatColor.translateAlternateColorCodes('&', color + seconds));
     }
 
 

@@ -13,7 +13,6 @@ import me.imillusion.drawmything.game.arena.ArenaMap;
 import me.imillusion.drawmything.game.data.drawing.tools.PaintingToolManager;
 import me.imillusion.drawmything.game.handler.*;
 import me.imillusion.drawmything.placeholders.PAPIHook;
-import me.imillusion.drawmything.playback.recording.ImageSaver;
 import me.imillusion.drawmything.pregame.ItemEventHandler;
 import me.imillusion.drawmything.pregame.JoinHandler;
 import me.imillusion.drawmything.pregame.LeaveHandler;
@@ -37,6 +36,7 @@ public class DrawPlugin extends JavaPlugin {
     private TitlesFile titles;
     private WordsFile words;
     private ScoreboardsFile scoreboards;
+    private ItemFile items;
 
     private PaintingToolManager toolManager;
 
@@ -46,8 +46,6 @@ public class DrawPlugin extends JavaPlugin {
 
     private GameCountdown gameCountdown;
     private GameManager gameManager;
-
-    private ImageSaver imageSaver;
 
     public static boolean hookPlaceholders()
     {
@@ -81,8 +79,6 @@ public class DrawPlugin extends JavaPlugin {
         if (hookPlaceholders())
             registerExpansion(new PAPIHook(this));
 
-        imageSaver = new ImageSaver();
-
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
 
@@ -94,6 +90,7 @@ public class DrawPlugin extends JavaPlugin {
         titles = new TitlesFile(this);
         words = new WordsFile(this);
         scoreboards = new ScoreboardsFile(this);
+        items = new ItemFile(this);
     }
 
     private void setupListeners()
@@ -107,7 +104,6 @@ public class DrawPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ItemEventHandler(), this);
         Bukkit.getPluginManager().registerEvents(new DrawerMoveHandler(this), this);
         Bukkit.getPluginManager().registerEvents(new WorldActionsHandler(), this);
-        Bukkit.getPluginManager().registerEvents(new ReportManager(this), this);
     }
 
     public void sendToLobby(Player player)

@@ -8,6 +8,19 @@ sounds:
       sound: LEVEL_UP
       volume: 1.0
       pitch: 1.0
+  tools:
+    brush:
+      sound:
+      volume: 1.0
+      pitch: 1.0
+    bucket:
+      sound:
+      volume: 1.0
+      pitch: 1.0
+    blank:
+      sound:
+      volume: 1.0
+      pitch: 1.0
 
   countdown:
     5-seconds-left:

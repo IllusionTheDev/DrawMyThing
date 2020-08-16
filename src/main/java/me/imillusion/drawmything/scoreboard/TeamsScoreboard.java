@@ -1,7 +1,11 @@
 package me.imillusion.drawmything.scoreboard;
 
 import lombok.Getter;
+import me.imillusion.drawmything.DrawPlugin;
+import me.imillusion.drawmything.data.DrawPlayer;
+import me.imillusion.drawmything.events.ScoreboardDisplayEvent;
 import me.imillusion.drawmything.utils.ColorConverter;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scoreboard.Objective;
@@ -26,6 +30,8 @@ public class TeamsScoreboard {
             BLANKS[i] = String.valueOf(new char[]{ChatColor.COLOR_CHAR, (char) ('r' + i)});
     }
 
+    private DrawPlugin main;
+
     private final Objective objective;
     @Getter
     private final org.bukkit.scoreboard.Scoreboard board;
@@ -34,8 +40,8 @@ public class TeamsScoreboard {
     /**
      * Construct a new {@link TeamsScoreboard} wrapping the main {@link org.bukkit.scoreboard.Scoreboard}.
      */
-    public TeamsScoreboard() {
-        this(getScoreboardManager().getNewScoreboard());
+    public TeamsScoreboard(DrawPlugin main) {
+        this(main, getScoreboardManager().getNewScoreboard());
     }
 
     /**
@@ -43,12 +49,14 @@ public class TeamsScoreboard {
      *
      * @param board - The {@link org.bukkit.scoreboard.Scoreboard} to wrap.
      */
-    public TeamsScoreboard(Scoreboard board) {
+    public TeamsScoreboard(DrawPlugin main, Scoreboard board) {
         this.board = board;
         objective = board.registerNewObjective("test", "dummy");
         objective.setDisplaySlot(SIDEBAR);
         for (int i = 0; i < MAX_LINES; i++)
             (teams[i] = board.registerNewTeam(BLANKS[i])).addEntry(BLANKS[i]);
+
+        this.main = main;
     }
 
     /**
@@ -87,11 +95,13 @@ public class TeamsScoreboard {
         if (prefix.length() > 16) {
             Bukkit.getLogger().warning("prefix line with index " + index + " (score: " + score + ") is above 16 characters");
             Bukkit.getLogger().warning("line: \"" + prefix + "\"");
+            return index;
         }
 
         if (suffix.length() > 16) {
             Bukkit.getLogger().warning("suffix line with index " + index + " (score: " + score + ") is above 16 characters");
             Bukkit.getLogger().warning("line: \"" + prefix + "\"");
+            return index;
         }
 
         teams[index].setPrefix(ChatColor.translateAlternateColorCodes('&', prefix));
@@ -131,7 +141,11 @@ public class TeamsScoreboard {
             line(i - 1, lines.get(MAX_LINES - i), i - 1);
         }
 
+        DrawPlayer target = main.getPlayerManager().getAllPlayers().stream().filter(player -> player.getScoreboard() == this).findFirst().orElse(null);
 
+        Validate.notNull(target, "TeamsScoreboard not assigned to DrawPlayer");
+
+        new ScoreboardDisplayEvent(this, lines, target.getUuid());
     }
 
     /**

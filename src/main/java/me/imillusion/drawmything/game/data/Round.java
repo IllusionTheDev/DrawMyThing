@@ -84,7 +84,6 @@ public class Round {
 
         drawer = main.getPlayerManager().get(uuid);
 
-        main.getToolManager().getRegisteredTools().forEach(tool -> drawer.getPlayer().getInventory().setItem(tool.getSlot() - 1, tool.getItem()));
         drawer.getPlayer().teleport(arena.getMap().getDrawLocation());
 
         drawer.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 10000, 250, false, false), true);
@@ -115,10 +114,7 @@ public class Round {
     {
         toDraw.removeIf(drawnPlayers::contains);
 
-        if (drawer.getPlayer() == null)
-            drawer = null;
-
-        if (drawer != null) {
+        if (drawer != null && drawer.getPlayer() != null) {
             toDraw.add(drawer.getUuid());
             drawer.getPlayer().teleport(arena.getMap().getSpawnLocation());
             drawer.getPlayer().getActivePotionEffects().forEach(effect -> drawer.getPlayer().removePotionEffect(effect.getType()));

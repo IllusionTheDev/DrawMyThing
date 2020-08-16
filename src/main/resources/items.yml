@@ -8,14 +8,22 @@ items:
       default: inactive
       inactive:
         material: "INK_SAC"
+        actions: "RIGHT_CLICK_AIR RIGHT_CLICK_BLOCK"
         data: 8
         name: "&aHide other players &8(Right Click)"
         amount: 1
         lore:
-        - ''
+          - ''
       active:
+        material: "INK_SAC"
+        actions: "RIGHT_CLICK_AIR RIGHT_CLICK_BLOCK"
+        data: 10
+        name: "&aShow other guessers &8(Right Click)"
+        amount: 1
+        lore:
+          - ''
 
-  drawer:
+  tools:
     brush:
       enabled: true
       slot: 1
@@ -24,7 +32,7 @@ items:
       name: "&a&lBrush &8(Right Click)"
       amount: 1
       lore:
-      - ''
+        - ''
     fill:
       enabled: true
       slot: 2
@@ -33,7 +41,6 @@ items:
       name: "&a&lFill Tool &8(Right Click)"
       amount: 1
       lore:
-      - ''
     blank-page:
       enabled: true
       slot: 8
@@ -42,4 +49,4 @@ items:
       name: "&a&lBlank Page &8(Right Click)"
       amount: 1
       lore:
-      - ''
+        - ''

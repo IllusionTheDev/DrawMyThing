@@ -1,6 +1,8 @@
 package me.imillusion.drawmything.files;
 
 import lombok.Getter;
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.imillusion.drawmything.DrawPlugin;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -24,13 +26,18 @@ public class MessagesFile extends YMLBase {
         if (!getConfiguration().contains("messages." + name))
             return;
 
-        player.sendMessage(
-                ChatColor.translateAlternateColorCodes('&',
-                        StringEscapeUtils.unescapeJava(getMessage(name).replace("%prefix%", prefix))));
+        String msg = StringEscapeUtils.unescapeJava(getMessage(name).replace("%prefix%", prefix));
+
+        if (DrawPlugin.hookPlaceholders())
+            msg = PlaceholderAPI.setPlaceholders(player, msg);
+
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
     }
 
     public String getMessage(String name)
     {
+        String msg = getConfiguration().getString("messages." + name);
+
         return getConfiguration().getString("messages." + name);
     }
 }

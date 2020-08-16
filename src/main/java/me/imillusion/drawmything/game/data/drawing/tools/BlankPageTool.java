@@ -2,19 +2,16 @@ package me.imillusion.drawmything.game.data.drawing.tools;
 
 import me.imillusion.drawmything.game.canvas.Canvas;
 import me.imillusion.drawmything.game.canvas.Point;
-import me.imillusion.drawmything.utils.ItemBuilder;
 import org.bukkit.DyeColor;
-import org.bukkit.Material;
+import org.bukkit.event.block.Action;
 import org.bukkit.inventory.ItemStack;
 
-public class BlankPageTool implements PaintingTool {
+import java.util.Set;
 
-    private final ItemStack item;
+public class BlankPageTool extends PaintingTool {
 
-    public BlankPageTool() {
-        this.item = new ItemBuilder(Material.PAPER)
-                .name("&a&lBlank Page &8(Right click)")
-                .build();
+    public BlankPageTool(int slot, ItemStack item, String identifier, Set<Action> actions) {
+        super(slot, item, identifier, actions);
     }
 
     @Override
@@ -22,13 +19,4 @@ public class BlankPageTool implements PaintingTool {
         canvas.clear();
     }
 
-    @Override
-    public int getSlot() {
-        return 8;
-    }
-
-    @Override
-    public ItemStack getItem() {
-        return item;
-    }
 }

@@ -9,15 +9,11 @@ import org.bukkit.inventory.ItemStack;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PaintingToolManager {
 
     private final DrawPlugin main;
-
-    private final Map<String, Class<? extends PaintingTool>> toolClasses = new HashMap<>();
 
     @Getter
     private List<PaintingTool> registeredTools = new ArrayList<>();
@@ -25,21 +21,21 @@ public class PaintingToolManager {
     public PaintingToolManager(DrawPlugin main) {
         this.main = main;
 
-        toolClasses.put("brush", BrushTool.class);
-        toolClasses.put("fill", FillTool.class);
-        toolClasses.put("blank-page", BlankPageTool.class);
-
         ConfigurationSection section = main.getItems().getConfiguration().getConfigurationSection("items.tools");
 
-        for (String id : section.getKeys(false))
-            registerTool(section.getConfigurationSection(id));
+        registerTool(section.getConfigurationSection("brush"), BrushTool.class);
+        registerTool(section.getConfigurationSection("fill"), FillTool.class);
+        registerTool(section.getConfigurationSection("blank-page"), BlankPageTool.class);
     }
 
     public void registerTool(PaintingTool tool) {
         registeredTools.add(tool);
     }
 
-    public void registerTool(ConfigurationSection section) {
+    public void registerTool(ConfigurationSection section, Class<? extends PaintingTool> clazz) {
+        if (section == null)
+            return;
+
         if (!section.getBoolean("enabled", false))
             return;
 
@@ -51,13 +47,7 @@ public class PaintingToolManager {
 
         identifier = split[split.length - 1];
 
-        if (!toolClasses.containsKey(identifier))
-            return;
-
-        Class<? extends PaintingTool> clazz = toolClasses.get(identifier);
-
         Constructor<?>[] constructors = clazz.getConstructors();
-
 
         try {
             if (constructors.length == 0)
@@ -72,11 +62,20 @@ public class PaintingToolManager {
             }
 
             if (args[0].equals(DrawPlugin.class)) {
-                registeredTools.add((PaintingTool) constructor.newInstance(main, slot, item, identifier, main.getItems().getActions(identifier)));
+                registeredTools.add((PaintingTool) constructor.newInstance(
+                        main,
+                        slot,
+                        item,
+                        identifier,
+                        main.getItems().getActions("tools." + identifier)));
                 return;
             }
 
-            registeredTools.add((PaintingTool) constructor.newInstance(slot, item, identifier, main.getItems().getActions(identifier)));
+            registeredTools.add((PaintingTool) constructor.newInstance(
+                    slot,
+                    item,
+                    identifier,
+                    main.getItems().getActions("tools." + identifier)));
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }

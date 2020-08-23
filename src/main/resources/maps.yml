@@ -1,3 +1,16 @@
+#
+# DrawMyThing maps file, requires initial setup,
+#
+# Changing values on this file will change
+# where players spawn, what colors can be
+# chosen, drawing areas and more.
+#
+# You should be careful when changing settings
+# but your world is safe, all blocks used on
+# DrawMyThing are sent using Packets and do not
+# actually change.
+#
+
 #maps:
 #  1: #Use numerical order
 #    world: world #The world this map is on

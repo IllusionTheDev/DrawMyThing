@@ -23,14 +23,14 @@ import java.util.UUID;
 
 public class ItemBuilder {
 
-    private static Table<String, Method, Class<?>> configurableValues = HashBasedTable.create();
+    private static Table<String, Method, String> configurableValues = HashBasedTable.create();
 
     static {
         try {
-            configurableValues.put("data", ItemBuilder.class.getMethod("data", int.class), int.class);
-            configurableValues.put("name", ItemBuilder.class.getMethod("name", String.class), String.class);
-            configurableValues.put("amount", ItemBuilder.class.getMethod("amount", int.class), int.class);
-            configurableValues.put("lore", ItemBuilder.class.getMethod("lore", String[].class), String[].class);
+            configurableValues.put("data", ItemBuilder.class.getMethod("data", int.class), "getInt");
+            configurableValues.put("name", ItemBuilder.class.getMethod("name", String.class), "getString");
+            configurableValues.put("amount", ItemBuilder.class.getMethod("amount", int.class), "getInt");
+            configurableValues.put("lore", ItemBuilder.class.getMethod("lore", List.class), "getStringList");
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -57,12 +57,12 @@ public class ItemBuilder {
         configurableValues.cellSet().forEach(cell -> {
             String id = cell.getRowKey();
             Method method = cell.getColumnKey();
-            Class<?> clazz = cell.getValue();
+            String mName = cell.getValue();
 
             if (section.contains(id)) {
                 try {
-                    method.invoke(builder, clazz.cast(section.get(id)));
-                } catch (IllegalAccessException | InvocationTargetException e) {
+                    method.invoke(builder, section.getClass().getMethod(mName, String.class).invoke(section, id));
+                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                     e.printStackTrace();
                 }
             }
@@ -80,6 +80,12 @@ public class ItemBuilder {
     public ItemBuilder data(int num)
     {
         this.data = (short) num;
+        return this;
+    }
+
+    public ItemBuilder lore(List<String> lore) {
+        for (String s : lore)
+            this.lore.add(ChatColor.translateAlternateColorCodes('&', s));
         return this;
     }
 

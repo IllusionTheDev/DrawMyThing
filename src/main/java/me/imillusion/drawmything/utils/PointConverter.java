@@ -36,6 +36,7 @@ public final class PointConverter {
             loc.setX(adaptedX);
         else
             loc.setZ(adaptedX);
+
         loc.setY(adaptedY);
         return loc;
     }

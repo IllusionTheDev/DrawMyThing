@@ -4,6 +4,7 @@ import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.game.Game;
 import me.imillusion.drawmything.game.arena.Arena;
+import me.imillusion.drawmything.utils.PointConverter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -47,8 +48,10 @@ public class DrawingHandler implements Listener {
 
         DrawPlayer drawer = arena.getRound().getDrawer();
 
-        if (drawer.getSelectedPaintTool() != null)
+        if (drawer.getSelectedPaintTool() != null) {
             drawer.getSelectedPaintTool().apply(arena.getCanvas(), arena.getCanvas().adaptPoint(clickedBlock.getLocation()), drawer.getSelectedColor());
+            main.getSounds().playSound(drawer.getPlayer(), "tools." + drawer.getSelectedPaintTool().getIdentifier());
+        }
 
     }
 
@@ -67,8 +70,10 @@ public class DrawingHandler implements Listener {
 
         DrawPlayer drawer = arena.getRound().getDrawer();
 
-        if (drawer.getSelectedPaintTool() != null)
-            drawer.getSelectedPaintTool().applyMove(arena.getCanvas(), arena.getCanvas().adaptPoint(clickedBlock.getLocation()), drawer.getSelectedColor());
+        if (drawer.getSelectedPaintTool() != null) {
+            drawer.getSelectedPaintTool().apply(arena.getCanvas(), arena.getCanvas().adaptPoint(clickedBlock.getLocation()), drawer.getSelectedColor());
+            main.getSounds().playSound(drawer.getPlayer(), "tools." + drawer.getSelectedPaintTool().getIdentifier());
+        }
     }
 
     private boolean canBuild(UUID uuid)
@@ -80,7 +85,7 @@ public class DrawingHandler implements Listener {
         if (!drawPlayer.isDrawer())
             return false;
 
-        return drawPlayer.getCurrentGame().getArena().getCanvas().belongs(clickedBlock.getLocation());
+        return PointConverter.locationBelongs(clickedBlock.getLocation(), drawPlayer.getCurrentGame().getArena().getCanvas());
     }
 
 

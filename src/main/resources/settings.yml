@@ -1,3 +1,11 @@
+#
+# DrawMyThing settings file
+#
+# These are the major game settings,
+# Changing these will present big changes
+# on the game.
+#
+
 minimum-players: 2 #The minimum amount of players per game
 maximum-players: 16 #The maximum amount of players per game
 
@@ -12,5 +20,12 @@ start-time: #How much time should the game take to start, the game will not star
 
 points-formula: "(({DRAWING_TIME_LEFT} / {DRAWING_TIME}) * 200) - ({GUESSES} * 20)" #On the sample formula, guessing instantly would give 200 points, minus 20 for every guessed player
 
-bungee-lobby: Lobby
+server-type: SPIGOT #use SPIGOT or bungee
 
+kick-message: #Only applicable to SPIGOT
+  - '&c(!) DrawMyThing is cleaning up! (!)'
+  - '&fIf you want to play again, please rejoin the'
+  - "&fServer."
+
+#For bungee servers use return-server
+#return-server: "Lobby"

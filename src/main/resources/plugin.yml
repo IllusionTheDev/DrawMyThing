@@ -2,9 +2,6 @@ name: DrawMyThing
 version: 1
 main: me.imillusion.drawmything.DrawPlugin
 
+depend:
+  - ProtocolLib
 softdepend: [PlaceholderAPI]
-
-commands:
-  settings:
-    usage: /<command>
-    description: test

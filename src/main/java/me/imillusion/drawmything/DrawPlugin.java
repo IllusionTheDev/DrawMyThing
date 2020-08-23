@@ -3,8 +3,6 @@ package me.imillusion.drawmything;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 import lombok.Getter;
-import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import me.imillusion.drawmything.data.DrawPlayerManager;
 import me.imillusion.drawmything.files.*;
 import me.imillusion.drawmything.game.GameCountdown;
@@ -34,6 +32,8 @@ public class DrawPlugin extends JavaPlugin {
     private MessagesFile messages;
     private SoundsFile sounds;
     private TitlesFile titles;
+
+
     private WordsFile words;
     private ScoreboardsFile scoreboards;
     private ItemFile items;
@@ -54,13 +54,25 @@ public class DrawPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
+        if (!Bukkit.getPluginManager().isPluginEnabled("ProtocolLib")) {
+            Bukkit.getLogger().warning("This plugin is missing dependencies (ProtocolLib)");
+            Bukkit.getLogger().warning("Please install missing dependencies and restart the server");
+            Bukkit.getLogger().warning("for the plugin to work.");
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        if (getDataFolder().listFiles().length == 0)
+            Bukkit.getLogger().warning("Running first-time setup");
+
         hider = new EntityHider(this, EntityHider.Policy.WHITELIST);
+        playerManager = new DrawPlayerManager();
 
         setupFiles();
-        MapsFile maps = new MapsFile(this);
 
+        MapsFile maps = new MapsFile(this);
         toolManager = new PaintingToolManager(this);
-        playerManager = new DrawPlayerManager();
 
         setupListeners();
 
@@ -73,11 +85,13 @@ public class DrawPlugin extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+
         gameManager = new GameManager(this, loadedMaps);
         gameCountdown = new GameCountdown(this);
 
         if (hookPlaceholders())
             registerExpansion(new PAPIHook(this));
+
 
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
@@ -115,14 +129,14 @@ public class DrawPlugin extends JavaPlugin {
         player.sendPluginMessage(this, "BungeeCord", out.toByteArray());
     }
 
-    private void registerExpansion(PlaceholderExpansion expansion)
+    private void registerExpansion(Object expansion)
     {
         try {
             expansion.getClass().getDeclaredMethod("register").invoke(expansion);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             try {
-                PlaceholderAPI.class.getDeclaredMethod("registerExpansion", expansion.getClass()).invoke(null, expansion);
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e1) {
+                Class.forName("PlaceholderAPI").getDeclaredMethod("registerExpansion", expansion.getClass()).invoke(null, expansion);
+            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException | ClassNotFoundException e1) {
                 e1.printStackTrace();
             }
         }

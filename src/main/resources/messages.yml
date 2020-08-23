@@ -1,3 +1,12 @@
+#
+# DrawMyThing messages file
+#
+# All messages support PlaceholderAPI if the
+# plugin is present on the server
+#
+# Some messages have internal placeholders
+#
+
 messages:
   prefix: "&2&lDraw&a&lMy&2&lThing &8»&7"
   game-starting-seconds: "%prefix% The game is starting in &6%seconds% seconds."
@@ -16,19 +25,19 @@ messages:
   1-seconds-left: "%prefix% The game is starting in &c1 &7second."
 
   color-selection:
-    black: ""
-    blue: ""
-    brown: ""
-    cyan: ""
-    gray: ""
-    green: ""
-    light_blue: ""
-    lime: ""
-    magenta: ""
-    orange: ""
-    pink: ""
-    purple: ""
-    red: ""
-    silver: ""
-    white: ""
-    yellow: ""
+    black: "%prefix% You have selected &0Black"
+    blue: "%prefix% You have selected &1Blue"
+    brown: "%prefix% You have selected &6Brown"
+    cyan: "%prefix% You have selected &2Cyan"
+    gray: "%prefix% You have selected &8Gray"
+    green: "%prefix% You have selected Green"
+    light_blue: "%prefix% You have selected &bLight Blue"
+    lime: "%prefix% You have selected &aLime"
+    magenta: "%prefix% You have selected Magenta"
+    orange: "%prefix% You have selected &6Orange"
+    pink: "%prefix% You have selected &dPink"
+    purple: "%prefix% You have selected Purple"
+    red: "%prefix% You have selected &cRed"
+    silver: "%prefix% You have selected &7Light Gray"
+    white: "%prefix% You have selected &fWhite"
+    yellow: "%prefix% You have selected &eYellow"

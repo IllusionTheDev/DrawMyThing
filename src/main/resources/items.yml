@@ -1,3 +1,12 @@
+#
+# DrawMyThing items file
+#
+# Changing values on this file
+# will change in-game items with little
+# game effect.
+#
+
+
 items:
   guesser:
     hider:
@@ -28,7 +37,7 @@ items:
       enabled: true
       slot: 1
       actions: "RIGHT_CLICK_AIR" #Split using a space
-      material: "WOODEN_SHOVEL"
+      material: "WOOD_SPADE"
       name: "&a&lBrush &8(Right Click)"
       amount: 1
       lore:

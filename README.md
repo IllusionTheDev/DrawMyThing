@@ -75,6 +75,8 @@ Location location = PointConverter.adaptLocation(Point point, Canvas canvas);
 boolean locationbelongs = PointConverter.locationBelongs(Location location, Canvas canvas);
 
 ActionBarUtil.sendActionbarMessage(String message, Player... players);
+TitleUtil.sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut, Player... players);
+
 scoreboard.write(List<String> text);
 scoreboard.line(int index, String message, int score); //Suggested use: index and score should be the same, message gets colorized internally
 
@@ -83,10 +85,11 @@ ItemStack itemFromSection = ItemBuilder.fromSection(ConfigurationSection section
 ```
 
 Registering a painting tool:
-- Make a class that implements PaintingTool
-- Implement all methods
+- Make a class that extends PaintingTool
+- Use a blank constructor and override all getters or use a constructor with params
 ```java
 drawPlugin.getToolManager().registerTool(new MyPaintingTool());
+drawPlugin.getToolManager().registerTool(ConfigurationSection section); //for a configurable tool, must use one of the constructors present on the abstract class
 ```
 
 Planned features:

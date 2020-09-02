@@ -98,3 +98,4 @@ Planned features:
 - More sounds
 - ~~Settings GUI~~ moved to https://www.github.com/IllusionTheDev/ConfigurationGUI/
 - In-game Reloading
+- Native multi version support (Only use packets on versions that need it)

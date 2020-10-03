@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.data.DrawPlayer;
+import me.imillusion.drawmything.game.GameState;
 import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.utils.ActionBarUtil;
 import me.imillusion.drawmything.utils.Pair;
@@ -164,7 +165,7 @@ public class Round {
         drawnPlayers.remove(uuid);
         guessedPlayers.remove(uuid);
 
-        if (!arena.getGame().isStarted())
+        if (arena.getGame().getGameState() != GameState.IN_GAME)
             return;
 
         if (arena.getUUIDs().size() == 1) {
@@ -236,7 +237,7 @@ public class Round {
     {
         if (toDraw.isEmpty()) {
             reset();
-            if (roundNum > 3)
+            if (roundNum > main.getSettings().getRounds())
                 arena.getGame().end();
             return;
         }
@@ -246,9 +247,11 @@ public class Round {
 
         if (drawer.getPlayer() != null) {
             drawnPlayers.add(drawer.getUuid());
+
             for (ItemStack item : drawer.getPlayer().getInventory().getContents())
                 if (item != null && main.getToolManager().getToolByItem(item) != null)
                     drawer.getPlayer().getInventory().remove(item);
+
             drawer.getPlayer().teleport(arena.getMap().getSpawnLocation());
             drawer.getPlayer().getActivePotionEffects().forEach(effect -> drawer.getPlayer().removePotionEffect(effect.getType()));
             drawer.getPlayer().setWalkSpeed(0.2f);

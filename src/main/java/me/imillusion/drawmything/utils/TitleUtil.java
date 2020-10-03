@@ -9,8 +9,20 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public final class TitleUtil {
+
+    private static Method titleMethod;
+    private static boolean useNewMethod = true;
+
+    static {
+        try {
+            titleMethod = Player.class.getMethod("sendTitle", String.class, String.class, int.class, int.class, int.class);
+        } catch (NoSuchMethodException e) {
+            useNewMethod = false;
+        }
+    }
 
     private TitleUtil() {
         //Avoid initializing in utility class
@@ -20,6 +32,23 @@ public final class TitleUtil {
         if (players.length == 0)
             return;
 
+        if (useNewMethod)
+            useNewMethod(title, subtitle, fadeIn, stay, fadeOut, players);
+        else
+            useOldMethod(title, subtitle, fadeIn, stay, fadeOut, players);
+    }
+
+    private static void useNewMethod(String title, String subtitle, int fadeIn, int stay, int fadeOut, Player... players) {
+        for (Player player : players) {
+            try {
+                titleMethod.invoke(player, title, subtitle, fadeIn, stay, fadeOut);
+            } catch (IllegalAccessException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private static void useOldMethod(String title, String subtitle, int fadeIn, int stay, int fadeOut, Player... players) {
         PacketContainer titlePacket = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.TITLE);
         PacketContainer subtitlePacket = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.TITLE);
         PacketContainer timesPacket = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.TITLE);

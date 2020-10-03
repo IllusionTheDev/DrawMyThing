@@ -22,9 +22,8 @@ public class GameManager {
         this.gameMaps = gameMaps;
 
         Bukkit.getScheduler().scheduleSyncRepeatingTask(main, () -> activeGames.forEach(game -> {
-            if (game.isStarted()) {
+            if (game.getGameState() == GameState.IN_GAME)
                 game.getArena().getRound().tick();
-            }
 
         }), 20L, 20L);
     }
@@ -40,7 +39,7 @@ public class GameManager {
     public Game getFirstAvailableGame()
     {
         return activeGames.parallelStream()
-                .filter(game -> !game.isStarted())
+                .filter(game -> game.getGameState().canJoin())
                 .filter(game -> game.getArena().getPlayers().size() < main.getSettings().getMaxPlayers())
                 .findFirst()
                 .orElse(new Game(main, getRandomMap()));

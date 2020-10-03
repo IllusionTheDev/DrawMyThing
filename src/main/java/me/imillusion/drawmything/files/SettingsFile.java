@@ -10,6 +10,8 @@ import java.util.Map;
 @Getter
 public class SettingsFile extends YMLBase {
 
+    private int rounds;
+
     private int minplayers;
     private int maxPlayers;
 
@@ -23,6 +25,7 @@ public class SettingsFile extends YMLBase {
     public SettingsFile(JavaPlugin plugin) {
         super(plugin, new File(plugin.getDataFolder(), "settings.yml"), true);
 
+        rounds = getConfiguration().getInt("rounds", 3);
         minplayers = getConfiguration().getInt("minimum-players", 2);
         maxPlayers = getConfiguration().getInt("maximum-players", 16);
         drawingTime = getConfiguration().getInt("drawing-time");

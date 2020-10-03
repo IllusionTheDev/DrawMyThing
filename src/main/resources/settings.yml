@@ -6,6 +6,8 @@
 # on the game.
 #
 
+rounds: 3
+
 minimum-players: 2 #The minimum amount of players per game
 maximum-players: 16 #The maximum amount of players per game
 

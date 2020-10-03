@@ -3,6 +3,7 @@ package me.imillusion.drawmything.pregame;
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.game.Game;
+import me.imillusion.drawmything.game.GameState;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.event.EventHandler;
@@ -37,7 +38,7 @@ public class JoinHandler implements Listener {
         e.getPlayer().teleport(game.getArena().getMap().getSpawnLocation());
         e.getPlayer().setWalkSpeed(0.2f);
 
-        if (game.getArena().getPlayers().size() >= main.getSettings().getMinplayers() && !game.isActiveCountdown())
+        if (game.getArena().getPlayers().size() >= main.getSettings().getMinplayers() && game.getGameState() != GameState.COUNTDOWN)
             main.getGameCountdown().start(game);
 
         e.setJoinMessage("");

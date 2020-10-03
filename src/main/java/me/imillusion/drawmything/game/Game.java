@@ -1,9 +1,9 @@
 package me.imillusion.drawmything.game;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import me.imillusion.drawmything.DrawPlugin;
+import me.imillusion.drawmything.events.GameCleanupEvent;
 import me.imillusion.drawmything.events.GameStartEvent;
 import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.game.arena.ArenaMap;
@@ -19,11 +19,9 @@ public class Game {
     @Getter
     private Arena arena;
     @Getter
-    @Setter(AccessLevel.PACKAGE)
-    private boolean activeCountdown;
+    @Setter
+    private GameState gameState;
 
-    @Getter
-    private boolean started;
 
     Game(DrawPlugin main, ArenaMap arenaMap) {
         this.main = main;
@@ -33,7 +31,7 @@ public class Game {
 
     public void start()
     {
-        started = true;
+        gameState = GameState.IN_GAME;
         arena.getRound().reset();
         arena.sendScoreboard();
 
@@ -105,12 +103,13 @@ public class Game {
 
     private void cleanup()
     {
-        if (!started || arena == null)
+        if (gameState != GameState.FINISHED || arena == null)
             return;
 
+        new GameCleanupEvent(this);
         Set<Player> players = arena.getPlayers();
         players.forEach(main::sendToLobby);
-        started = false;
+        gameState = GameState.PREGAME;
         arena = null;
         main.getGameManager().unregisterGame(this);
     }

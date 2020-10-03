@@ -2,6 +2,7 @@ package me.imillusion.drawmything.game.handler;
 
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.game.Game;
+import me.imillusion.drawmything.game.GameState;
 import me.imillusion.drawmything.game.data.Round;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
@@ -25,7 +26,7 @@ public class GuesserChatHandler implements Listener {
 
         e.getRecipients().removeIf(player -> !game.getArena().getUUIDs().contains(player.getUniqueId()));
 
-        if (!game.isStarted())
+        if (game.getGameState() != GameState.IN_GAME)
             return;
 
         Round round = game.getArena().getRound();

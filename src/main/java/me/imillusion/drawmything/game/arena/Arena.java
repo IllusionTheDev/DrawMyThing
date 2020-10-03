@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.game.Game;
+import me.imillusion.drawmything.game.GameState;
 import me.imillusion.drawmything.game.canvas.Canvas;
 import me.imillusion.drawmything.game.data.Round;
 import me.imillusion.drawmything.scoreboard.TeamsScoreboard;
@@ -102,7 +103,7 @@ public class Arena {
         players.add(uuid);
         main.getPlayerManager().get(uuid).setPoints(points);
 
-        if (game.isStarted())
+        if (game.getGameState() == GameState.IN_GAME)
             sendScoreboard();
     }
 

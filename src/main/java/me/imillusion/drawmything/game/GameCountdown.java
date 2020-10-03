@@ -2,6 +2,9 @@ package me.imillusion.drawmything.game;
 
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.data.DrawPlayer;
+import me.imillusion.drawmything.events.GameCountdownEndEvent;
+import me.imillusion.drawmything.events.GameCountdownStartEvent;
+import me.imillusion.drawmything.events.GameCountdownTickEvent;
 import me.imillusion.drawmything.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -23,8 +26,9 @@ public class GameCountdown {
     {
         for (int i = game.getArena().getPlayers().size(); i >= main.getSettings().getMinplayers(); i--) {
             if (main.getSettings().getStartTimes().containsKey(i)) {
+                new GameCountdownStartEvent(game);
                 countdowns.put(game, main.getSettings().getStartTimes().get(i));
-                game.setActiveCountdown(true);
+                game.setGameState(GameState.COUNTDOWN);
 
                 for (Player player : game.getArena().getPlayers()) {
                     DrawPlayer dp = main.getPlayerManager().get(player);
@@ -49,7 +53,7 @@ public class GameCountdown {
         for (Game game : new HashMap<>(countdowns).keySet()) //copying map to avoid CME's
         {
             if (main.getSettings().getMinplayers() > game.getArena().getPlayers().size()) {
-                stopCountdown(game);
+                stopCountdown(game, GameState.PREGAME);
                 main.getTitles().playTitle("countdown.not-enough-players",
                         game.getArena().getPlayers().toArray(new Player[]{}));
                 continue;
@@ -57,9 +61,10 @@ public class GameCountdown {
 
             int time = countdowns.get(game);
 
+            new GameCountdownTickEvent(game, time);
             if (--time == 0) {
                 game.start();
-                stopCountdown(game);
+                stopCountdown(game, GameState.IN_GAME);
                 continue;
             }
 
@@ -90,8 +95,13 @@ public class GameCountdown {
         return main.getScoreboards().obtainSecondsPlaceholder(time).getValue();
     }
 
-    public void stopCountdown(Game game)
+    public void stopCountdown(Game game, GameState newState)
     {
+        new GameCountdownEndEvent(game,
+                newState == GameState.IN_GAME ?
+                        GameCountdownEndEvent.Cause.GAME_START :
+                        GameCountdownEndEvent.Cause.NOT_ENOUGH_PLAYERS);
+
         countdowns.remove(game);
         game.getArena().getPlayers().forEach(player -> {
             player.setLevel(0);
@@ -99,6 +109,6 @@ public class GameCountdown {
             dp.setCurrentTemplate(null);
             dp.setLastScoreboardPlaceholders(null);
         });
-        game.setActiveCountdown(false);
+        game.setGameState(newState);
     }
 }

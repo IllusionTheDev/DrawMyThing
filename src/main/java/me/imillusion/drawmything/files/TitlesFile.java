@@ -37,6 +37,6 @@ public class TitlesFile extends YMLBase {
 
     public void playTitle(String name, Player... players)
     {
-        playTitle(name, new Pair[]{}, players);
+        playTitle(name, null, players);
     }
 }

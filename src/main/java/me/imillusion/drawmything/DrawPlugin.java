@@ -96,6 +96,11 @@ public class DrawPlugin extends JavaPlugin {
         Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
 
+    @Override
+    public void onDisable() {
+        scoreboards.dispose();
+    }
+
     private void setupFiles()
     {
         settings = new SettingsFile(this);

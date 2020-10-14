@@ -2,9 +2,9 @@ package me.imillusion.drawmything.game;
 
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.data.DrawPlayer;
-import me.imillusion.drawmything.events.GameCountdownEndEvent;
-import me.imillusion.drawmything.events.GameCountdownStartEvent;
-import me.imillusion.drawmything.events.GameCountdownTickEvent;
+import me.imillusion.drawmything.events.game.GameCountdownEndEvent;
+import me.imillusion.drawmything.events.game.GameCountdownStartEvent;
+import me.imillusion.drawmything.events.game.GameCountdownTickEvent;
 import me.imillusion.drawmything.utils.Pair;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

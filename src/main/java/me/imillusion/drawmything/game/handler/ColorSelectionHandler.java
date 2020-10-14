@@ -2,8 +2,6 @@ package me.imillusion.drawmything.game.handler;
 
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.game.arena.Arena;
-import me.imillusion.drawmything.utils.ColorConverter;
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

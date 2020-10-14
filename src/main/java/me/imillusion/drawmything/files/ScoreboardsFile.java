@@ -72,5 +72,11 @@ public class ScoreboardsFile extends YMLBase {
         return new Pair<>("%seconds%", "" + ChatColor.translateAlternateColorCodes('&', color + seconds));
     }
 
+    public void dispose() {
+        animations.values().forEach(ScoreboardAnimation::dispose);
+        awaitingBoard.dispose();
+        countdownBoard.dispose();
+        ingameBoard.dispose();
+    }
 
 }

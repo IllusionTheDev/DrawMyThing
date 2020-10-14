@@ -36,7 +36,9 @@ public class ScoreboardTemplate {
     private void update()
     {
         animations.forEach((string, animation) -> animation.tick());
-        main.getPlayerManager().getAllPlayers().stream()
+        main.getPlayerManager()
+                .getAllPlayers()
+                .stream()
                 .filter(player -> player.getCurrentTemplate() != null && player.getCurrentTemplate().equals(this))
                 .forEach(player -> render(player.getPlayer(), player.getScoreboard(), player.getLastScoreboardPlaceholders()));
     }

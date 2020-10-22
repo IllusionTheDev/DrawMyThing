@@ -89,7 +89,8 @@ Registering a painting tool:
 - Use a blank constructor and override all getters or use a constructor with params
 ```java
 drawPlugin.getToolManager().registerTool(new MyPaintingTool());
-drawPlugin.getToolManager().registerTool(ConfigurationSection section); //for a configurable tool, must use one of the constructors present on the abstract class
+drawPlugin.getToolManager().registerTool(section, MyPaintingTool.class);
+drawPlugin.getToolManager().registerTool(ConfigurationSection section, Class<? extends PaintingTool> clazz); //for a configurable tool, must use one of the constructors present on the abstract class
 ```
 
 Planned features:

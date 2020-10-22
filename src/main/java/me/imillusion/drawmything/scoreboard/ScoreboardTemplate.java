@@ -2,7 +2,7 @@ package me.imillusion.drawmything.scoreboard;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.imillusion.drawmything.DrawPlugin;
-import me.imillusion.drawmything.utils.Pair;
+import me.imillusion.drawmything.utils.SimplePlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -43,8 +43,7 @@ public class ScoreboardTemplate {
                 .forEach(player -> render(player.getPlayer(), player.getScoreboard(), player.getLastScoreboardPlaceholders()));
     }
 
-    @SafeVarargs
-    public final void render(Player player, TeamsScoreboard board, Pair<String, String>... placeholders)
+    public final void render(Player player, TeamsScoreboard board, SimplePlaceholder... placeholders)
     {
         List<String> copy = new ArrayList<>(text);
 
@@ -84,15 +83,14 @@ public class ScoreboardTemplate {
         board.write(copy);
     }
 
-    @SafeVarargs
-    private final String setPlaceholders(Player player, String input, Pair<String, String>... placeholders)
+    private String setPlaceholders(Player player, String input, SimplePlaceholder... placeholders)
     {
         if (placeholders == null)
             return input;
 
         String val = input;
 
-        for (Pair<String, String> placeholder : placeholders) {
+        for (SimplePlaceholder placeholder : placeholders) {
             val = val.replace(placeholder.getKey(), placeholder.getValue());
         }
 

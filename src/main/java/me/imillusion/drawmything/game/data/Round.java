@@ -7,7 +7,7 @@ import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.game.GameState;
 import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.utils.ActionBarUtil;
-import me.imillusion.drawmything.utils.Pair;
+import me.imillusion.drawmything.utils.SimplePlaceholder;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -225,7 +225,7 @@ public class Round {
         pickWord();
         pickDrawer();
 
-        main.getTitles().playTitle("drawer-word-chosen", new Pair[]{new Pair<>("%word%", word)}, drawer.getPlayer());
+        main.getTitles().playTitle("drawer-word-chosen", new SimplePlaceholder[]{new SimplePlaceholder("%word%", word)}, drawer.getPlayer());
         drawer.getPlayer().sendMessage(
                 ChatColor.translateAlternateColorCodes('&',
                         main.getMessages().getMessage("word-chosen")

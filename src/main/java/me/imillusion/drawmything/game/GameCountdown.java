@@ -5,7 +5,7 @@ import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.events.game.GameCountdownEndEvent;
 import me.imillusion.drawmything.events.game.GameCountdownStartEvent;
 import me.imillusion.drawmything.events.game.GameCountdownTickEvent;
-import me.imillusion.drawmything.utils.Pair;
+import me.imillusion.drawmything.utils.SimplePlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -34,12 +34,12 @@ public class GameCountdown {
                     DrawPlayer dp = main.getPlayerManager().get(player);
                     dp.setCurrentTemplate(main.getScoreboards().getCountdownBoard());
 
-                    List<Pair<String, String>> list = new ArrayList<>(Collections.singletonList(main.getScoreboards().obtainSecondsPlaceholder(main.getSettings().getStartTimes().get(i))));
+                    List<SimplePlaceholder> list = new ArrayList<>(Collections.singletonList(main.getScoreboards().obtainSecondsPlaceholder(main.getSettings().getStartTimes().get(i))));
 
                     if (dp.getLastScoreboardPlaceholders() != null)
                         list.addAll(Arrays.asList(dp.getLastScoreboardPlaceholders()));
 
-                    dp.getCurrentTemplate().render(player, dp.getScoreboard(), list.toArray(new Pair[]{}));
+                    dp.getCurrentTemplate().render(player, dp.getScoreboard(), list.toArray(new SimplePlaceholder[]{}));
                 }
             }
         }

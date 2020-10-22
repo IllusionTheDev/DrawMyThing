@@ -8,7 +8,7 @@ import me.imillusion.drawmything.game.GameState;
 import me.imillusion.drawmything.game.canvas.Canvas;
 import me.imillusion.drawmything.game.data.Round;
 import me.imillusion.drawmything.scoreboard.TeamsScoreboard;
-import me.imillusion.drawmything.utils.Pair;
+import me.imillusion.drawmything.utils.SimplePlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -119,19 +119,19 @@ public class Arena {
             int points = drawPlayer.getPoints();
             int position = drawPlayer.getPosition();
 
-            Pair[] pairs = new Pair[]{
-                    new Pair<>("%points%", String.valueOf(points)),
-                    new Pair<>("%position%", String.valueOf(position)),
-                    new Pair<>("%drawer%", drawer),
-                    new Pair<>("%round%", String.valueOf(roundNumber))
+            SimplePlaceholder[] pairs = new SimplePlaceholder[]{
+                    new SimplePlaceholder("%points%", String.valueOf(points)),
+                    new SimplePlaceholder("%position%", String.valueOf(position)),
+                    new SimplePlaceholder("%drawer%", drawer),
+                    new SimplePlaceholder("%round%", String.valueOf(roundNumber))
             };
 
-            List<Pair> list = new ArrayList<>(Arrays.asList(pairs));
+            List<SimplePlaceholder> list = new ArrayList<>(Arrays.asList(pairs));
 
             if (drawPlayer.getLastScoreboardPlaceholders() != null)
                 list.addAll(Arrays.asList(drawPlayer.getLastScoreboardPlaceholders()));
 
-            drawPlayer.getCurrentTemplate().render(p, drawPlayer.getScoreboard(), list.toArray(new Pair[]{}));
+            drawPlayer.getCurrentTemplate().render(p, drawPlayer.getScoreboard(), list.toArray(new SimplePlaceholder[]{}));
         }
     }
 

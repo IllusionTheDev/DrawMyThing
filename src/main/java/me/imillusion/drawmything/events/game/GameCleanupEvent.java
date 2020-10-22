@@ -6,6 +6,8 @@ public class GameCleanupEvent extends GameEvent {
 
     public GameCleanupEvent(Game game) {
         super(game);
+
+        call();
     }
 
 }

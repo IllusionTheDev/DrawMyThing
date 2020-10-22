@@ -5,6 +5,7 @@ import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.scoreboard.ScoreboardAnimation;
 import me.imillusion.drawmything.scoreboard.ScoreboardTemplate;
 import me.imillusion.drawmything.utils.Pair;
+import me.imillusion.drawmything.utils.SimplePlaceholder;
 import org.bukkit.ChatColor;
 
 import java.io.File;
@@ -52,7 +53,7 @@ public class ScoreboardsFile extends YMLBase {
         return new ScoreboardTemplate(main, title, updateTicks, animations, text);
     }
 
-    public Pair<String, String> obtainSecondsPlaceholder(int seconds)
+    public SimplePlaceholder obtainSecondsPlaceholder(int seconds)
     {
         String color = "";
 
@@ -69,7 +70,7 @@ public class ScoreboardsFile extends YMLBase {
         }
 
         System.out.println((color + seconds));
-        return new Pair<>("%seconds%", "" + ChatColor.translateAlternateColorCodes('&', color + seconds));
+        return new SimplePlaceholder("%seconds%", "" + ChatColor.translateAlternateColorCodes('&', color + seconds));
     }
 
     public void dispose() {

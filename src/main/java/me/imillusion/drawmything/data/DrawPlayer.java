@@ -10,6 +10,7 @@ import me.imillusion.drawmything.game.data.drawing.tools.PaintingTool;
 import me.imillusion.drawmything.scoreboard.ScoreboardTemplate;
 import me.imillusion.drawmything.scoreboard.TeamsScoreboard;
 import me.imillusion.drawmything.utils.Pair;
+import me.imillusion.drawmything.utils.SimplePlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.DyeColor;
 import org.bukkit.entity.Player;
@@ -29,7 +30,7 @@ public class DrawPlayer {
     private TeamsScoreboard scoreboard;
 
     private ScoreboardTemplate currentTemplate;
-    private Pair<String, String>[] lastScoreboardPlaceholders;
+    private SimplePlaceholder[] lastScoreboardPlaceholders;
     private Game currentGame;
 
     //lobby data

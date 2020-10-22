@@ -11,6 +11,7 @@ public class GameCountdownTickEvent extends GameEvent {
     public GameCountdownTickEvent(Game game, int timeUntilStart) {
         super(game);
         this.timeUntilStart = timeUntilStart;
+        call();
     }
 
 }

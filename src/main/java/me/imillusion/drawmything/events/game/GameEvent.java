@@ -10,14 +10,16 @@ public abstract class GameEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
 
-    private Game game;
-    private Arena arena;
+    private final Game game;
+    private final Arena arena;
 
     public GameEvent(Game game) {
         this.game = game;
 
         this.arena = game.getArena();
+    }
 
+    void call() {
         Bukkit.getPluginManager().callEvent(this);
     }
 

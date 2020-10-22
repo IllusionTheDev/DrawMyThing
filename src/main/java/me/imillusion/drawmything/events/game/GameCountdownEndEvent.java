@@ -11,6 +11,7 @@ public class GameCountdownEndEvent extends GameEvent {
     public GameCountdownEndEvent(Game game, Cause cause) {
         super(game);
         this.cause = cause;
+        call();
     }
 
     public enum Cause {

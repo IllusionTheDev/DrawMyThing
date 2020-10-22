@@ -1,6 +1,6 @@
 package me.imillusion.drawmything.files;
 
-import me.imillusion.drawmything.utils.Pair;
+import me.imillusion.drawmything.utils.SimplePlaceholder;
 import me.imillusion.drawmything.utils.TitleUtil;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.entity.Player;
@@ -14,7 +14,7 @@ public class TitlesFile extends YMLBase {
         super(plugin, new File(plugin.getDataFolder(), "titles.yml"), true);
     }
 
-    public void playTitle(String name, Pair<String, String>[] placeholders, Player... players)
+    public void playTitle(String name, SimplePlaceholder[] placeholders, Player... players)
     {
         if(!getConfiguration().contains("titles." + name))
             return;
@@ -25,10 +25,10 @@ public class TitlesFile extends YMLBase {
         int stay = getConfiguration().getInt("titles." + name + ".stay");
         int fadeOut = getConfiguration().getInt("titles." + name + ".fadeout");
 
-        for(Pair<String, String> pair : placeholders)
+        for (SimplePlaceholder placeholder : placeholders)
         {
-            title = title.replace(pair.getKey(), pair.getValue());
-            sub = sub.replace(pair.getKey(), pair.getValue());
+            title = title.replace(placeholder.getKey(), placeholder.getValue());
+            sub = sub.replace(placeholder.getKey(), placeholder.getValue());
         }
 
         TitleUtil.sendTitle(title, sub, fadeIn, stay, fadeOut, players);

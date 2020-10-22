@@ -8,5 +8,6 @@ public class GameCountdownStartEvent extends GameEvent {
 
     public GameCountdownStartEvent(Game game) {
         super(game);
+        call();
     }
 }

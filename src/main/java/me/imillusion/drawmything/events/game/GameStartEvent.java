@@ -17,6 +17,7 @@ public class GameStartEvent extends GameEvent {
         this.round = getArena().getRound();
         this.canvas = getArena().getCanvas();
 
+        call();
     }
 
 }

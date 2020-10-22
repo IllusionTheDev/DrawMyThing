@@ -13,6 +13,8 @@ public class GameWinEvent extends GameEvent {
     public GameWinEvent(Game game, DrawPlayer winner) {
         super(game);
         this.winner = winner;
+
+        call();
     }
 
     public Player getWinnerPlayer() {

@@ -4,6 +4,7 @@ import lombok.Getter;
 import me.imillusion.drawmything.events.game.GameEvent;
 import me.imillusion.drawmything.game.Game;
 import me.imillusion.drawmything.game.data.Round;
+import org.bukkit.Bukkit;
 
 @Getter
 public class RoundTickEvent extends GameEvent {
@@ -14,5 +15,7 @@ public class RoundTickEvent extends GameEvent {
         super(game);
 
         this.round = getArena().getRound();
+
+        Bukkit.getPluginManager().callEvent(this);
     }
 }

@@ -8,14 +8,12 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 public class ItemEventHandler implements Listener {
 
     @EventHandler
-    private void onDrop(PlayerDropItemEvent e)
-    {
+    private void onDrop(PlayerDropItemEvent e) {
         e.setCancelled(true);
     }
 
     @EventHandler
-    private void onClick(InventoryClickEvent e)
-    {
+    private void onClick(InventoryClickEvent e) {
         e.setCancelled(true);
     }
 }

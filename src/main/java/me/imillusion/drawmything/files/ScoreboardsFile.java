@@ -44,8 +44,7 @@ public class ScoreboardsFile extends YMLBase {
         ingameBoard = getTemplate("in-game");
     }
 
-    private ScoreboardTemplate getTemplate(String name)
-    {
+    private ScoreboardTemplate getTemplate(String name) {
         String title = getConfiguration().getString(name + ".title");
         int updateTicks = getConfiguration().getInt(name + ".update-every");
         List<String> text = getConfiguration().getStringList(name + ".text");
@@ -53,8 +52,7 @@ public class ScoreboardsFile extends YMLBase {
         return new ScoreboardTemplate(main, title, updateTicks, animations, text);
     }
 
-    public SimplePlaceholder obtainSecondsPlaceholder(int seconds)
-    {
+    public SimplePlaceholder obtainSecondsPlaceholder(int seconds) {
         String color = "";
 
         for (Map.Entry<Character, Pair<Integer, Integer>> entry : countdownColors.entrySet()) {

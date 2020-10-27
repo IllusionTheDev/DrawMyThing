@@ -8,14 +8,12 @@ import org.bukkit.event.entity.EntityDamageEvent;
 public class WorldActionsHandler implements Listener {
 
     @EventHandler
-    private void onBreak(BlockBreakEvent e)
-    {
+    private void onBreak(BlockBreakEvent e) {
         e.setCancelled(true);
     }
 
     @EventHandler
-    private void onDamage(EntityDamageEvent e)
-    {
+    private void onDamage(EntityDamageEvent e) {
         e.setCancelled(true);
     }
 }

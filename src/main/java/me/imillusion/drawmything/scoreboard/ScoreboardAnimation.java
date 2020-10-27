@@ -17,20 +17,17 @@ public class ScoreboardAnimation {
         currentText = rawText.get(currentPosition++);
     }
 
-    public void dispose()
-    {
+    public void dispose() {
         currentPosition = 0;
         rawText = null;
         currentText = null;
     }
 
-    protected ScoreboardAnimation clone()
-    {
+    protected ScoreboardAnimation clone() {
         return new ScoreboardAnimation(rawText);
     }
 
-    void tick()
-    {
+    void tick() {
         currentText = rawText.get(currentPosition++);
         if (currentPosition >= rawText.size())
             currentPosition = 0;

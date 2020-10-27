@@ -127,8 +127,7 @@ public class TeamsScoreboard {
      *
      * @param lines - The text to write
      */
-    public void write(List<String> lines)
-    {
+    public void write(List<String> lines) {
         if (lines.size() < MAX_LINES)
             for (int i = 0; i < (MAX_LINES - lines.size()); i++) {
                 if (!board.getTeam(BLANKS[i]).getPrefix().isEmpty() || !board.getTeam(BLANKS[i]).getSuffix().isEmpty())

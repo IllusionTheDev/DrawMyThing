@@ -14,9 +14,8 @@ public class TitlesFile extends YMLBase {
         super(plugin, new File(plugin.getDataFolder(), "titles.yml"), true);
     }
 
-    public void playTitle(String name, SimplePlaceholder[] placeholders, Player... players)
-    {
-        if(!getConfiguration().contains("titles." + name))
+    public void playTitle(String name, SimplePlaceholder[] placeholders, Player... players) {
+        if (!getConfiguration().contains("titles." + name))
             return;
 
         String title = StringEscapeUtils.unescapeJava(getConfiguration().getString("titles." + name + ".title"));
@@ -25,8 +24,7 @@ public class TitlesFile extends YMLBase {
         int stay = getConfiguration().getInt("titles." + name + ".stay");
         int fadeOut = getConfiguration().getInt("titles." + name + ".fadeout");
 
-        for (SimplePlaceholder placeholder : placeholders)
-        {
+        for (SimplePlaceholder placeholder : placeholders) {
             title = title.replace(placeholder.getKey(), placeholder.getValue());
             sub = sub.replace(placeholder.getKey(), placeholder.getValue());
         }
@@ -35,8 +33,7 @@ public class TitlesFile extends YMLBase {
 
     }
 
-    public void playTitle(String name, Player... players)
-    {
+    public void playTitle(String name, Player... players) {
         playTitle(name, null, players);
     }
 }

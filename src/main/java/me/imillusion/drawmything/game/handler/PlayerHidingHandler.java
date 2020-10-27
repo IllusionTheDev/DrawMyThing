@@ -33,8 +33,7 @@ public class PlayerHidingHandler implements Listener {
     }
 
     @EventHandler
-    private void onClick(PlayerInteractEvent e)
-    {
+    private void onClick(PlayerInteractEvent e) {
         if (e.getItem() != null && e.getItem().equals(inactiveItem)) {
             main.getGameManager().getPlayerGame(e.getPlayer().getUniqueId()).getArena().getPlayers().forEach(player -> main.getHider().hideEntity(e.getPlayer(), player));
             e.getPlayer().setItemInHand(activeItem);

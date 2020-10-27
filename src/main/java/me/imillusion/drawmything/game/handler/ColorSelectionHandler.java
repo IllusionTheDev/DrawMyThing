@@ -22,8 +22,7 @@ public class ColorSelectionHandler implements Listener {
     }
 
     @EventHandler
-    private void onClick(PlayerInteractEvent e)
-    {
+    private void onClick(PlayerInteractEvent e) {
         if (e.getAction() != Action.LEFT_CLICK_AIR)
             return;
 

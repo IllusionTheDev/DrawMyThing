@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import me.imillusion.drawmything.DrawPlugin;
 import me.imillusion.drawmything.game.Game;
+import me.imillusion.drawmything.game.GameState;
 import me.imillusion.drawmything.game.canvas.Point;
 import me.imillusion.drawmything.game.data.drawing.tools.PaintingTool;
 import me.imillusion.drawmything.scoreboard.ScoreboardTemplate;
@@ -12,7 +13,9 @@ import me.imillusion.drawmything.scoreboard.TeamsScoreboard;
 import me.imillusion.drawmything.utils.Pair;
 import me.imillusion.drawmything.utils.SimplePlaceholder;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.DyeColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -36,7 +39,7 @@ public class DrawPlayer {
     //lobby data
     private boolean hiding;
 
-    //game data
+    //currentGame data
     private int points;
     private DyeColor selectedColor = DyeColor.WHITE;
     private int brushSize = 1;
@@ -51,18 +54,15 @@ public class DrawPlayer {
         main.getPlayerManager().register(this);
     }
 
-    public PaintingTool getSelectedPaintTool()
-    {
+    public PaintingTool getSelectedPaintTool() {
         return main.getToolManager().getToolByItem(getPlayer().getItemInHand());
     }
 
-    public Player getPlayer()
-    {
+    public Player getPlayer() {
         return Bukkit.getPlayer(uuid);
     }
 
-    public boolean isDrawer()
-    {
+    public boolean isDrawer() {
         if (currentGame == null)
             return false;
 
@@ -78,8 +78,34 @@ public class DrawPlayer {
         return currentGame.getArena().getRound().getDrawer().getUuid().equals(uuid);
     }
 
-    public int getPosition()
-    {
+    public void setup() {
+        Player p = getPlayer();
+        if (!p.isOp()) {
+            p.setGameMode(GameMode.ADVENTURE);
+            p.getInventory().clear();
+        }
+
+        p.getInventory().setItem(8, main.getHidingHandler().getInactiveItem());
+        p.getActivePotionEffects().forEach(effect -> p.removePotionEffect(effect.getType()));
+
+        currentGame = main.getGameManager().getFirstAvailableGame();
+
+        currentGame.getArena().addPlayer(p.getUniqueId());
+        p.teleport(currentGame.getArena().getMap().getSpawnLocation());
+        p.setWalkSpeed(0.2f);
+
+        if (currentGame.getArena().getPlayers().size() >= main.getSettings().getMinplayers() && currentGame.getGameState() != GameState.COUNTDOWN)
+            main.getGameCountdown().start(currentGame);
+
+        currentGame.getArena().getPlayers().forEach(player -> player.sendMessage(
+                ChatColor.translateAlternateColorCodes('&',
+                        main.getMessages().getMessage("player-join")
+                                .replace("%prefix%", main.getMessages().getPrefix())
+                                .replace("%player%", p.getName())
+                                .replace("%count%", String.valueOf(currentGame.getArena().getUUIDs().size())))));
+    }
+
+    public int getPosition() {
         List<Pair<UUID, Integer>> sortedPoints = new ArrayList<>();
         Pair<UUID, Integer> pair = null;
 

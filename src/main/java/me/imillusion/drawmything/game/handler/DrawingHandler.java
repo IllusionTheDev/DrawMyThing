@@ -25,13 +25,12 @@ public class DrawingHandler implements Listener {
         Bukkit.getScheduler().runTaskTimerAsynchronously(main, () -> main.getGameManager().getActiveGames().forEach(game -> {
             Arena arena = game.getArena();
             if (arena.getRound().getDrawer() != null && arena.getRound().getDrawer().getTicksleft() != 0)
-                    arena.getRound().getDrawer().setTicksleft(arena.getRound().getDrawer().getTicksleft() - 1);
+                arena.getRound().getDrawer().setTicksleft(arena.getRound().getDrawer().getTicksleft() - 1);
         }), 1L, 1L);
     }
 
     @EventHandler
-    private void onInteract(PlayerInteractEvent e)
-    {
+    private void onInteract(PlayerInteractEvent e) {
         Player player = e.getPlayer();
         DrawPlayer drawPlayer = main.getPlayerManager().get(player);
 
@@ -39,8 +38,7 @@ public class DrawingHandler implements Listener {
     }
 
     @EventHandler
-    private void onMove(PlayerMoveEvent e)
-    {
+    private void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         DrawPlayer drawPlayer = main.getPlayerManager().get(player);
 

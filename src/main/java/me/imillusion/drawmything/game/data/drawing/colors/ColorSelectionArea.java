@@ -20,8 +20,7 @@ public class ColorSelectionArea {
     private List<Location> locations = new ArrayList<>();
 
 
-    public ColorSelectionArea(Location topLeft, Location bottomRight, DyeColor color)
-    {
+    public ColorSelectionArea(Location topLeft, Location bottomRight, DyeColor color) {
         this.color = color;
 
         for (int x = topLeft.getBlockX(); x <= bottomRight.getBlockX(); x++)
@@ -37,8 +36,7 @@ public class ColorSelectionArea {
                 }
     }
 
-    public static List<ColorSelectionArea> createAreas(Location topLeft, Location bottomRight)
-    {
+    public static List<ColorSelectionArea> createAreas(Location topLeft, Location bottomRight) {
         List<ColorSelectionArea> areas = new ArrayList<>();
 
         Map<DyeColor, List<Location>> locations = new HashMap<>();
@@ -63,8 +61,7 @@ public class ColorSelectionArea {
         return areas;
     }
 
-    public boolean isWithin(Location location)
-    {
+    public boolean isWithin(Location location) {
         return locations.contains(location);
     }
 }

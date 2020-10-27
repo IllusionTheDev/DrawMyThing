@@ -19,8 +19,7 @@ public class MapsFile extends YMLBase {
         super(plugin, new File(plugin.getDataFolder(), "maps.yml"), true);
     }
 
-    public List<ArenaMap> load()
-    {
+    public List<ArenaMap> load() {
         List<ArenaMap> maps = new ArrayList<>();
 
         if (!getConfiguration().isConfigurationSection("maps"))
@@ -57,8 +56,7 @@ public class MapsFile extends YMLBase {
         return maps;
     }
 
-    private Location getLocation(World world, ConfigurationSection section)
-    {
+    private Location getLocation(World world, ConfigurationSection section) {
         return new Location(
                 world,
                 section.getDouble("x"),

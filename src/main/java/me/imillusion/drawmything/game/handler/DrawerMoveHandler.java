@@ -18,8 +18,7 @@ public class DrawerMoveHandler implements Listener {
     }
 
     @EventHandler
-    private void onMove(PlayerMoveEvent e)
-    {
+    private void onMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         Game game = main.getGameManager().getPlayerGame(player.getUniqueId());
 

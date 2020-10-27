@@ -20,8 +20,7 @@ public class ScoreboardTemplate {
     private String title;
     private int taskid;
 
-    public ScoreboardTemplate(DrawPlugin main, String title, int updateTime, Map<String, ScoreboardAnimation> animations, List<String> text)
-    {
+    public ScoreboardTemplate(DrawPlugin main, String title, int updateTime, Map<String, ScoreboardAnimation> animations, List<String> text) {
         this.main = main;
         this.animations = new HashMap<>();
 
@@ -33,8 +32,7 @@ public class ScoreboardTemplate {
             taskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(main, this::update, updateTime, updateTime);
     }
 
-    private void update()
-    {
+    private void update() {
         animations.forEach((string, animation) -> animation.tick());
         main.getPlayerManager()
                 .getAllPlayers()
@@ -43,8 +41,7 @@ public class ScoreboardTemplate {
                 .forEach(player -> render(player.getPlayer(), player.getScoreboard(), player.getLastScoreboardPlaceholders()));
     }
 
-    public final void render(Player player, TeamsScoreboard board, SimplePlaceholder... placeholders)
-    {
+    public final void render(Player player, TeamsScoreboard board, SimplePlaceholder... placeholders) {
         List<String> copy = new ArrayList<>(text);
 
         main.getPlayerManager().get(player).setLastScoreboardPlaceholders(placeholders);
@@ -83,8 +80,7 @@ public class ScoreboardTemplate {
         board.write(copy);
     }
 
-    private String setPlaceholders(Player player, String input, SimplePlaceholder... placeholders)
-    {
+    private String setPlaceholders(Player player, String input, SimplePlaceholder... placeholders) {
         if (placeholders == null)
             return input;
 
@@ -100,8 +96,7 @@ public class ScoreboardTemplate {
         return val;
     }
 
-    public void dispose()
-    {
+    public void dispose() {
         Bukkit.getScheduler().cancelTask(taskid);
         title = null;
         text = null;

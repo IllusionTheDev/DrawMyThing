@@ -12,8 +12,7 @@ public class SoundsFile extends YMLBase {
         super(plugin, new File(plugin.getDataFolder(), "sounds.yml"), true);
     }
 
-    public void playSound(Player player, String sound)
-    {
+    public void playSound(Player player, String sound) {
         if (!getConfiguration().contains("sounds." + sound))
             return;
 

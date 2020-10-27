@@ -49,8 +49,7 @@ public class Round {
         this.toDraw = toDraw;
     }
 
-    private void deobfuscateWord()
-    {
+    private void deobfuscateWord() {
         StringBuilder builder = new StringBuilder(obfuscated);
 
         for (int i = 0; i < word.length(); i++)
@@ -66,8 +65,7 @@ public class Round {
      * @return - The new Drawer
      * @see DrawPlayer
      */
-    public DrawPlayer pickDrawer()
-    {
+    public DrawPlayer pickDrawer() {
         arena.getCanvas().clear();
         guessedPlayers.clear();
 
@@ -98,8 +96,7 @@ public class Round {
      *
      * @return - The word picked
      */
-    public String pickWord()
-    {
+    public String pickWord() {
         List<String> words = main.getWords().getWords();
 
         word = words.get(random.nextInt(words.size()));
@@ -111,8 +108,7 @@ public class Round {
     /**
      * Resets the round.
      */
-    public void reset()
-    {
+    public void reset() {
         toDraw.removeIf(drawnPlayers::contains);
 
         if (drawer != null && drawer.getPlayer() != null) {
@@ -133,7 +129,7 @@ public class Round {
         intermission = true;
         intermissionTime = 0;
 
-        ActionBarUtil.sendActionbarMessage(" ", arena.getPlayers().toArray(new Player[]{}));
+        ActionBarUtil.sendActionbarMessage(" ", arena.getPlayersArray());
 
     }
 
@@ -142,13 +138,11 @@ public class Round {
      *
      * @param uuid - The UUID of the player
      */
-    public void addPlayer(UUID uuid)
-    {
+    public void addPlayer(UUID uuid) {
         toDraw.add(uuid);
     }
 
-    public void addPoints(UUID uuid)
-    {
+    public void addPoints(UUID uuid) {
         int points = (int) (((double) drawingTime / main.getSettings().getDrawingTime()) * 200) - (guessedPlayers.size() * 20);
 
         arena.setPoints(uuid, arena.getPoints(uuid) + points);
@@ -159,8 +153,7 @@ public class Round {
      *
      * @param uuid - The UUID of the player
      */
-    public void removePlayer(UUID uuid)
-    {
+    public void removePlayer(UUID uuid) {
         toDraw.remove(uuid);
         drawnPlayers.remove(uuid);
         guessedPlayers.remove(uuid);
@@ -183,8 +176,7 @@ public class Round {
             handleSwitch();
     }
 
-    public void tick()
-    {
+    public void tick() {
         if (roundNum > 3)
             return;
 
@@ -215,8 +207,7 @@ public class Round {
 
     }
 
-    private void startRound()
-    {
+    private void startRound() {
         intermission = false;
         intermissionTime = 0;
         drawingTime = main.getSettings().getDrawingTime();
@@ -233,8 +224,7 @@ public class Round {
                                 .replace("%word%", word)));
     }
 
-    private void handleSwitch()
-    {
+    private void handleSwitch() {
         if (toDraw.isEmpty()) {
             reset();
             if (roundNum > main.getSettings().getRounds())
@@ -263,7 +253,7 @@ public class Round {
 
         obfuscated = "";
 
-        ActionBarUtil.sendActionbarMessage(" ", arena.getPlayers().toArray(new Player[]{}));
+        ActionBarUtil.sendActionbarMessage(" ", arena.getPlayersArray());
 
         String msg = ChatColor.translateAlternateColorCodes('&', main.getMessages().getMessage("round-end")
                 .replace("%prefix%", main.getMessages().getPrefix())

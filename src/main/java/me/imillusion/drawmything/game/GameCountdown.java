@@ -22,8 +22,7 @@ public class GameCountdown {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(main, this::tick, 20L, 20L);
     }
 
-    public void start(Game game)
-    {
+    public void start(Game game) {
         for (int i = game.getArena().getPlayers().size(); i >= main.getSettings().getMinplayers(); i--) {
             if (main.getSettings().getStartTimes().containsKey(i)) {
                 new GameCountdownStartEvent(game);
@@ -45,8 +44,7 @@ public class GameCountdown {
         }
     }
 
-    private void tick()
-    {
+    private void tick() {
         if (countdowns.isEmpty()) //small ram savings
             return;
 
@@ -55,7 +53,7 @@ public class GameCountdown {
             if (main.getSettings().getMinplayers() > game.getArena().getPlayers().size()) {
                 stopCountdown(game, GameState.PREGAME);
                 main.getTitles().playTitle("countdown.not-enough-players",
-                        game.getArena().getPlayers().toArray(new Player[]{}));
+                        game.getArena().getPlayersArray());
                 continue;
             }
 
@@ -82,21 +80,19 @@ public class GameCountdown {
                 main.getMessages().sendMessage(p, time + "-seconds-left");
             }
 
-            main.getTitles().playTitle("countdown." + time + "-seconds-left", game.getArena().getPlayers().toArray(new Player[]{}));
+            main.getTitles().playTitle("countdown." + time + "-seconds-left", game.getArena().getPlayersArray());
 
             countdowns.replace(game, time);
         }
     }
 
-    public String getTime(Game game)
-    {
+    public String getTime(Game game) {
         int time = countdowns.get(game);
 
         return main.getScoreboards().obtainSecondsPlaceholder(time).getValue();
     }
 
-    public void stopCountdown(Game game, GameState newState)
-    {
+    public void stopCountdown(Game game, GameState newState) {
         new GameCountdownEndEvent(game,
                 newState == GameState.IN_GAME ?
                         GameCountdownEndEvent.Cause.GAME_START :

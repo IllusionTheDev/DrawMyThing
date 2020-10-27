@@ -1,8 +1,10 @@
 package me.imillusion.drawmything;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
+import com.google.common.base.Enums;
+import com.google.common.base.Optional;
 import lombok.Getter;
+import me.imillusion.drawmything.cleanup.CleanupAction;
+import me.imillusion.drawmything.cleanup.ServerType;
 import me.imillusion.drawmything.data.DrawPlayerManager;
 import me.imillusion.drawmything.files.*;
 import me.imillusion.drawmything.game.GameCountdown;
@@ -17,7 +19,6 @@ import me.imillusion.drawmything.pregame.LeaveHandler;
 import me.imillusion.drawmything.pregame.WorldActionsHandler;
 import me.imillusion.drawmything.utils.EntityHider;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.InvocationTargetException;
@@ -47,8 +48,9 @@ public class DrawPlugin extends JavaPlugin {
     private GameCountdown gameCountdown;
     private GameManager gameManager;
 
-    public static boolean hookPlaceholders()
-    {
+    private CleanupAction action;
+
+    public static boolean hookPlaceholders() {
         return Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
     }
 
@@ -92,8 +94,7 @@ public class DrawPlugin extends JavaPlugin {
         if (hookPlaceholders())
             registerExpansion(new PAPIHook(this));
 
-
-        Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        setupCleanup();
     }
 
     @Override
@@ -101,8 +102,7 @@ public class DrawPlugin extends JavaPlugin {
         scoreboards.dispose();
     }
 
-    private void setupFiles()
-    {
+    private void setupFiles() {
         settings = new SettingsFile(this);
         messages = new MessagesFile(this);
         sounds = new SoundsFile(this);
@@ -112,8 +112,7 @@ public class DrawPlugin extends JavaPlugin {
         items = new ItemFile(this);
     }
 
-    private void setupListeners()
-    {
+    private void setupListeners() {
         Bukkit.getPluginManager().registerEvents(hidingHandler = new PlayerHidingHandler(this), this);
         Bukkit.getPluginManager().registerEvents(new DrawingHandler(this), this);
         Bukkit.getPluginManager().registerEvents(new ColorSelectionHandler(this), this);
@@ -125,17 +124,22 @@ public class DrawPlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new WorldActionsHandler(), this);
     }
 
-    public void sendToLobby(Player player)
+    private void setupCleanup()
     {
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF("Connect");
-        out.writeUTF(settings.getBungeeLobby());
+        Optional<CleanupAction> action = Enums.getIfPresent(CleanupAction.class, settings.getConfiguration().getString("action"));
 
-        player.sendPluginMessage(this, "BungeeCord", out.toByteArray());
+        if (!action.isPresent())
+            Bukkit.getLogger().warning("Invalid cleanup action, defaulting to KICK");
+
+        this.action = action.or(CleanupAction.KICK);
+
+        ServerType type = ServerType.valueOf(settings.getConfiguration().getString("server-type", "SPIGOT"));
+
+        if (type == ServerType.BUNGEE)
+            Bukkit.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
     }
 
-    private void registerExpansion(Object expansion)
-    {
+    private void registerExpansion(Object expansion) {
         try {
             expansion.getClass().getDeclaredMethod("register").invoke(expansion);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {

@@ -21,8 +21,7 @@ public class MessagesFile extends YMLBase {
         prefix = StringEscapeUtils.unescapeJava(getConfiguration().getString("messages.prefix"));
     }
 
-    public void sendMessage(Player player, String name)
-    {
+    public void sendMessage(Player player, String name) {
         if (!getConfiguration().contains("messages." + name))
             return;
 
@@ -34,8 +33,7 @@ public class MessagesFile extends YMLBase {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
     }
 
-    public String getMessage(String name)
-    {
+    public String getMessage(String name) {
         String msg = getConfiguration().getString("messages." + name);
 
         return getConfiguration().getString("messages." + name);

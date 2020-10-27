@@ -17,6 +17,7 @@ public class GameManager {
     @Getter
     private final List<Game> activeGames = new ArrayList<>();
     private final Random random = new Random();
+
     public GameManager(DrawPlugin main, List<ArenaMap> gameMaps) {
         this.main = main;
         this.gameMaps = gameMaps;
@@ -28,16 +29,14 @@ public class GameManager {
         }), 20L, 20L);
     }
 
-    public Game getPlayerGame(UUID uuid)
-    {
+    public Game getPlayerGame(UUID uuid) {
         return activeGames.parallelStream()
                 .filter(game -> game.getArena().belongs(uuid))
                 .findFirst()
                 .orElse(null);
     }
 
-    public Game getFirstAvailableGame()
-    {
+    public Game getFirstAvailableGame() {
         return activeGames.parallelStream()
                 .filter(game -> game.getGameState().canJoin())
                 .filter(game -> game.getArena().getPlayers().size() < main.getSettings().getMaxPlayers())
@@ -45,18 +44,15 @@ public class GameManager {
                 .orElse(new Game(main, getRandomMap()));
     }
 
-    private ArenaMap getRandomMap()
-    {
+    private ArenaMap getRandomMap() {
         return gameMaps.size() == 1 ? gameMaps.get(0) : gameMaps.get(random.nextInt(gameMaps.size()));
     }
 
-    void registerGame(Game game)
-    {
+    void registerGame(Game game) {
         activeGames.add(game);
     }
 
-    void unregisterGame(Game game)
-    {
+    void unregisterGame(Game game) {
         activeGames.remove(game);
     }
 

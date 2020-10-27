@@ -7,13 +7,11 @@ public final class ColorConverter {
     private static ColorConverter instance;
 
 
-    public static ColorConverter get()
-    {
+    public static ColorConverter get() {
         return instance == null ? instance = new ColorConverter() : instance;
     }
 
-    public String getLastColors(String string)
-    {
+    public String getLastColors(String string) {
         StringBuilder result = new StringBuilder();
 
         for (int i = string.length() - 2; i >= 0; i--) {

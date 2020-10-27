@@ -31,26 +31,23 @@ public class Game {
         main.getGameManager().registerGame(this);
     }
 
-    public void start()
-    {
+    public void start() {
         gameState = GameState.IN_GAME;
         arena.getRound().reset();
         arena.sendScoreboard();
 
-        main.getTitles().playTitle("game-start", arena.getPlayers().toArray(new Player[]{}));
+        main.getTitles().playTitle("game-start", arena.getPlayersArray());
 
         new GameStartEvent(this);
     }
 
-    public void end()
-    {
+    public void end() {
         new GameWinEvent(this, getWinningPlayer());
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(main, this::cleanup, 200L);
     }
 
-    private DrawPlayer getWinningPlayer()
-    {
+    private DrawPlayer getWinningPlayer() {
         return arena
                 .getPlayers()
                 .stream()
@@ -59,14 +56,13 @@ public class Game {
                 .orElse(null);
     }
 
-    private void cleanup()
-    {
+    private void cleanup() {
         if (gameState != GameState.FINISHED || arena == null)
             return;
 
         new GameCleanupEvent(this);
         Set<Player> players = arena.getPlayers();
-        players.forEach(main::sendToLobby);
+        players.forEach(player -> main.getAction().apply(main, player));
         gameState = GameState.PREGAME;
         arena = null;
         main.getGameManager().unregisterGame(this);

@@ -8,8 +8,7 @@ public final class MathParser {
 
     private static ScriptEngine engine;
 
-    private MathParser()
-    {
+    private MathParser() {
         //Avoid initializing in utility class
     }
 
@@ -17,8 +16,7 @@ public final class MathParser {
         engine = new ScriptEngineManager().getEngineByName("JavaScript");
     }
 
-    public static int parseMath(String input)
-    {
+    public static int parseMath(String input) {
         try {
             return (int) engine.eval(input);
         } catch (ScriptException e) {

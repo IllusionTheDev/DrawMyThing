@@ -14,13 +14,11 @@ public class ItemFile extends YMLBase {
         super(plugin, new File(plugin.getDataFolder(), "items.yml"), true);
     }
 
-    public boolean isEnabled(String name)
-    {
+    public boolean isEnabled(String name) {
         return getConfiguration().getBoolean("items." + name + ".enabled");
     }
 
-    public Set<Action> getActions(String name)
-    {
+    public Set<Action> getActions(String name) {
         return Arrays.stream(getConfiguration().getString("items." + name + ".actions", "").split(" "))
                 .map(Action::valueOf)
                 .collect(Collectors.toSet());

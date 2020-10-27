@@ -32,8 +32,7 @@ public class Arena {
     @Getter
     private Game game;
 
-    public Arena(DrawPlugin main, ArenaMap map, Game game)
-    {
+    public Arena(DrawPlugin main, ArenaMap map, Game game) {
         this.main = main;
         this.map = map;
         this.game = game;
@@ -47,23 +46,23 @@ public class Arena {
      *
      * @return - All the players currently in the arena
      */
-    public Set<Player> getPlayers()
-    {
+    public Set<Player> getPlayers() {
         return players.stream().map(Bukkit::getPlayer).collect(Collectors.toSet());
     }
 
-    public Set<UUID> getUUIDs()
-    {
+    public Player[] getPlayersArray() {
+        return getPlayers().toArray(new Player[]{});
+    }
+
+    public Set<UUID> getUUIDs() {
         return players;
     }
 
-    public boolean belongs(UUID uuid)
-    {
+    public boolean belongs(UUID uuid) {
         return players.contains(uuid);
     }
 
-    public void addPlayer(UUID uuid)
-    {
+    public void addPlayer(UUID uuid) {
         Player p = Bukkit.getPlayer(uuid);
         DrawPlayer drawPlayer = main.getPlayerManager().get(uuid);
 
@@ -87,19 +86,16 @@ public class Arena {
 
     }
 
-    public void removePlayer(UUID uuid)
-    {
+    public void removePlayer(UUID uuid) {
         players.remove(uuid);
         round.removePlayer(uuid);
     }
 
-    public int getPoints(UUID uuid)
-    {
+    public int getPoints(UUID uuid) {
         return main.getPlayerManager().get(uuid).getPoints();
     }
 
-    public void setPoints(UUID uuid, int points)
-    {
+    public void setPoints(UUID uuid, int points) {
         players.add(uuid);
         main.getPlayerManager().get(uuid).setPoints(points);
 
@@ -107,8 +103,7 @@ public class Arena {
             sendScoreboard();
     }
 
-    public void sendScoreboard()
-    {
+    public void sendScoreboard() {
         String drawer = round.getDrawer() == null ? "" : round.getDrawer().getPlayer().getName();
         int roundNumber = round.getRoundNum();
 
@@ -135,8 +130,7 @@ public class Arena {
         }
     }
 
-    private void runAsync(Runnable runnable)
-    {
+    private void runAsync(Runnable runnable) {
         Bukkit.getScheduler().runTaskAsynchronously(main, runnable);
     }
 }

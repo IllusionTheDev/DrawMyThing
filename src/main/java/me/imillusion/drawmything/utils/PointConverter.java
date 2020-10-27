@@ -6,8 +6,7 @@ import org.bukkit.Location;
 
 public final class PointConverter {
 
-    private PointConverter()
-    {
+    private PointConverter() {
         //Avoid initializing in utility class
     }
 
@@ -19,8 +18,7 @@ public final class PointConverter {
      * @param bottomRight - the bottom right 3D location
      * @return - The converted 3D location
      */
-    public static Location adaptLocation(Point point, Location topLeft, Location bottomRight)
-    {
+    public static Location adaptLocation(Point point, Location topLeft, Location bottomRight) {
         boolean southNorth = topLeft.getBlockZ() == bottomRight.getBlockZ();
 
         int adaptedY = bottomRight.getBlockY() + point.getY();
@@ -41,13 +39,11 @@ public final class PointConverter {
         return loc;
     }
 
-    public static Location adaptLocation(Point point, Canvas canvas)
-    {
+    public static Location adaptLocation(Point point, Canvas canvas) {
         return adaptLocation(point, canvas.getArena().getMap().getTopLeft(), canvas.getArena().getMap().getBottomRight());
     }
 
-    public static Point adaptPoint(Location location, Canvas canvas)
-    {
+    public static Point adaptPoint(Location location, Canvas canvas) {
         Location topLeft = canvas.getArena().getMap().getTopLeft();
         Location bottomRight = canvas.getArena().getMap().getBottomRight();
 
@@ -74,8 +70,7 @@ public final class PointConverter {
      * @param bottomRight - the bottom right 3D location
      * @return TRUE if it belongs, FALSE otherwise
      */
-    public static boolean pointBelongs(Point point, Location topLeft, Location bottomRight)
-    {
+    public static boolean pointBelongs(Point point, Location topLeft, Location bottomRight) {
         boolean southNorth = topLeft.getBlockZ() == bottomRight.getBlockZ();
 
         int adaptedY = bottomRight.getBlockY() + point.getY();
@@ -89,21 +84,18 @@ public final class PointConverter {
         return point.getX() + Math.min(top, bottom) <= Math.max(top, bottom);
     }
 
-    public static boolean locationBelongs(Location location, Canvas canvas)
-    {
+    public static boolean locationBelongs(Location location, Canvas canvas) {
         return locationBelongs(location, canvas.getArena().getMap().getTopLeft(), canvas.getArena().getMap().getBottomRight());
     }
 
-    public static boolean locationBelongs(Location location, Location topLeft, Location bottomRight)
-    {
+    public static boolean locationBelongs(Location location, Location topLeft, Location bottomRight) {
 
         return !(location.getBlockY() > topLeft.getBlockY() || location.getBlockY() < bottomRight.getBlockY() || //compare y
                 location.getBlockX() < topLeft.getBlockX() || location.getBlockX() > bottomRight.getBlockX() || //compare x
                 location.getBlockZ() < topLeft.getBlockZ() || location.getBlockZ() > bottomRight.getBlockZ()); //compare z
     }
 
-    public static Location getTopLeftExtreme(Location pointOne, Location pointTwo)
-    {
+    public static Location getTopLeftExtreme(Location pointOne, Location pointTwo) {
         boolean southNorth = pointOne.getBlockZ() == pointTwo.getBlockZ();
 
         return new Location(pointOne.getWorld(),
@@ -113,8 +105,7 @@ public final class PointConverter {
         );
     }
 
-    public static Location getBottomRightExtreme(Location pointOne, Location pointTwo)
-    {
+    public static Location getBottomRightExtreme(Location pointOne, Location pointTwo) {
         return getTopLeftExtreme(pointOne, pointTwo).equals(pointOne) ? pointTwo : pointOne;
     }
 }

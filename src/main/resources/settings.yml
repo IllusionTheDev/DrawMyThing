@@ -23,6 +23,7 @@ start-time: #How much time should the game take to start, the game will not star
 points-formula: "(({DRAWING_TIME_LEFT} / {DRAWING_TIME}) * 200) - ({GUESSES} * 20)" #On the sample formula, guessing instantly would give 200 points, minus 20 for every guessed player
 
 server-type: SPIGOT #use SPIGOT or bungee
+action: KICK #FIND_NEW_GAME and KICK for both, SERVER_CHANGE for bungee
 
 kick-message: #Only applicable to SPIGOT
   - '&c(!) DrawMyThing is cleaning up! (!)'

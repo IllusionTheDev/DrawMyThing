@@ -19,8 +19,7 @@ public abstract class PaintingTool {
 
     private boolean useConstructor = false;
 
-    public PaintingTool()
-    {
+    public PaintingTool() {
         //For API usage, must override all getters
     }
 

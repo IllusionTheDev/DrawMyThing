@@ -41,8 +41,7 @@ public class FillTool extends PaintingTool {
      * @param point       - The point to look for
      * @param foundPoints - A set of points found, avoiding infinite looping
      */
-    private void getPoints(Canvas canvas, Point point, Set<Point> foundPoints)
-    {
+    private void getPoints(Canvas canvas, Point point, Set<Point> foundPoints) {
         Set<Point> points = new HashSet<>();
 
         for (int x = -1; x <= 1; x++)

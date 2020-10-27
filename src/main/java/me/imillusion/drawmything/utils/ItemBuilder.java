@@ -50,8 +50,7 @@ public class ItemBuilder {
         this.material = material;
     }
 
-    public static ItemStack fromSection(ConfigurationSection section)
-    {
+    public static ItemStack fromSection(ConfigurationSection section) {
         ItemBuilder builder = new ItemBuilder(Material.valueOf(section.getString("material")));
 
         configurableValues.cellSet().forEach(cell -> {
@@ -71,14 +70,12 @@ public class ItemBuilder {
         return builder.build();
     }
 
-    public ItemBuilder amount(int amount)
-    {
+    public ItemBuilder amount(int amount) {
         this.amount = amount;
         return this;
     }
 
-    public ItemBuilder data(int num)
-    {
+    public ItemBuilder data(int num) {
         this.data = (short) num;
         return this;
     }
@@ -89,35 +86,30 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder lore(String... lore)
-    {
+    public ItemBuilder lore(String... lore) {
         for (String s : lore)
             this.lore.add(ChatColor.translateAlternateColorCodes('&', s));
         return this;
     }
 
-    public ItemBuilder name(String name)
-    {
+    public ItemBuilder name(String name) {
         this.name = ChatColor.translateAlternateColorCodes('&', name);
         return this;
     }
 
-    public ItemBuilder flags(ItemFlag... flags)
-    {
+    public ItemBuilder flags(ItemFlag... flags) {
         this.itemFlags = flags;
         return this;
     }
 
-    public ItemBuilder skull(String name)
-    {
+    public ItemBuilder skull(String name) {
         Validate.isTrue(material.name().contains("SKULL") || material.name().contains("HEAD"), "Attempt to set skull data on non skull item");
         this.skullName = name;
         data(3);
         return this;
     }
 
-    public ItemBuilder skullHash(String hash)
-    {
+    public ItemBuilder skullHash(String hash) {
         Validate.isTrue(material.name().contains("SKULL") || material.name().contains("HEAD"), "Attempt to set skull data on non skull item");
         this.skullHash = hash;
         data(3);
@@ -137,8 +129,7 @@ public class ItemBuilder {
 
     }
 
-    public ItemStack build()
-    {
+    public ItemStack build() {
         if (amount > 64)
             amount = 64;
 

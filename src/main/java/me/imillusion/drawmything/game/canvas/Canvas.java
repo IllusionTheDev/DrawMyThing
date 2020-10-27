@@ -32,8 +32,7 @@ public class Canvas {
     private final List<Point> points = new ArrayList<>();
     private Map<Point, List<Location>> sortedPoints = new HashMap<>();
 
-    public Canvas(ArenaMap map, Arena arena)
-    {
+    public Canvas(ArenaMap map, Arena arena) {
         this.topLeft = map.getTopLeft();
         this.bottomRight = map.getBottomRight();
 
@@ -47,8 +46,7 @@ public class Canvas {
     /**
      * Clears the canvas by painting it white
      */
-    public void clear()
-    {
+    public void clear() {
         fill(DyeColor.WHITE);
     }
 
@@ -58,8 +56,7 @@ public class Canvas {
      * @param point - The canvas point that gets colored
      * @param color - The color to draw with
      */
-    public void drawPizel(DyeColor color, Point point)
-    {
+    public void drawPizel(DyeColor color, Point point) {
         drawPixels(color, point);
     }
 
@@ -69,8 +66,7 @@ public class Canvas {
      * @param color  - The color to draw with
      * @param points - The points where to draw
      */
-    public void drawPixels(DyeColor color, Point... points)
-    {
+    public void drawPixels(DyeColor color, Point... points) {
         Map<Point, List<Location>> sorted = sortPoints(points);
 
         sorted.forEach((chunkpoint, list) -> {
@@ -97,8 +93,7 @@ public class Canvas {
      *
      * @param color - The color to fill the canvas with
      */
-    public void fill(DyeColor color)
-    {
+    public void fill(DyeColor color) {
         drawPixels(color, points.toArray(new Point[]{}));
     }
 
@@ -108,8 +103,7 @@ public class Canvas {
      * @param points - The points to sort
      * @return - The sorted points per chunk
      */
-    private Map<Point, List<Location>> sortPoints(Point... points)
-    {
+    private Map<Point, List<Location>> sortPoints(Point... points) {
         Map<Point, List<Location>> chunks = new HashMap<>();
 
         for (Point point : points) {
@@ -133,8 +127,7 @@ public class Canvas {
      *
      * @return - The sorted points per chunk
      */
-    private Map<Point, List<Location>> sortColors()
-    {
+    private Map<Point, List<Location>> sortColors() {
         if (!sortedPoints.isEmpty())
             return sortedPoints;
 
@@ -147,8 +140,7 @@ public class Canvas {
      * @param location - The location to convert
      * @return - The converted Point
      */
-    public Point adaptPoint(Location location)
-    {
+    public Point adaptPoint(Location location) {
         return PointConverter.adaptPoint(location, this);
     }
 
@@ -158,8 +150,7 @@ public class Canvas {
      * @param point - The point to convert from
      * @return - The converted Location
      */
-    public Location adaptLocation(Point point)
-    {
+    public Location adaptLocation(Point point) {
         return PointConverter.adaptLocation(point, topLeft, bottomRight);
     }
 
@@ -169,8 +160,7 @@ public class Canvas {
      * @param y      - The Y modifier
      * @return The new point
      */
-    public Point getRelative(Point origin, int x, int y)
-    {
+    public Point getRelative(Point origin, int x, int y) {
         int newX = origin.getX() + x;
         int newY = origin.getY() + y;
 
@@ -190,8 +180,7 @@ public class Canvas {
      * @param location - The location
      * @return - true if the location belongs, false otherwise
      */
-    public boolean belongs(Location location)
-    {
+    public boolean belongs(Location location) {
         return PointConverter.locationBelongs(location, topLeft, bottomRight);
     }
 
@@ -200,8 +189,7 @@ public class Canvas {
      *
      * @param player - The player to render to
      */
-    public void renderCanvas(Player player)
-    {
+    public void renderCanvas(Player player) {
         sortColors().forEach((chunk, list) -> {
             PacketContainer packet = ProtocolLibrary.getProtocolManager().createPacket(PacketType.Play.Server.MULTI_BLOCK_CHANGE);
 
@@ -229,8 +217,7 @@ public class Canvas {
      *
      * @param packet - The packet to send
      */
-    private void sendPacket(PacketContainer packet)
-    {
+    private void sendPacket(PacketContainer packet) {
         arena.getPlayers().forEach(p -> {
             try {
                 ProtocolLibrary.getProtocolManager().sendServerPacket(p, packet);
@@ -240,8 +227,7 @@ public class Canvas {
         });
     }
 
-    public int getMaxPointX()
-    {
+    public int getMaxPointX() {
         boolean southNorth = topLeft.getBlockZ() == bottomRight.getBlockZ();
 
         int bottom = southNorth ? bottomRight.getBlockX() : bottomRight.getBlockZ();
@@ -250,8 +236,7 @@ public class Canvas {
         return bottom - top;
     }
 
-    public int getMaxPointY()
-    {
+    public int getMaxPointY() {
         return topLeft.getBlockY() - bottomRight.getBlockY();
     }
 }

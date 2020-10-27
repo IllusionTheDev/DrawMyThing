@@ -28,8 +28,7 @@ public class YMLBase {
         this.configuration = loadConfiguration();
     }
 
-    public void save()
-    {
+    public void save() {
         try {
             configuration.save(file);
         } catch (IOException e) {
@@ -37,8 +36,7 @@ public class YMLBase {
         }
     }
 
-    private FileConfiguration loadConfiguration()
-    {
+    private FileConfiguration loadConfiguration() {
         FileConfiguration cfg = new YamlConfiguration();
 
         if (!file.exists()) {

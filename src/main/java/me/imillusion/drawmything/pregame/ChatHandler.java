@@ -11,8 +11,7 @@ public class ChatHandler implements Listener {
     private DrawPlugin main;
 
     @EventHandler
-    private void onChat(AsyncPlayerChatEvent e)
-    {
+    private void onChat(AsyncPlayerChatEvent e) {
         Game game = main.getGameManager().getPlayerGame(e.getPlayer().getUniqueId());
 
         e.getRecipients().removeIf(player -> !game.getArena().getUUIDs().contains(e.getPlayer().getUniqueId()));

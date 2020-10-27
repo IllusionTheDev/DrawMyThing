@@ -17,8 +17,7 @@ public class LeaveHandler implements Listener {
     }
 
     @EventHandler
-    private void onLeave(PlayerQuitEvent e)
-    {
+    private void onLeave(PlayerQuitEvent e) {
         main.getPlayerManager().unregister(e.getPlayer());
         Game game = main.getGameManager().getPlayerGame(e.getPlayer().getUniqueId());
         e.setQuitMessage("");

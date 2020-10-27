@@ -20,8 +20,7 @@ public class GuesserChatHandler implements Listener {
     }
 
     @EventHandler
-    private void onChat(AsyncPlayerChatEvent e)
-    {
+    private void onChat(AsyncPlayerChatEvent e) {
         Game game = main.getGameManager().getPlayerGame(e.getPlayer().getUniqueId());
 
         e.getRecipients().removeIf(player -> !game.getArena().getUUIDs().contains(player.getUniqueId()));

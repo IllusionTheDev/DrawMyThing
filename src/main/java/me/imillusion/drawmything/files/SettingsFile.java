@@ -18,6 +18,8 @@ public class SettingsFile extends YMLBase {
     private int drawingTime;
     private int drawingLineTicks;
 
+    private String formula;
+
     private final Map<Integer, Integer> startTimes = new HashMap<>();
 
     private String bungeeLobby;
@@ -30,6 +32,7 @@ public class SettingsFile extends YMLBase {
         maxPlayers = getConfiguration().getInt("maximum-players", 16);
         drawingTime = getConfiguration().getInt("drawing-time");
         drawingLineTicks = getConfiguration().getInt("drawing-line-ticks", 5);
+        formula = getConfiguration().getString("points-formula");
 
         for (String key : getConfiguration().getConfigurationSection("start-time").getKeys(false))
             startTimes.put(Integer.valueOf(key), getConfiguration().getInt("start-time." + key));

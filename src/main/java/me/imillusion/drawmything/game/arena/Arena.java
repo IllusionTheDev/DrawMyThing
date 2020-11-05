@@ -129,8 +129,4 @@ public class Arena {
             drawPlayer.getCurrentTemplate().render(p, drawPlayer.getScoreboard(), list.toArray(new SimplePlaceholder[]{}));
         }
     }
-
-    private void runAsync(Runnable runnable) {
-        Bukkit.getScheduler().runTaskAsynchronously(main, runnable);
-    }
 }

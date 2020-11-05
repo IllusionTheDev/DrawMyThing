@@ -7,6 +7,7 @@ import me.imillusion.drawmything.data.DrawPlayer;
 import me.imillusion.drawmything.game.GameState;
 import me.imillusion.drawmything.game.arena.Arena;
 import me.imillusion.drawmything.utils.ActionBarUtil;
+import me.imillusion.drawmything.utils.MathParser;
 import me.imillusion.drawmything.utils.SimplePlaceholder;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -143,7 +144,13 @@ public class Round {
     }
 
     public void addPoints(UUID uuid) {
-        int points = (int) (((double) drawingTime / main.getSettings().getDrawingTime()) * 200) - (guessedPlayers.size() * 20);
+        String formula = main.getSettings().getFormula();
+
+        formula = formula.replace("{DRAWING_TIME_LEFT}", String.valueOf(drawingTime))
+                .replace("{DRAWING_TIME}", String.valueOf(main.getSettings().getDrawingTime()))
+                .replace("{GUESSES}", String.valueOf(guessedPlayers.size()));
+
+        int points = MathParser.parseMath(formula);
 
         arena.setPoints(uuid, arena.getPoints(uuid) + points);
     }
@@ -196,7 +203,7 @@ public class Round {
             return;
         }
 
-        if (drawingTime % (main.getSettings().getDrawingTime() / 2) == 0)
+        if (drawingTime % (main.getSettings().getDrawingTime() >> 1) == 0)
             deobfuscateWord();
 
         Player[] nonGuessed = arena.getPlayers().stream()

@@ -88,7 +88,7 @@ public class BrushTool extends PaintingTool {
             return new Point[]{origin};
 
         List<Point> points = new ArrayList<>();
-        int difference = distance / 2;
+        int difference = distance >> 1;
 
         for (int x = 0; x <= distance; x++)
             for (int y = 0; y <= distance; y++) {

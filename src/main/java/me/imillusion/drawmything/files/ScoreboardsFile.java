@@ -53,22 +53,16 @@ public class ScoreboardsFile extends YMLBase {
     }
 
     public SimplePlaceholder obtainSecondsPlaceholder(int seconds) {
-        String color = "";
+        StringBuilder color = new StringBuilder();
 
-        for (Map.Entry<Character, Pair<Integer, Integer>> entry : countdownColors.entrySet()) {
-            char character = entry.getKey();
+        countdownColors.forEach((key, val) ->
+        {
+            if (seconds <= val.getKey() && seconds >= val.getValue())
+                color.append("&").append(key);
+        });
 
-            int from = entry.getValue().getKey();
-            int to = entry.getValue().getValue();
-
-            if (seconds <= from && seconds >= to) {
-                color = "&" + character;
-                break;
-            }
-        }
-
-        System.out.println((color + seconds));
-        return new SimplePlaceholder("%seconds%", "" + ChatColor.translateAlternateColorCodes('&', color + seconds));
+        System.out.println((color.toString() + seconds));
+        return new SimplePlaceholder("%seconds%", "" + ChatColor.translateAlternateColorCodes('&', color.append(seconds).toString()));
     }
 
     public void dispose() {

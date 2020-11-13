@@ -40,6 +40,8 @@ public class DrawPlayer {
     private boolean hiding;
 
     //currentGame data
+    private GameRole role = GameRole.PLAYER;
+
     private int points;
     private DyeColor selectedColor = DyeColor.WHITE;
     private int brushSize = 1;
@@ -63,19 +65,7 @@ public class DrawPlayer {
     }
 
     public boolean isDrawer() {
-        if (currentGame == null)
-            return false;
-
-        if (currentGame.getArena() == null)
-            return false;
-
-        if (currentGame.getArena().getRound() == null)
-            return false;
-
-        if (currentGame.getArena().getRound().getDrawer() == null)
-            return false;
-
-        return currentGame.getArena().getRound().getDrawer().getUuid().equals(uuid);
+        return role == GameRole.DRAWER;
     }
 
     public void setup() {
